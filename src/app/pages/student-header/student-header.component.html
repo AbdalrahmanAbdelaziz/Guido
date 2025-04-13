@@ -1,42 +1,39 @@
 <div class="navbar">
   <div class="logo-container">
-    <img src="logo2.png" alt="HOGOZATY Logo" class="logo-image" routerLink="/student-page">
+    <img src="logo3.png" alt="HOGOZATY Logo" class="logo-image" routerLink="/student-page">
   </div>
 
-    <ul class="nav-links">
-        <li>
-          <a routerLink="/student-page" title="Home">
-            <i class="fas fa-home"></i>
-            <span class="nav-text">Home</span>
-          </a>
-        </li>
-        <li>
-          <a routerLink="/profile" title="Appointments">
-            <i class="fas fa-calendar-check"></i>
-            <span class="nav-text">Profile</span>
-          </a>
-        </li>
-
-        <li>
-        <a (click)="toggleTheme()" class="side-navbar-link">
-            <i class="fas" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
-            <span *ngIf="!isCollapsed">Dark Mode</span>
-        </a>
-      </li>
-
-        <li class="menu-container">
-          <a title="Profile">
-            <i class="fas fa-user"></i>
-            <span class="nav-text">{{ student.firstName | titlecase }}</span>
-          </a>
-        </li>
-        <li>
-          <a (click)="logout()" title="Logout">
-            <i class="fas fa-sign-out-alt"></i>
-            <span class="nav-text">Logout</span>
-          </a>
-        </li>
-      </ul>
+  <ul class="nav-links">
+    <li>
+      <a routerLink="/student-page" title="Home">
+        <i class="fas fa-home"></i>
+        <span class="nav-text">Home</span>
+      </a>
+    </li>
+    <li>
+      <a routerLink="/profile" title="Profile">
+        <i class="fas fa-user"></i>
+        <span class="nav-text">Profile</span>
+      </a>
+    </li>
     
+    <li class="menu-container">
+      <a title="Account">
+        <i class="fas fa-user-circle"></i>
+        <span class="nav-text">{{ student.firstName | titlecase }}</span>
+      </a>
+    </li>
+    <li>
+      <a (click)="logout()" title="Logout">
+        <i class="fas fa-sign-out-alt"></i>
+        <span class="nav-text">Logout</span>
+      </a>
+    </li>
+    <li>
+      <a (click)="toggleTheme()" title="Toggle Theme">
+        <i class="fas" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
+        <span class="nav-text">{{ isDarkMode ? 'Light Mode' : 'Dark Mode' }}</span>
+      </a>
+    </li>
+  </ul>
 </div>
-

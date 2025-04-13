@@ -1,17 +1,19 @@
 <div class="student-page">
-<app-student-header></app-student-header>
+  <app-student-header></app-student-header>
 
   <div class="navbar-spacer"></div>
 
   <div class="content">
-  
-
     <div class="features-section">
       <div class="card" *ngFor="let feature of features" (click)="navigateTo(feature.link)">
-        <img [src]="feature.image" alt="Feature Image" class="card-image" />
+        <div class="card-image-container">
+          <img [src]="feature.image" alt="Feature Image" class="card-image" loading="lazy" />
+          <div class="image-overlay"></div>
+        </div>
         <div class="card-content">
           <h3 class="card-title">{{ feature.name }}</h3>
           <p class="card-caption">{{ feature.caption }}</p>
+          <!-- <div class="card-cta">Learn More →</div> -->
         </div>
       </div>
     </div>

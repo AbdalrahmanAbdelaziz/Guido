@@ -69,7 +69,7 @@ export class LoginComponent implements OnInit {
       },
       error: (error) => {
         console.error('Login failed', error);
-        this.toastr.error('Login failed. Please check your credentials.');
+        // this.toastr.error('Login failed. Please check your credentials.');
       }
     });
   }
