@@ -1,5 +1,4 @@
 <div class="courses-page">
-
   <app-student-header></app-student-header>
 
   <div class="navbar-spacer"></div>
@@ -16,7 +15,7 @@
               <th>Course Name</th>
               <th>Hours</th>
               <th>PreRequest</th>
-              <th>Grade</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -26,22 +25,14 @@
               <td>{{ course.hours }}</td>
               <td>{{ course.prerequest || 'None' }}</td>
               <td>
-                <select
-                  [(ngModel)]="course.grade"
-                  [disabled]="!canTakeCourse(course)"
-                  title="Select grade for {{ course.course_Name }}"
+                <button 
+                  class="add-button"
+                  (click)="addCourse(course)"
+                  [disabled]="!canTakeCourse(course) || course.isAdded"
+                  [class.added]="course.isAdded"
                 >
-                  <option value="none">None</option>
-                  <option value="A+">A+</option>
-                  <option value="A">A</option>
-                  <option value="B+">B+</option>
-                  <option value="B">B</option>
-                  <option value="C+">C+</option>
-                  <option value="C">C</option>
-                  <option value="D+">D+</option>
-                  <option value="D">D</option>
-                  <option value="F">F</option>
-                </select>
+                  {{ course.isAdded ? 'Added' : 'Add' }}
+                </button>
               </td>
             </tr>
           </tbody>
@@ -58,7 +49,7 @@
               <th>Course Name</th>
               <th>Hours</th>
               <th>PreRequest</th>
-              <th>Grade</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -68,22 +59,14 @@
               <td>{{ course.hours }}</td>
               <td>{{ course.prerequest || 'None' }}</td>
               <td>
-                <select
-                  [(ngModel)]="course.grade"
-                  [disabled]="!canTakeCourse(course)"
-                  title="Select grade for {{ course.course_Name }}"
+                <button 
+                  class="add-button"
+                  (click)="addCourse(course)"
+                  [disabled]="!canTakeCourse(course) || course.isAdded"
+                  [class.added]="course.isAdded"
                 >
-                  <option value="none">None</option>
-                  <option value="A+">A+</option>
-                  <option value="A">A</option>
-                  <option value="B+">B+</option>
-                  <option value="B">B</option>
-                  <option value="C+">C+</option>
-                  <option value="C">C</option>
-                  <option value="D+">D+</option>
-                  <option value="D">D</option>
-                  <option value="F">F</option>
-                </select>
+                  {{ course.isAdded ? 'Added' : 'Add' }}
+                </button>
               </td>
             </tr>
           </tbody>
@@ -93,7 +76,6 @@
 
     <div class="summary">
       <p class="total-hours">Total Hours: {{ calculateTotalHours() }}</p>
-      <button class="submit-button" (click)="submitCourses()">Submit</button>
     </div>
   </div>
 </div>

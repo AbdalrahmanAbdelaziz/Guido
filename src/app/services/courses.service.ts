@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Course } from "../shared/interfaces/Course";
 import { UpdateCourse } from "../shared/interfaces/UpdateCourse";
 import {
+  ADD_COURSE_TO_STUDENT_URL,
     GET_AI_CORE_COURSE_URL,
     GET_AI_ELECTIVE_COURSE_URL,
     GET_CS_CORE_COURSE_URL,
@@ -138,6 +139,14 @@ export class CoursesService {
     }
 
 
+    addCourseToStudent(courseCode: string): Observable<any> {
+      return this.http.post<any>(`${ADD_COURSE_TO_STUDENT_URL}/${courseCode}`, {}).pipe(
+          tap({
+              next: () => this.toastrService.success('Course added to student successfully.'),
+              error: () => this.toastrService.error('Failed to add course to student.')
+          })
+      );
+  }
 
 
 

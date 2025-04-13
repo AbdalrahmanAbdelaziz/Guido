@@ -41,3 +41,4 @@ export const UPDATE_PROFILE_URL = BASE_URL + '/api/student/update';
 
 
 
+export const ADD_COURSE_TO_STUDENT_URL = BASE_URL + '/api/student/add-course';
