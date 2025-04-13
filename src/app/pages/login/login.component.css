@@ -8,29 +8,9 @@ body, html {
   height: 100%;
   width: 100%;
   font-family: 'Roboto', Arial, sans-serif;
-  overflow: hidden;
   background-color: #f5f5f5;
 }
 
-/* Logo */
-.logo {
-  width: 120px; /* Adjust size as needed */
-  height: 120px;
-  border-radius: 50%; /* Makes the logo circular */
-  object-fit: cover; /* Ensures the image fits well */
-  margin-bottom: 25px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow */
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.logo:hover {
-  transform: scale(1.05); /* Slight zoom on hover */
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-}
-
-
-/* Background Image */
 .bg-img {
   position: absolute;
   top: 0;
@@ -44,40 +24,99 @@ body, html {
   align-items: center;
 }
 
-/* Overlay */
 .overlay {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5); /* Darker overlay for better contrast */
+  background-color: rgba(0, 0, 0, 0.5); 
   z-index: 1;
 }
 
-/* Content Container */
+.cover-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0; 
+  overflow: hidden; 
+}
+
+.full-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
+  filter: brightness(40%); 
+}
+
+
+
+.logo-container {
+  display: flex;
+  align-items: center;  
+}
+
+.logo-image {
+  height: 50px;
+  width: 120px;
+  transition: transform 0.3s ease;
+}
+
+.logo-image:hover {
+  transform: scale(1.05);
+}
+
+.right-button {
+  display: flex;
+  gap: 20px;
+}
+
+.right-button button {
+  background-color: #007bff; 
+  color: #fff;
+  font-size: 1em;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.right-button button:hover {
+  background-color: #0056b3; 
+  transform: scale(1.05);
+}
+
+.navbar-spacer {
+  height: 80px; /* Adjust based on navbar height */
+}
+
 .content {
   position: relative;
-  background-color: rgba(255, 255, 255, 0.95); /* Slightly more opaque */
+  background-color: rgba(255, 255, 255, 0.98); /* White background with slight transparency */
   padding: 40px;
   border-radius: 15px;
   width: 100%;
-  max-width: 400px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  max-width: 450px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
   text-align: center;
   z-index: 2;
   animation: fadeIn 0.8s ease-out;
+  border: 2px solid rgba(0, 0, 0, 0.1);
 }
 
-@keyframes fadeIn {
-  0% { opacity: 0; transform: translateY(-20px); }
-  100% { opacity: 1; transform: translateY(0); }
+.logo {
+  width: 140px;
+  height: auto;
+  margin-bottom: 25px;
+  filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.3));
+  cursor: pointer;
 }
 
-/* Form Fields */
 .field {
   position: relative;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .field span {
@@ -85,76 +124,111 @@ body, html {
   top: 50%;
   left: 15px;
   transform: translateY(-50%);
-  font-size: 16px;
-  color: #666;
+  font-size: 18px;
+  color: #444;
   transition: color 0.3s ease;
 }
 
 .field input {
   width: 100%;
-  padding: 14px 14px 14px 45px;
-  font-size: 14px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  padding: 16px 14px 16px 50px;
+  font-size: 16px;
+  border: 2px solid #bbb;
+  border-radius: 10px;
   outline: none;
-  background-color: #f9f9f9;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: #fff;
+  transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .field input:focus {
-  border-color: #007bff; /* Blue focus color */
-  box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+  border-color: #007bff;
+  background-color: #fff;
+  box-shadow: 0 0 8px rgba(67, 36, 204, 0.3);
 }
 
 .field input[type="submit"] {
-  background-color: #007bff; /* Blue button */
+  background-color: #007bff;
   color: white;
   border: none;
   cursor: pointer;
-  padding: 14px;
+  padding: 16px;
   font-size: 16px;
-  border-radius: 8px;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  border-radius: 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
   width: 100%;
+  font-weight: bold;
 }
 
 .field input[type="submit"]:hover {
-  background-color: #0056b3; /* Darker blue on hover */
-  transform: translateY(-2px);
+  background-color: #0056b3;
+  transform: scale(1.05);
 }
 
-/* Error Messages */
 .error {
-  color: #ff4444; /* Red error text */
-  font-size: 12px;
+  color: #e63946;
+  font-size: 14px;
   margin-top: 5px;
   text-align: left;
   display: block;
 }
 
-/* Links */
 .signup, .forgot-password {
   font-size: 14px;
-  color: #555;
+  color: #333;
   margin-top: 20px;
 }
 
 .signup a, .forgot-password a {
-  color: #007bff; /* Blue link color */
+  color: #007bff;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .signup a:hover, .forgot-password a:hover {
-  color: #0056b3; /* Darker blue on hover */
+  color: #0056b3;
   text-decoration: underline;
+}
+
+.forgot-password {
+  margin-top: 15px;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .navbar {
+    padding: 15px 20px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .logo-container {
+    margin-bottom: 10px;
+  }
+
+  .right-button {
+    width: 100%;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .right-button button {
+    width: 100%;
+    padding: 12px;
+    font-size: 0.9em;
+  }
+
   .content {
     padding: 30px;
-    max-width: 350px;
+    max-width: 370px;
+  }
+
+  .logo {
+    width: 110px;
   }
 
   .field input {

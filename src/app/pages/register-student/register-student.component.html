@@ -1,49 +1,60 @@
-<div class="bg-img" style="background-image: url('bg.jpg');">
-    <div class="overlay"></div>
+<div class="bg-img">
+  <div class="overlay"></div>
+  <div class="cover-image">
+    <img src="bg.jpg" alt="Cover Image" class="full-cover">
+  </div>
+
   
-    <div class="content">
-      <!-- Logo -->
-      <img src="logo.png" alt="Logo" class="logo" routerLink="/" />
-  
-      <!-- Register Form -->
-      <form (ngSubmit)="onSubmit(studentForm)" #studentForm="ngForm">
-        <!-- First Name Field -->
+
+  <div class="register-container">
+    <img src="logo1.png" alt="Logo" class="logo" routerLink="/">
+
+    <form (ngSubmit)="onSubmit(studentForm)" #studentForm="ngForm">
+      <!-- First Name -->
+      <div class="form-group">
         <div class="field">
           <span class="fa fa-user"></span>
-          <input type="text" placeholder="First Name" name="firstName" ngModel required />
+          <input type="text" placeholder="First Name" name="firstName" ngModel required>
         </div>
-  
-        <!-- Last Name Field -->
+      </div>
+
+      <!-- Last Name -->
+      <div class="form-group">
         <div class="field">
           <span class="fa fa-user"></span>
-          <input type="text" placeholder="Last Name" name="lastName" ngModel required />
+          <input type="text" placeholder="Last Name" name="lastName" ngModel required>
         </div>
-  
-        <!-- Email Field -->
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
         <div class="field">
           <span class="fa fa-envelope"></span>
-          <input type="email" placeholder="Email" name="email" ngModel required />
+          <input type="email" placeholder="Email" name="email" ngModel required>
         </div>
-  
-        <!-- Password Field -->
-        <div class="field">
-          <span class="fa fa-lock"></span>
-          <input type="password" placeholder="Password" name="password" ngModel required />
-        </div>
-  
-        <!-- Confirm Password Field -->
-        <div class="field">
-          <span class="fa fa-lock"></span>
-          <input type="password" placeholder="Confirm Password" name="confirmPassword" ngModel required />
-        </div>
-  
-        <!-- Submit Button -->
-        <button type="submit">Register</button>
-      </form>
-  
-      <!-- Login Link -->
-      <div class="signup">
-        Already have an account? <a routerLink="/login">Login Now</a>
       </div>
+
+      <!-- Password -->
+      <div class="form-group">
+        <div class="field">
+          <span class="fa fa-lock"></span>
+          <input type="password" placeholder="Password" name="password" ngModel required>
+        </div>
+      </div>
+
+      <!-- Confirm Password -->
+      <div class="form-group">
+        <div class="field">
+          <span class="fa fa-lock"></span>
+          <input type="password" placeholder="Confirm Password" name="confirmPassword" ngModel required>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn">Register</button>
+    </form>
+
+    <div class="login-link">
+      Already have an account? <a routerLink="/login">Login Now</a>
     </div>
   </div>
+</div>

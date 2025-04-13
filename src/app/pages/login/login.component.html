@@ -1,27 +1,28 @@
-<div class="bg-img" style="background-image: url('bg.jpg');">
+<div class="bg-img">
   <div class="overlay"></div>
-  <div class="content">
-    <!-- Logo -->
-    <img src="logo.png" alt="Logo" class="logo" routerLink="/" />
+  <div class="cover-image">
+    <img src="bg.jpg" alt="Cover Image" class="full-cover">
+  </div>
 
-    <!-- Login Form -->
+  <div class="navbar-spacer"></div>
+
+  <div class="content">
+    <img src="logo1.png" alt="Logo" class="logo" routerLink="/" />
     <form [formGroup]="loginForm" (ngSubmit)="submit()">
-      <!-- Email Field -->
       <div class="field">
-        <span class="fa fa-envelope"></span>
-        <input type="email" formControlName="email" placeholder="Email Address" required />
-        <div *ngIf="isSubmitted && fc['email'].invalid" class="error">
-          Please enter a valid email address.
+        <span class="fa fa-user"></span>
+        <input type="text" formControlName="EmailOrUsernameOrPhone" placeholder="Email or Username or Phone" required />
+        <div *ngIf="isSubmitted && fc['EmailOrUsernameOrPhone'].invalid" class="error">
+          Email is required and should be valid.
         </div>
       </div>
 
-      <!-- Password Field -->
       <div class="field space">
         <span class="fa fa-lock"></span>
         <input
           type="password"
           formControlName="password"
-          class="pass-key"
+          class="pass-key"  
           placeholder="Password"
           required
         />
@@ -30,18 +31,15 @@
         </div>
       </div>
 
-      <!-- Submit Button -->
       <div class="field">
         <input type="submit" value="LOGIN" />
       </div>
 
-      <!-- Forgot Password Link -->
       <div class="forgot-password">
         <a routerLink="/forget-password">Forgot Password?</a>
       </div>
     </form>
 
-    <!-- Signup Link -->
     <div class="signup">
       Don't have an account? <a routerLink="/registerStudent">Sign Up Now</a>
     </div>
