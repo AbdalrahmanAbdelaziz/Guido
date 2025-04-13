@@ -4,9 +4,16 @@
     <div class="logo-container">
       <img src="logo3.png" alt="HOGOZATY Logo" class="logo-image" routerLink="/">
     </div>
-    <div class="right-button">
-      <button routerLink="/login">Login</button>
-      <button routerLink="/registerStudent">Register</button>
+    
+    <div class="nav-right-section">
+     
+      <div class="right-button">
+        <button routerLink="/login">Login</button>
+        <button routerLink="/registerStudent">Register</button>
+      </div>
+      <button class="theme-toggle-button" (click)="toggleTheme()" aria-label="Toggle dark mode">
+        <i class="fas" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
+      </button>
     </div>
   </header>
 
@@ -34,7 +41,7 @@
         <img src="mission-15.png" alt="Mission Illustration">
       </div>
       <div class="text-section">
-        <h2>Our Mission</h2>
+        <h1>Our Mission</h1>
         <p>We are dedicated to providing accessible, AI-powered academic support, ensuring that every student has the opportunity to succeed in high school, pursue higher education, and build a brighter future.</p>
         <button class="help-button" routerLink="/registerStudent">
           <span class="fa fa-bullseye"></span> Explore Our Mission
@@ -46,7 +53,6 @@
     <div class="section fade-in">
       <div class="text-section">
         <h1>How EduGuideAI Works</h1>
-        <h3>Instant, 24/7 AI-Powered Assistance</h3>
         <p>Chat with our AI-powered academic chatbot for instant support, available anytime you need help.</p>
         <button class="help-button" routerLink="/registerStudent">
           <span class="fa fa-comments"></span> Meet Our AI Chatbot
@@ -64,24 +70,11 @@
       </div>
       <div class="text-section">
         <h1>Your Academic Success, Simplified</h1>
-        <h3>GET PERSONALIZED GUIDANCE, ANYTIME, ANYWHERE.</h3>
-        <p>Navigate your academic journey with confidence. From course recommendations to regulation insights, we’re here to help you succeed every step of the way!</p>
+        <p>Navigate your academic journey with confidence. From course recommendations to regulation insights, we're here to help you succeed every step of the way!</p>
         <button class="help-button" routerLink="/registerStudent">
           <span class="fa fa-user-plus"></span> Get Started Now
         </button>
       </div>
     </div>
-
-    <button 
-    (click)="toggleTheme()" 
-    class="theme-toggle-button"
-    aria-label="Toggle dark mode"
-    title="Toggle dark mode"
-  >
-    <i class="fas" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
-  </button>
-  
   </div>
-
-  
-  
+</div>
