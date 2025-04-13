@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { trigger, transition, style, animate } from '@angular/animations';
 import { AuthService } from '../../services/auth.service';
-import { Course, CourseWithStatus } from '../../shared/interfaces/Course';
+import { Course } from '../../shared/interfaces/Course';
 import { Student } from '../../shared/interfaces/Student';
 import { DarkModeService } from '../../services/dark-mode.service';
 import { CoursesService } from '../../services/courses.service';
@@ -9,20 +10,36 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-my-general',
   templateUrl: './my-general.component.html',
-  styleUrls: ['./my-general.component.css']
+  styleUrls: ['./my-general.component.css'],
+  animations: [
+    trigger('slideIn', [
+      transition(':enter', [
+        style({ transform: 'translateX(30px)', opacity: 0 }),
+        animate('0.5s ease-out', style({ transform: 'translateX(0)', opacity: 1 }))
+      ])
+    ]),
+    trigger('fadeIn', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('1s ease-out', style({ opacity: 1 }))
+      ])
+    ])
+  ]
 })
 export class MyGeneralComponent implements OnInit {
   student!: Student | null;
-  coreCourses: CourseWithStatus[] = [];
-  electiveCourses: CourseWithStatus[] = [];
+  allCourses: Course[] = [];
+  coreCourses: Course[] = [];
+  electiveCourses: Course[] = [];
+  selectedCourses: Course[] = [];
   totalHours: number = 0;
   isDarkMode = false;
 
   @Output() calculatedHoursEvent = new EventEmitter<number>();
 
   constructor(
-    private authService: AuthService,
-    private darkModeService: DarkModeService,
+    private authService: AuthService, 
+    private darkModeService: DarkModeService, 
     private coursesService: CoursesService,
     private toastr: ToastrService
   ) {}
@@ -34,49 +51,40 @@ export class MyGeneralComponent implements OnInit {
       this.student = student;
     });
 
-    this.loadCourses();
-  }
-
-  loadCourses(): void {
     this.coursesService.fetchGeneralCoreCourses().subscribe((coreCourses) => {
-      this.coreCourses = coreCourses.map(course => ({
-        ...course,
-        isAdded: false
-      }));
+      this.coreCourses = coreCourses;
     });
 
     this.coursesService.fetchGeneralElectiveCourses().subscribe((electiveCourses) => {
-      this.electiveCourses = electiveCourses.map(course => ({
-        ...course,
-        isAdded: false
-      }));
+      this.electiveCourses = electiveCourses;
     });
   }
 
-  canTakeCourse(course: CourseWithStatus): boolean {
+  canTakeCourse(course: Course): boolean {
     if (!course.prerequest) return true;
-    const preRequestCourse = [...this.coreCourses, ...this.electiveCourses]
-      .find(c => c.code === course.prerequest);
-    return preRequestCourse?.isAdded || false;
+    const preRequestCourse = this.allCourses.find((c) => c.code === course.prerequest);
+    return preRequestCourse?.grade !== 'none' && preRequestCourse?.grade !== 'F';
   }
 
   calculateTotalHours(): number {
-    return [...this.coreCourses, ...this.electiveCourses]
-      .filter(course => course.isAdded)
-      .reduce((total, course) => total + (parseFloat(course.hours) || 0), 0);
+    return this.selectedCourses.reduce((total, course) => {
+      const hours = parseFloat(course.hours) || 0;
+      return total + hours;
+    }, 0);
   }
 
-  addCourse(course: CourseWithStatus): void {
-    this.coursesService.addCourseToStudent(course.code).subscribe({
+  addCourse(courseCode: string): void {
+    this.coursesService.addCourseToStudent(courseCode).subscribe({
       next: () => {
-        course.isAdded = true;
-        this.toastr.success(`${course.course_Name} added successfully`);
-        this.totalHours = this.calculateTotalHours();
-        this.calculatedHoursEvent.emit(this.totalHours);
+        const course = [...this.coreCourses, ...this.electiveCourses].find(c => c.code === courseCode);
+        if (course) {
+          this.selectedCourses.push(course);
+          this.toastr.success(`Course ${courseCode} added successfully`);
+          this.calculatedHoursEvent.emit(this.calculateTotalHours());
+        }
       },
       error: (err) => {
-        this.toastr.error(`Failed to add ${course.course_Name}`);
-        console.error('Error adding course:', err);
+        this.toastr.error(`Failed to add course: ${err.message}`);
       }
     });
   }

@@ -276,3 +276,36 @@ body.dark-mode .table-title {
     padding: 12px;
   }
 }
+
+/* Add to your existing CSS */
+
+.add-button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.9rem;
+}
+
+.add-button:hover:not(:disabled) {
+  background-color: #218838;
+  transform: translateY(-2px);
+}
+
+.add-button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.add-button i {
+  font-size: 0.8rem;
+}
+
+/* Remove the submit button styles if no longer needed */

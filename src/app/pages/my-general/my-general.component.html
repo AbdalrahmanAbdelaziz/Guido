@@ -15,7 +15,7 @@
               <th>Course Name</th>
               <th>Hours</th>
               <th>PreRequest</th>
-              <th>Action</th>
+              <th>Add Course</th>
             </tr>
           </thead>
           <tbody>
@@ -27,11 +27,11 @@
               <td>
                 <button 
                   class="add-button"
-                  (click)="addCourse(course)"
-                  [disabled]="!canTakeCourse(course) || course.isAdded"
-                  [class.added]="course.isAdded"
+                  (click)="addCourse(course.code)"
+                  [disabled]="!canTakeCourse(course)"
+                  title="Add {{ course.course_Name }} to your courses"
                 >
-                  {{ course.isAdded ? 'Added' : 'Add' }}
+                  <i class="fas fa-plus"></i> Add
                 </button>
               </td>
             </tr>
@@ -49,7 +49,7 @@
               <th>Course Name</th>
               <th>Hours</th>
               <th>PreRequest</th>
-              <th>Action</th>
+              <th>Add Course</th>
             </tr>
           </thead>
           <tbody>
@@ -61,11 +61,11 @@
               <td>
                 <button 
                   class="add-button"
-                  (click)="addCourse(course)"
-                  [disabled]="!canTakeCourse(course) || course.isAdded"
-                  [class.added]="course.isAdded"
+                  (click)="addCourse(course.code)"
+                  [disabled]="!canTakeCourse(course)"
+                  title="Add {{ course.course_Name }} to your courses"
                 >
-                  {{ course.isAdded ? 'Added' : 'Add' }}
+                  <i class="fas fa-plus"></i> Add
                 </button>
               </td>
             </tr>
