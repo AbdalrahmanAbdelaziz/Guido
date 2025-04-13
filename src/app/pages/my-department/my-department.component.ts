@@ -4,6 +4,7 @@ import { Course } from '../../shared/interfaces/Course';
 import { UpdateCourse } from '../../shared/interfaces/UpdateCourse';
 import { Student } from '../../shared/interfaces/Student';
 import { DarkModeService } from '../../services/dark-mode.service';
+import { CoursesService } from '../../services/courses.service';
 
 @Component({
   selector: 'app-my-department',
@@ -22,7 +23,7 @@ export class MyDepartmentComponent implements OnInit {
   @Output() calculatedHoursEvent = new EventEmitter<number>();
 
   isModalVisible = true;  
-  constructor(private authService: AuthService, private darkModeService: DarkModeService) {}
+  constructor(private authService: AuthService, private darkModeService: DarkModeService, private coursesService: CoursesService) {}
 
   ngOnInit(): void {
 
@@ -66,7 +67,7 @@ export class MyDepartmentComponent implements OnInit {
     this.coreCourses = [];
     this.electiveCourses = [];
 
-    this.authService.fetchCoreCourses(coreType).subscribe({
+    this.coursesService.fetchCoreCourses(coreType).subscribe({
       next: (coreCourses) => {
         this.coreCourses = coreCourses.map((course) => ({
           ...course,
@@ -78,7 +79,7 @@ export class MyDepartmentComponent implements OnInit {
       },
     });
 
-    this.authService.fetchElectiveCourses(electiveType).subscribe({
+    this.coursesService.fetchElectiveCourses(electiveType).subscribe({
       next: (electiveCourses) => {
         this.electiveCourses = electiveCourses.map((course) => ({
           ...course,
@@ -110,7 +111,7 @@ export class MyDepartmentComponent implements OnInit {
       hours: parseFloat(course.hours),
     }));
 
-    this.authService.updateCourses(updatedCourses).subscribe(() => {
+    this.coursesService.updateCourses(updatedCourses).subscribe(() => {
       const departmentHours = this.calculateDepartmentHours();
       this.calculatedHoursEvent.emit(departmentHours); 
     });

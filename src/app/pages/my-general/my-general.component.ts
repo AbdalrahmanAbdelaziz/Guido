@@ -5,6 +5,7 @@ import { Student } from '../../shared/interfaces/Student';
 import { UpdateCourse } from '../../shared/interfaces/UpdateCourse';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { DarkModeService } from '../../services/dark-mode.service';
+import { CoursesService } from '../../services/courses.service';
 
 @Component({
   selector: 'app-my-general',
@@ -37,7 +38,7 @@ export class MyGeneralComponent implements OnInit {
 
   @Output() calculatedHoursEvent = new EventEmitter<number>();
 
-  constructor(private authService: AuthService, private darkModeService: DarkModeService) {}
+  constructor(private authService: AuthService, private darkModeService: DarkModeService, private coursesService: CoursesService) {}
 
   ngOnInit(): void {
 
@@ -47,14 +48,14 @@ export class MyGeneralComponent implements OnInit {
       this.student = student;
     });
 
-    this.authService.fetchGeneralCoreCourses().subscribe((coreCourses) => {
+    this.coursesService.fetchGeneralCoreCourses().subscribe((coreCourses) => {
       this.coreCourses = coreCourses.map((course) => ({
         ...course,
         grade: course.grade || 'none'
       }));
     });
 
-    this.authService.fetchGeneralElectiveCourses().subscribe((electiveCourses) => {
+    this.coursesService.fetchGeneralElectiveCourses().subscribe((electiveCourses) => {
       this.electiveCourses = electiveCourses.map((course) => ({
         ...course,
         grade: course.grade || 'none'
@@ -82,7 +83,7 @@ export class MyGeneralComponent implements OnInit {
 
     }));
 
-    this.authService.updateCourses(updatedCourses).subscribe(() => {
+    this.coursesService.updateCourses(updatedCourses).subscribe(() => {
       const totalHours = this.calculateTotalHours();
       this.calculatedHoursEvent.emit(totalHours);
     });

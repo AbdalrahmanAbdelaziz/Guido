@@ -4,6 +4,7 @@ import { Course } from '../../shared/interfaces/Course';
 import { UpdateCourse } from '../../shared/interfaces/UpdateCourse';
 import { Student } from '../../shared/interfaces/Student';
 import { DarkModeService } from '../../services/dark-mode.service';
+import { CoursesService } from '../../services/courses.service';
 
 @Component({
   selector: 'app-my-faculty',
@@ -22,7 +23,7 @@ export class MyFacultyComponent implements OnInit {
 
   @Output() calculatedHoursEvent = new EventEmitter<number>();
 
-  constructor(private authService: AuthService, private darkModeService: DarkModeService) {}
+  constructor(private authService: AuthService, private darkModeService: DarkModeService, private coursesService: CoursesService) {}
 
   ngOnInit(): void {
     this.isDarkMode = this.darkModeService.isDarkMode(); // Check dark mode state
@@ -33,14 +34,14 @@ export class MyFacultyComponent implements OnInit {
       }
     });
 
-    this.authService.fetchFacultyCoreCourses().subscribe((coreCourses) => {
+    this.coursesService.fetchFacultyCoreCourses().subscribe((coreCourses) => {
       this.coreCourses = coreCourses.map((course) => ({
         ...course,
         grade: course.grade || 'none'
       }));
     });
 
-    this.authService.fetchFacultyElectiveCourses().subscribe((electiveCourses) => {
+    this.coursesService.fetchFacultyElectiveCourses().subscribe((electiveCourses) => {
       this.electiveCourses = electiveCourses.map((course) => ({
         ...course,
         grade: course.grade || 'none'
@@ -67,7 +68,7 @@ export class MyFacultyComponent implements OnInit {
       hours: parseFloat(course.hours),
     }));
 
-    this.authService.updateCourses(updatedCourses).subscribe(() => {
+    this.coursesService.updateCourses(updatedCourses).subscribe(() => {
       this.facultyHours = this.calculateFacultyHours();  
       this.calculatedHoursEvent.emit(this.facultyHours); 
     });
