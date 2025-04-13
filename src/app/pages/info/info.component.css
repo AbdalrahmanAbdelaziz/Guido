@@ -330,3 +330,65 @@ button:hover {
       font-size: 0.9em;
   }
 }
+
+/* Add these styles to your existing CSS */
+
+.theme-toggle-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+  transition: all 0.3s ease;
+}
+
+.theme-toggle-button:hover {
+  background-color: #0056b3;
+  transform: scale(1.1);
+}
+
+.theme-toggle-button i {
+  transition: transform 0.3s ease;
+}
+
+.theme-toggle-button:hover i {
+  transform: rotate(20deg);
+}
+
+/* Dark mode styles */
+.dark-mode .theme-toggle-button {
+  background-color: #333;
+  color: #fff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .theme-toggle-button {
+    width: 45px;
+    height: 45px;
+    font-size: 1.1rem;
+    bottom: 20px;
+    right: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .theme-toggle-button {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+    bottom: 15px;
+    right: 15px;
+  }
+}

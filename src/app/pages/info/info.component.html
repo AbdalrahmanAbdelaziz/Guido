@@ -71,17 +71,17 @@
         </button>
       </div>
     </div>
+
+    <button 
+    (click)="toggleTheme()" 
+    class="theme-toggle-button"
+    aria-label="Toggle dark mode"
+    title="Toggle dark mode"
+  >
+    <i class="fas" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
+  </button>
+  
   </div>
 
-  <!-- Dark Mode Toggle Button -->
-  <div class="dark-mode-toggle">
-    <button 
-      (click)="toggleTheme()" 
-      class="theme-toggle-button"
-      aria-label="Toggle dark mode"
-      title="Toggle dark mode"
-    >
-      <i class="fas" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
-    </button>
-  </div>
+  
   
