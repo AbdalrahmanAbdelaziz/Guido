@@ -10,15 +10,15 @@
         <span class="nav-text">Home</span>
       </a>
     </li>
-    <li>
+    <!-- <li>
       <a routerLink="/profile" title="Profile">
         <i class="fas fa-user"></i>
         <span class="nav-text">Profile</span>
       </a>
-    </li>
+    </li> -->
     
     <li class="menu-container">
-      <a title="Account">
+      <a title="Account" routerLink="/profile">
         <i class="fas fa-user-circle"></i>
         <span class="nav-text">{{ student.firstName | titlecase }}</span>
       </a>
