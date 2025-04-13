@@ -169,22 +169,7 @@ button:hover {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
-.mission-section {
-  padding: 60px 0;
-  width: 100%;
-  box-sizing: border-box;
-  background-color: #ffffff;
-}
 
-.mission-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 40px;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
 
 .volunteer-container {
   display: flex;
