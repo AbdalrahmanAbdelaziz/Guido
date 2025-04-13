@@ -1,81 +1,134 @@
 <div class="courses-page">
+
   <app-student-header></app-student-header>
 
   <div class="navbar-spacer"></div>
 
   <div class="course-manager">
+    <div class="page-header">
+      <h1>Course Registration</h1>
+      <p class="subtitle">Select your courses and grades for the current semester</p>
+    </div>
+    
     <div class="tables-container">
       <!-- Compulsory Subjects -->
-      <div class="table-container">
-        <h3 class="table-title">Compulsory Subjects (6 hours)</h3>
-        <table class="course-table">
-          <thead>
-            <tr>
-              <th>Code</th>
-              <th>Course Name</th>
-              <th>Hours</th>
-              <th>PreRequest</th>
-              <th>Add Course</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let course of coreCourses" [class.disabled]="!canTakeCourse(course)">
-              <td>{{ course.code }}</td>
-              <td>{{ course.course_Name }}</td>
-              <td>{{ course.hours }}</td>
-              <td>{{ course.prerequest || 'None' }}</td>
-              <td>
-                <button 
-                  class="add-button"
-                  (click)="addCourse(course.code)"
-                  [disabled]="!canTakeCourse(course)"
-                  title="Add {{ course.course_Name }} to your courses"
-                >
-                  <i class="fas fa-plus"></i> Add
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="table-container card">
+        <div class="table-header">
+          <h3 class="table-title">Compulsory Subjects</h3>
+          <span class="hours-badge">6 hours required</span>
+        </div>
+        <div class="table-responsive">
+          <table class="course-table">
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Course Name</th>
+                <th>Hours</th>
+                <th>Prerequisite</th>
+                <th>Grade</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let course of coreCourses" [class.disabled]="!canTakeCourse(course)">
+                <td data-label="Code">{{ course.code }}</td>
+                <td data-label="Course Name">{{ course.course_Name }}</td>
+                <td data-label="Hours">{{ course.hours }}</td>
+                <td data-label="Prerequisite">{{ course.prerequest || 'None' }}</td>
+                <td data-label="Grade">
+                  <select
+                    [(ngModel)]="course.grade"
+                    [disabled]="!canTakeCourse(course)"
+                    title="Select grade for {{ course.course_Name }}"
+                    class="grade-select"
+                  >
+                    <option value="none">Select grade</option>
+                    <option value="A+">A+</option>
+                    <option value="A">A</option>
+                    <option value="B+">B+</option>
+                    <option value="B">B</option>
+                    <option value="C+">C+</option>
+                    <option value="C">C</option>
+                    <option value="D+">D+</option>
+                    <option value="D">D</option>
+                    <option value="F">F</option>
+                  </select>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <!-- Elective Subjects -->
-      <div class="table-container">
-        <h3 class="table-title">Electives Subjects (6 hours)</h3>
-        <table class="course-table">
-          <thead>
-            <tr>
-              <th>Code</th>
-              <th>Course Name</th>
-              <th>Hours</th>
-              <th>PreRequest</th>
-              <th>Add Course</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let course of electiveCourses" [class.disabled]="!canTakeCourse(course)">
-              <td>{{ course.code }}</td>
-              <td>{{ course.course_Name }}</td>
-              <td>{{ course.hours }}</td>
-              <td>{{ course.prerequest || 'None' }}</td>
-              <td>
-                <button 
-                  class="add-button"
-                  (click)="addCourse(course.code)"
-                  [disabled]="!canTakeCourse(course)"
-                  title="Add {{ course.course_Name }} to your courses"
-                >
-                  <i class="fas fa-plus"></i> Add
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="table-container card">
+        <div class="table-header">
+          <h3 class="table-title">Elective Subjects</h3>
+          <span class="hours-badge">6 hours required</span>
+        </div>
+        <div class="table-responsive">
+          <table class="course-table">
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Course Name</th>
+                <th>Hours</th>
+                <th>Prerequisite</th>
+                <th>Grade</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let course of electiveCourses" [class.disabled]="!canTakeCourse(course)">
+                <td data-label="Code">{{ course.code }}</td>
+                <td data-label="Course Name">{{ course.course_Name }}</td>
+                <td data-label="Hours">{{ course.hours }}</td>
+                <td data-label="Prerequisite">{{ course.prerequest || 'None' }}</td>
+                <td data-label="Grade">
+                  <select
+                    [(ngModel)]="course.grade"
+                    [disabled]="!canTakeCourse(course)"
+                    title="Select grade for {{ course.course_Name }}"
+                    class="grade-select"
+                  >
+                    <option value="none">Select grade</option>
+                    <option value="A+">A+</option>
+                    <option value="A">A</option>
+                    <option value="B+">B+</option>
+                    <option value="B">B</option>
+                    <option value="C+">C+</option>
+                    <option value="C">C</option>
+                    <option value="D+">D+</option>
+                    <option value="D">D</option>
+                    <option value="F">F</option>
+                  </select>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
-    <div class="summary">
-      <p class="total-hours">Total Hours: {{ calculateTotalHours() }}</p>
+    <div class="summary card">
+      <div class="summary-content">
+        <div class="summary-info">
+          <div class="total-hours">
+            <span class="label">Total Hours:</span>
+            <span class="value">{{ calculateTotalHours() }}</span>
+          </div>
+          <div class="completion-status">
+            <span class="label">Status:</span>
+            <span class="value" [class.complete]="calculateTotalHours() >= 12">
+              {{ calculateTotalHours() >= 12 ? 'Complete' : 'Incomplete' }}
+            </span>
+          </div>
+        </div>
+        <button class="submit-button" (click)="submitCourses()" [disabled]="calculateTotalHours() < 12">
+          Submit Registration
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+          </svg>
+        </button>
+      </div>
     </div>
   </div>
 </div>

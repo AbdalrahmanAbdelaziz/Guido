@@ -1,11 +1,11 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { trigger, transition, style, animate } from '@angular/animations';
 import { AuthService } from '../../services/auth.service';
 import { Course } from '../../shared/interfaces/Course';
 import { Student } from '../../shared/interfaces/Student';
+import { UpdateCourse } from '../../shared/interfaces/UpdateCourse';
+import { trigger, transition, style, animate } from '@angular/animations';
 import { DarkModeService } from '../../services/dark-mode.service';
 import { CoursesService } from '../../services/courses.service';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-my-general',
@@ -35,28 +35,31 @@ export class MyGeneralComponent implements OnInit {
   totalHours: number = 0;
   isDarkMode = false;
 
+
   @Output() calculatedHoursEvent = new EventEmitter<number>();
 
-  constructor(
-    private authService: AuthService, 
-    private darkModeService: DarkModeService, 
-    private coursesService: CoursesService,
-    private toastr: ToastrService
-  ) {}
+  constructor(private authService: AuthService, private darkModeService: DarkModeService, private coursesService: CoursesService) {}
 
   ngOnInit(): void {
-    this.isDarkMode = this.darkModeService.isDarkMode();
+
+    this.isDarkMode = this.darkModeService.isDarkMode(); // Check dark mode state
 
     this.authService.studentObservable.subscribe((student) => {
       this.student = student;
     });
 
     this.coursesService.fetchGeneralCoreCourses().subscribe((coreCourses) => {
-      this.coreCourses = coreCourses;
+      this.coreCourses = coreCourses.map((course) => ({
+        ...course,
+        grade: course.grade || 'none'
+      }));
     });
 
     this.coursesService.fetchGeneralElectiveCourses().subscribe((electiveCourses) => {
-      this.electiveCourses = electiveCourses;
+      this.electiveCourses = electiveCourses.map((course) => ({
+        ...course,
+        grade: course.grade || 'none'
+      }));
     });
   }
 
@@ -67,25 +70,22 @@ export class MyGeneralComponent implements OnInit {
   }
 
   calculateTotalHours(): number {
-    return this.selectedCourses.reduce((total, course) => {
-      const hours = parseFloat(course.hours) || 0;
-      return total + hours;
-    }, 0);
+    return [...this.coreCourses, ...this.electiveCourses]
+      .filter((course) => course.grade !== 'none' && course.grade !== 'F') 
+      .reduce((total, course) => total + (parseFloat(course.hours) || 0), 0); 
   }
 
-  addCourse(courseCode: string): void {
-    this.coursesService.addCourseToStudent(courseCode).subscribe({
-      next: () => {
-        const course = [...this.coreCourses, ...this.electiveCourses].find(c => c.code === courseCode);
-        if (course) {
-          this.selectedCourses.push(course);
-          this.toastr.success(`Course ${courseCode} added successfully`);
-          this.calculatedHoursEvent.emit(this.calculateTotalHours());
-        }
-      },
-      error: (err) => {
-        this.toastr.error(`Failed to add course: ${err.message}`);
-      }
+  submitCourses(): void {
+    const updatedCourses: UpdateCourse[] = [...this.coreCourses, ...this.electiveCourses].map((course) => ({
+      code: course.code,
+      grade: course.grade || 'none',
+      hours: parseFloat(course.hours),
+
+    }));
+
+    this.coursesService.updateCourses(updatedCourses).subscribe(() => {
+      const totalHours = this.calculateTotalHours();
+      this.calculatedHoursEvent.emit(totalHours);
     });
   }
 }
