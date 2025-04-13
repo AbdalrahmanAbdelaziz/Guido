@@ -11,9 +11,17 @@
     <form [formGroup]="loginForm" (ngSubmit)="submit()">
       <div class="field">
         <span class="fa fa-user"></span>
-        <input type="text" formControlName="EmailOrUsernameOrPhone" placeholder="Email or Username or Phone" required />
-        <div *ngIf="isSubmitted && fc['EmailOrUsernameOrPhone'].invalid" class="error">
-          Email is required and should be valid.
+        <input 
+          type="email" 
+          formControlName="email" 
+          placeholder="Email" 
+          required 
+        />
+        <div *ngIf="isSubmitted && fc['email'].errors?.['required']" class="error">
+          Email is required.
+        </div>
+        <div *ngIf="isSubmitted && fc['email'].errors?.['email']" class="error">
+          Please enter a valid email.
         </div>
       </div>
 
@@ -26,13 +34,17 @@
           placeholder="Password"
           required
         />
-        <div *ngIf="isSubmitted && fc['password'].invalid" class="error">
+        <div *ngIf="isSubmitted && fc['password'].errors?.['required']" class="error">
           Password is required.
         </div>
       </div>
 
       <div class="field">
-        <input type="submit" value="LOGIN" />
+        <input 
+          type="submit" 
+          value="LOGIN" 
+          [disabled]="loginForm.invalid && isSubmitted" 
+        />
       </div>
 
       <div class="forgot-password">

@@ -34,7 +34,7 @@ export class RegisterStudentComponent implements OnInit{
             this.toastr.error("Passwords don't match")
         }
     } else {
-        this.toastr.info("Please fill in all required fields")
+        this.toastr.warning("Please fill in all required fields")
     }
 }
 

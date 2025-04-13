@@ -330,3 +330,7 @@ button:hover {
       font-size: 0.9em;
   }
 }
+
+.dark-mode-toggle{
+  background-color: #007bff;
+}

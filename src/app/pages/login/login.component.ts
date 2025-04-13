@@ -10,7 +10,6 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
   loginForm!: FormGroup;
   isSubmitted = false; 
   returnUrl = '';
@@ -38,33 +37,39 @@ export class LoginComponent implements OnInit {
 
   submit(): void {
     this.isSubmitted = true;
-  
+    console.log('Form submission started');
+
     if (this.loginForm.invalid) {
-      console.log('Login form is invalid:', this.loginForm);
+      console.log('Form invalid, errors:', {
+        email: this.fc['email'].errors,
+        password: this.fc['password'].errors
+      });
+      this.toastr.warning('Please fill all required fields');
       return;
     }
-  
-    console.log('Form Submitted:', this.loginForm.value);
-  
+
+    console.log('Form valid, submitting:', this.loginForm.value);
+    
     this.authService.login({
       email: this.fc['email'].value,
       password: this.fc['password'].value
     }).subscribe({
       next: (response) => {
+        console.log('Login successful', response);
         const userRole = response.data.role;
-  
+        
         if (userRole === 'Student') {
-          console.log('Navigating to Student Page');
           this.router.navigateByUrl('/student-page');
         } else if (userRole === 'Admin') {
-          console.log('Navigating to Admin Page');
           this.router.navigateByUrl('/admin-page');
         } else {
-          console.log('Unexpected user role:', userRole);
+          this.toastr.warning('Unknown user role, redirecting to home');
+          this.router.navigateByUrl('/');
         }
       },
       error: (error) => {
-        console.error('Login error:', error);
+        console.error('Login failed', error);
+        this.toastr.error('Login failed. Please check your credentials.');
       }
     });
   }
