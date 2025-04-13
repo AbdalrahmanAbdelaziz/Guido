@@ -17,21 +17,10 @@
     </div>
   </div>
 
-  <header class="navbar">
-    <div class="app-name" routerLink="/home">
-      EduGuideAI
-    </div>
-    <div class="right-button">
-      <li class="menu-container">
-        <a routerLink="/profile" class="menu-trigger">
-          <i class="fas fa-user-circle"></i> {{ student.firstName | titlecase }}
-        </a>
-      </li>
-    </div>
-  </header>
+ 
 
-  <div class="navbar-spacer"></div>
-
+  <app-student-header></app-student-header>
+  
   <!-- Courses Tables -->
   <div *ngIf="selectedDepartment && !isModalVisible" class="course-manager">
     <div class="tables-container">

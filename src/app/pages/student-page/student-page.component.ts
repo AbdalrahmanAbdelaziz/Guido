@@ -59,10 +59,7 @@ export class StudentPageComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  logout() {
-    this.authService.logout();
-    this.router.navigate(['/login']);
-  }
+ 
 
   navigateTo(link: string) {
     this.router.navigate([link]);

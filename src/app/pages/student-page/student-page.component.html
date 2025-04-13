@@ -1,26 +1,11 @@
 <div class="student-page">
-  <!-- Main Navbar -->
-  <header class="navbar">
-    <div class="app-name" routerLink="/student-page">
-      EduGuideAI
-    </div>
-    <div class="right-button">
-      <li class="menu-container">
-        <a routerLink="/profile" class="menu-trigger">
-          <i class="fas fa-user-circle"></i> {{ student.firstName | titlecase }}
-        </a>
-      </li>
-    </div>
-  </header>
+<app-student-header></app-student-header>
 
   <div class="navbar-spacer"></div>
 
   <div class="content">
-    <!-- Side Navbar -->
+  
 
-    <app-side-navbar></app-side-navbar>
-
-    <!-- Main Content Section -->
     <div class="features-section">
       <div class="card" *ngFor="let feature of features" (click)="navigateTo(feature.link)">
         <img [src]="feature.image" alt="Feature Image" class="card-image" />

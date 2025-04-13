@@ -5,18 +5,6 @@ import { ToastrService } from 'ngx-toastr';
 import {
     ADMIN_REGISTER_URL,
     FORGET_PASSWORD_URL,
-    GET_AI_CORE_COURSE_URL,
-    GET_AI_ELECTIVE_COURSE_URL,
-    GET_CS_CORE_COURSE_URL,
-    GET_CS_ELECTIVE_COURSE_URL,
-    GET_F_CORE_COURSE_URL,
-    GET_F_ELECTIVE_COURSE_URL,
-    GET_G_CORE_COURSE_URL,
-    GET_G_ELECTIVE_COURSE_URL,
-    GET_IS_CORE_COURSE_URL,
-    GET_IS_ELECTIVE_COURSE_URL,
-    GET_IT_CORE_COURSE_URL,
-    GET_IT_ELECTIVE_COURSE_URL,
     LOGIN_URL,
     RESET_PASSWORD_URL,
     STUDENT_REGISTER_URL,
@@ -27,8 +15,6 @@ import {
 import { UserLogin } from "../shared/interfaces/UserLogin";
 import { Student } from "../shared/interfaces/Student";
 import { Admin } from "../shared/interfaces/Admin";
-import { Course } from "../shared/interfaces/Course";
-import { UpdateCourse } from "../shared/interfaces/UpdateCourse";
 import { ResetPassword } from "../shared/interfaces/ResetPassword";
 
 const STUDENT_KEY = 'Student';
@@ -40,11 +26,9 @@ const ADMIN_KEY = 'Admin';
 export class AuthService {
     private studentSubject = new BehaviorSubject<Student | null>(this.getStudentFromLocalStorage());
     private adminSubject = new BehaviorSubject<Admin | null>(this.getAdminFromLocalStorage());
-    private coursesSubject = new BehaviorSubject<Course[]>([]);
 
     public studentObservable = this.studentSubject.asObservable();
     public adminObservable = this.adminSubject.asObservable();
-    public coursesObservable = this.coursesSubject.asObservable();
 
     constructor(private http: HttpClient, private toastrService: ToastrService) {}
 
@@ -126,110 +110,13 @@ export class AuthService {
         );
     }
 
-    fetchCourses(url: string): Observable<Course[]> {
-        return this.http.get<{ data: Course[] }>(url).pipe(
-            map((response) => response.data),
-            tap({
-                next: (courses) => {
-                    this.coursesSubject.next(courses);
-                    // this.toastrService.success('Courses loaded successfully.');
-                },
-                error: () => {
-                    // this.toastrService.error('Failed to load courses.');
-                }
-            })
-        );
-    }
-
-    fetchGeneralCoreCourses(): Observable<Course[]> {
-        return this.fetchCourses(GET_G_CORE_COURSE_URL);
-    }
-
-    fetchGeneralElectiveCourses(): Observable<Course[]> {
-        return this.fetchCourses(GET_G_ELECTIVE_COURSE_URL);
-    }
-
-    fetchFacultyCoreCourses(): Observable<Course[]> {
-        return this.fetchCourses(GET_F_CORE_COURSE_URL);
-    }
-
-    fetchFacultyElectiveCourses(): Observable<Course[]> {
-        return this.fetchCourses(GET_F_ELECTIVE_COURSE_URL);
-    }
+    
 
   
 
 
 
-    fetchCoreCourses(coreType: string): Observable<Course[]> {
-        let url: string;
-    
-        switch (coreType) {
-          case 'CS Core':
-            url = GET_CS_CORE_COURSE_URL;
-            break;
-          case 'IS Core':
-            url = GET_IS_CORE_COURSE_URL;
-            break;
-          case 'AI Core':
-            url = GET_AI_CORE_COURSE_URL;
-            break;
-          case 'IT Core':
-            url = GET_IT_CORE_COURSE_URL;
-            break;
-          default:
-            throw new Error('Unknown core course type');
-        }
-    
-        return this.http.get<{ data: Course[] }>(url).pipe(
-          map((response) => response.data),
-          tap({
-            // next: (courses) => this.toastrService.success('Core courses loaded successfully.'),
-            // error: () => this.toastrService.error('Failed to load core courses.'),
-          })
-        );
-      }
-    
-      fetchElectiveCourses(electiveType: string): Observable<Course[]> {
-        let url: string;
-    
-        switch (electiveType) {
-          case 'CS Elective':
-            url = GET_CS_ELECTIVE_COURSE_URL;
-            break;
-          case 'IS Elective':
-            url = GET_IS_ELECTIVE_COURSE_URL;
-            break;
-          case 'AI Elective':
-            url = GET_AI_ELECTIVE_COURSE_URL;
-            break;
-          case 'IT Elective':
-            url = GET_IT_ELECTIVE_COURSE_URL;
-            break;
-          default:
-            throw new Error('Unknown elective course type');
-        }
-    
-        return this.http.get<{ data: Course[] }>(url).pipe(
-          map((response) => response.data),
-          tap({
-            // next: (courses) => this.toastrService.success('Elective courses loaded successfully.'),
-            // error: () => this.toastrService.error('Failed to load elective courses.'),
-          })
-        );
-      }
-
-
-
-
-    updateCourses(updateCourses: UpdateCourse[]): Observable<any> {
-        return this.http.put<any>(UPDATE_COURSES_URL, updateCourses).pipe(
-            tap({
-                next: () => this.toastrService.success('Courses updated successfully.'),
-                error: () => this.toastrService.error('Failed to update courses.')
-            })
-        );
-    }
+   
 
     
 

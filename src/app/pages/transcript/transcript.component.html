@@ -1,20 +1,10 @@
 <div class="courses-page">
-  <header class="navbar">
-    <div class="app-name" routerLink="/student-page">
-      EduGuideAI
-    </div>
-    <div class="right-button">
-      <li class="menu-container">
-        <a routerLink="/profile" class="menu-trigger">
-          <i class="fas fa-user-circle"></i> {{ student?.firstName | titlecase }}
-        </a>
-      </li>
-    </div>
-  </header>
+
+  <app-student-header></app-student-header>
 
   <div class="navbar-spacer"></div>
 
-  <app-side-navbar></app-side-navbar>
+  
 
   <div class="transcript-content">
     <div class="student-details">

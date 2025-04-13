@@ -30,6 +30,7 @@ import { AuthInterceptor } from './shared/auth/AuthInterceptor';
 import { SideNavbarComponent } from './pages/side-navbar/side-navbar.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { StudentHeaderComponent } from './pages/student-header/student-header.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -57,6 +58,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MyDepartmentComponent,
     TranscriptComponent,
     SideNavbarComponent,
+    StudentHeaderComponent,
     
   ],
   imports: [

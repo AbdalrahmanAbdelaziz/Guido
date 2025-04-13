@@ -1,0 +1,40 @@
+<div class="navbar">
+    <div class="logo-container">
+        <img src="logo2.png" alt="App Logo" class="logo-image" routerLink="/student-page">
+    </div>
+
+    <ul class="nav-links">
+        <li>
+          <a routerLink="/student-page" title="Home">
+            <i class="fas fa-home"></i>
+            <span class="nav-text">Home</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/profile" title="Appointments">
+            <i class="fas fa-calendar-check"></i>
+            <span class="nav-text">Profile</span>
+          </a>
+        </li>
+        
+        <a (click)="toggleTheme()" class="side-navbar-link">
+            <i class="fas" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
+            <span *ngIf="!isCollapsed">Dark Mode</span>
+        </a>
+
+        <li class="menu-container">
+          <!-- <a routerLink="/s-profile" title="Profile"> -->
+            <i class="fas fa-user"></i>
+            <span class="nav-text">{{ student.firstName | titlecase }}</span>
+          <!-- </a> -->
+        </li>
+        <li>
+          <a (click)="logout()" title="Logout">
+            <i class="fas fa-sign-out-alt"></i>
+            <span class="nav-text">Logout</span>
+          </a>
+        </li>
+      </ul>
+    
+</div>
+
