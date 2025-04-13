@@ -1,43 +1,74 @@
 <div class="courses-page">
-
   <app-student-header></app-student-header>
 
   <div class="navbar-spacer"></div>
 
- 
-
   <!-- Hero Section -->
   <section class="hero-section">
     <div class="hero-content">
-      <h1>Welcome, {{ student.firstName | titlecase }}</h1>
-      <p>Track your courses and access your academic transcript.</p>
-      <button class="cta-button" (click)="navigateTo('/transcript')">
-        View Transcript
-      </button>
+      <div class="hero-text">
+        <h1>Welcome, {{ student.firstName | titlecase }}</h1>
+        <p class="subtitle">Track your academic progress and requirements</p>
+        <div class="progress-summary">
+          <div class="progress-item">
+            <div class="progress-circle" [style.--percentage]="generalHours/12">
+              <span>{{ generalHours }}/12</span>
+            </div>
+            <p>General Requirements</p>
+          </div>
+          <div class="progress-item">
+            <div class="progress-circle" [style.--percentage]="facultyHours/72">
+              <span>{{ facultyHours }}/72</span>
+            </div>
+            <p>Faculty Requirements</p>
+          </div>
+          <div class="progress-item">
+            <div class="progress-circle" [style.--percentage]="departmentHours/60">
+              <span>{{ departmentHours }}/60</span>
+            </div>
+            <p>Department Requirements</p>
+          </div>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="education-illustration.svg" alt="Academic progress illustration">
+      </div>
     </div>
   </section>
 
   <!-- Features Section -->
-  <div class="features-section">
-    <div
-      class="card"
-      *ngFor="let feature of features"
-      (click)="navigateTo(feature.link)"
-    >
-      <div class="card-header">
-        <h3 class="card-title">{{ feature.name }}</h3>
-      </div>
-      <div class="card-content">
-        <ng-container *ngIf="feature.name === 'General Requirements'">
-          <p>Calculated Hours: {{ generalHours }}/12</p>
-        </ng-container>
-        <ng-container *ngIf="feature.name === 'Faculty Requirements'">
-          <p>Calculated Hours: {{ facultyHours }}/72</p>
-        </ng-container>
-        <ng-container *ngIf="feature.name === 'division Requirements'">
-          <p>Calculated Hours: {{ departmentHours }}/60</p>
-        </ng-container>
+  <section class="dashboard-section">
+    <h2 class="section-title">Academic Dashboard</h2>
+    <div class="features-grid">
+      <div class="feature-card" *ngFor="let feature of features" (click)="navigateTo(feature.link)">
+        <div class="card-icon" *ngIf="feature.icon">
+          <i [class]="feature.icon"></i>
+        </div>
+        <h3>{{ feature.name }}</h3>
+        <div class="card-content">
+          <ng-container *ngIf="feature.name === 'General Requirements'">
+            <div class="progress-bar">
+              <div class="progress-fill" [style.width]="(generalHours/12)*100 + '%'"></div>
+            </div>
+            <p>{{ generalHours }} of 12 hours completed</p>
+          </ng-container>
+          <ng-container *ngIf="feature.name === 'Faculty Requirements'">
+            <div class="progress-bar">
+              <div class="progress-fill" [style.width]="(facultyHours/72)*100 + '%'"></div>
+            </div>
+            <p>{{ facultyHours }} of 72 hours completed</p>
+          </ng-container>
+          <ng-container *ngIf="feature.name === 'Division Requirements'">
+            <div class="progress-bar">
+              <div class="progress-fill" [style.width]="(departmentHours/60)*100 + '%'"></div>
+            </div>
+            <p>{{ departmentHours }} of 60 hours completed</p>
+          </ng-container>
+        </div>
+        <div class="card-action">
+          View Details <i class="fas fa-chevron-right"></i>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 </div>

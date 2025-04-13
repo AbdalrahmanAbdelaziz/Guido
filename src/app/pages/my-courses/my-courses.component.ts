@@ -17,15 +17,18 @@ export class MyCoursesComponent implements OnInit {
   features = [
     {
       name: 'General Requirements',
-      link: '/my-general'
+      link: '/my-general',
+      icon: 'fas fa-graduation-cap'
     },
     {
       name: 'Faculty Requirements',
-      link: '/my-faculty'
+      link: '/my-faculty',
+      icon: 'fas fa-university'
     },
     {
-      name: 'division Requirements',
-      link: '/my-department'
+      name: 'Division Requirements',
+      link: '/my-department',
+      icon: 'fas fa-building'
     }
   ];
 
@@ -59,9 +62,4 @@ export class MyCoursesComponent implements OnInit {
   updateDepartmentHours(hours: number) {
     this.departmentHours = hours;
   }
-
-
-  
-
-  
 }
