@@ -80,6 +80,12 @@ export class MyGeneralComponent implements OnInit {
   }
 
   addCourse(course: Course): void {
+    console.log('Adding course:', course); // Debug log
+    if (!course.code) {
+      this.toastr.error('Course code is missing!');
+      return;
+    }
+    
     if (!course.grade || course.grade === 'none') {
       this.toastr.warning('Please select a grade before adding the course');
       return;

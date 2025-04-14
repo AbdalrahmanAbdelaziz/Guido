@@ -1,6 +1,5 @@
 export interface UpdateCourse {
-    SubjectCode: string;  // Primary key (required)
-    grade: string;
-    hours: number;
-    // Remove 'code' if not needed by backend
-  }
+  SubjectCode: string;  // Must match backend exactly (case sensitive)
+  grade: string;        // Adjust case if needed
+  hours: number;        // Adjust case if needed
+}
