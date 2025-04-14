@@ -64,18 +64,25 @@ export class AuthService {
 
     registerStudent(studentRegister: Student): Observable<Student> {
         return this.http.post<Student>(STUDENT_REGISTER_URL, studentRegister).pipe(
-            tap({
-                next: (student) => {
-                    this.setStudentToLocalStorage(student);
-                    this.studentSubject.next(student);
-                    this.toastrService.success('Registration Successful');
-                },
-                error: () => {
-                    this.toastrService.error('Registration Failed');
+          tap({
+            next: (student) => {
+              this.setStudentToLocalStorage(student);
+              this.studentSubject.next(student);
+              // Don't show success here - let component handle it with custom message
+            },
+            error: (error) => {
+              this.toastrService.error(
+                error.error?.message || 'Registration Failed',
+                'Error',
+                {
+                  timeOut: 5000,
+                  positionClass: 'toast-top-center'
                 }
-            })
+              );
+            }
+          })
         );
-    }
+      }
 
     registerAdmin(adminRegister: Admin): Observable<Admin> {
         return this.http.post<Admin>(ADMIN_REGISTER_URL, adminRegister).pipe(

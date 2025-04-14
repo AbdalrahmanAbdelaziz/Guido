@@ -242,3 +242,32 @@ body, html {
     left: 12px;
   }
 }
+
+/* Add to your component's CSS file */
+input:invalid {
+  border-color: #ff4444;
+}
+
+input:valid {
+  border-color: #00C851;
+}
+
+
+
+.field span.fa-envelope::after {
+  position: absolute;
+  bottom: -25px;
+  left: 0;
+  font-size: 12px;
+  color: #666;
+  font-style: italic;
+  background: #f8f9fa;
+  padding: 2px 5px;
+  border-radius: 3px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.field:focus-within span.fa-envelope::after {
+  opacity: 1;
+}
