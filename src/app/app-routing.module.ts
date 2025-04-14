@@ -13,8 +13,8 @@ import { AdminPageComponent } from './pages/admin-page/admin-page.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { MyCoursesComponent } from './pages/my-courses/my-courses.component';
 import { MyGeneralComponent } from './pages/my-general/my-general.component';
-import { MyFacultyComponent } from './pages/my-faculty/my-faculty.component';
-import { MyDepartmentComponent } from './pages/my-department/my-department.component';
+// import { MyFacultyComponent } from './pages/my-faculty/my-faculty.component';
+// import { MyDepartmentComponent } from './pages/my-department/my-department.component';
 import { TranscriptComponent } from './pages/transcript/transcript.component';
 
 
@@ -32,8 +32,8 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent},
   { path: 'my-courses', component: MyCoursesComponent},
   { path: 'my-general', component: MyGeneralComponent},
-  { path: 'my-faculty', component: MyFacultyComponent},
-  { path: 'my-department', component: MyDepartmentComponent},
+  // { path: 'my-faculty', component: MyFacultyComponent},
+  // { path: 'my-department', component: MyDepartmentComponent},
   { path: 'transcript', component: TranscriptComponent},
   
   // { path: '**', redirectTo:'', pathMatch: 'full'},

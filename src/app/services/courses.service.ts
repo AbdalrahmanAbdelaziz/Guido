@@ -131,21 +131,25 @@ export class CoursesService {
 
       updateCourses(updateCourses: UpdateCourse[]): Observable<any> {
         const requestBody = {
-            dTOupdate: updateCourses.map(course => ({
-                SubjectCode: course.code,  // Map code to SubjectCode
-                Grade: course.grade,
-                Hours: course.hours
-                // Include other fields as needed
-            }))
+          dTOupdate: updateCourses.map(course => ({
+            SubjectCode: course.SubjectCode,  // Use SubjectCode directly
+            Grade: course.grade,
+            Hours: course.hours
+          }))
         };
         
+        console.log('Sending to backend:', requestBody);  // Debugging
+        
         return this.http.post<any>(UPDATE_COURSES_URL, requestBody).pipe(
-            tap({
-                next: () => this.toastrService.success('Courses updated successfully.'),
-                error: () => this.toastrService.error('Failed to update courses.')
-            })
+          tap({
+            next: () => this.toastrService.success('Courses updated successfully.'),
+            error: (error) => {
+              this.toastrService.error('Failed to update courses.');
+              console.error('Backend error:', error);
+            }
+          })
         );
-    }
+      }
 
  
 

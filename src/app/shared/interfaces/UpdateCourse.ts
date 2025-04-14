@@ -1,6 +1,6 @@
 export interface UpdateCourse {
-    SubjectCode: string;  // This might be what the backend expects
-    code?: string;        // Your current field
-    grade: string; 
+    SubjectCode: string;  // Primary key (required)
+    grade: string;
     hours: number;
-}
+    // Remove 'code' if not needed by backend
+  }
