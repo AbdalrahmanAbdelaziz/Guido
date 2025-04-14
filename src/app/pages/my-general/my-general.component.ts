@@ -84,18 +84,19 @@ export class MyGeneralComponent implements OnInit {
       this.toastr.warning('Please select a grade before adding the course');
       return;
     }
-  
+
     if (!this.canTakeCourse(course)) {
       this.toastr.error('You cannot add this course due to unmet prerequisites');
       return;
     }
-  
+
     const updateCourse: UpdateCourse = {
-      SubjectCode: course.code,  
+      SubjectCode: course.code,
+      code: course.code,  // Include both if needed
       grade: course.grade,
       hours: parseFloat(course.hours)
     };
-  
+
     this.coursesService.updateCourses([updateCourse]).subscribe({
       next: () => {
         this.toastr.success(`Course ${course.course_Name} added successfully`);
