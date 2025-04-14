@@ -6,6 +6,7 @@ import { UpdateCourse } from '../../shared/interfaces/UpdateCourse';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { DarkModeService } from '../../services/dark-mode.service';
 import { CoursesService } from '../../services/courses.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-my-general',
@@ -35,14 +36,17 @@ export class MyGeneralComponent implements OnInit {
   totalHours: number = 0;
   isDarkMode = false;
 
-
   @Output() calculatedHoursEvent = new EventEmitter<number>();
 
-  constructor(private authService: AuthService, private darkModeService: DarkModeService, private coursesService: CoursesService) {}
+  constructor(
+    private authService: AuthService, 
+    private darkModeService: DarkModeService, 
+    private coursesService: CoursesService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
-
-    this.isDarkMode = this.darkModeService.isDarkMode(); // Check dark mode state
+    this.isDarkMode = this.darkModeService.isDarkMode();
 
     this.authService.studentObservable.subscribe((student) => {
       this.student = student;
@@ -75,17 +79,31 @@ export class MyGeneralComponent implements OnInit {
       .reduce((total, course) => total + (parseFloat(course.hours) || 0), 0); 
   }
 
-  submitCourses(): void {
-    const updatedCourses: UpdateCourse[] = [...this.coreCourses, ...this.electiveCourses].map((course) => ({
+  addCourse(course: Course): void {
+    if (!course.grade || course.grade === 'none') {
+      this.toastr.warning('Please select a grade before adding the course');
+      return;
+    }
+
+    if (!this.canTakeCourse(course)) {
+      this.toastr.error('You cannot add this course due to unmet prerequisites');
+      return;
+    }
+
+    const updateCourse: UpdateCourse = {
       code: course.code,
-      grade: course.grade || 'none',
-      hours: parseFloat(course.hours),
+      grade: course.grade,
+      hours: parseFloat(course.hours)
+    };
 
-    }));
-
-    this.coursesService.updateCourses(updatedCourses).subscribe(() => {
-      const totalHours = this.calculateTotalHours();
-      this.calculatedHoursEvent.emit(totalHours);
+    this.coursesService.updateCourses([updateCourse]).subscribe({
+      next: () => {
+        this.toastr.success(`Course ${course.course_Name} added successfully`);
+        this.calculatedHoursEvent.emit(this.calculateTotalHours());
+      },
+      error: () => {
+        this.toastr.error(`Failed to add course ${course.course_Name}`);
+      }
     });
   }
 }

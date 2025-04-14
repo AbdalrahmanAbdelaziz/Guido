@@ -1,5 +1,4 @@
 <div class="courses-page">
-
   <app-student-header></app-student-header>
 
   <div class="navbar-spacer"></div>
@@ -17,6 +16,7 @@
               <th>Hours</th>
               <th>PreRequest</th>
               <th>Grade</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -43,6 +43,15 @@
                   <option value="F">F</option>
                 </select>
               </td>
+              <td>
+                <button 
+                  class="add-button"
+                  (click)="addCourse(course)"
+                  [disabled]="!canTakeCourse(course) || course.grade === 'none'"
+                >
+                  Add
+                </button>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -59,6 +68,7 @@
               <th>Hours</th>
               <th>PreRequest</th>
               <th>Grade</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -85,6 +95,15 @@
                   <option value="F">F</option>
                 </select>
               </td>
+              <td>
+                <button 
+                  class="add-button"
+                  (click)="addCourse(course)"
+                  [disabled]="!canTakeCourse(course) || course.grade === 'none'"
+                >
+                  Add
+                </button>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -93,7 +112,6 @@
 
     <div class="summary">
       <p class="total-hours">Total Hours: {{ calculateTotalHours() }}</p>
-      <button class="submit-button" (click)="submitCourses()">Submit</button>
     </div>
   </div>
 </div>
