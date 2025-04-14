@@ -129,8 +129,12 @@ export class CoursesService {
 
 
 
-    updateCourses(updateCourses: UpdateCourse[]): Observable<any> {
-        return this.http.post<any>(UPDATE_COURSES_URL, updateCourses).pipe(
+      updateCourses(updateCourses: UpdateCourse[]): Observable<any> {
+        const requestBody = {
+            dTOupdate: updateCourses
+        };
+        
+        return this.http.post<any>(UPDATE_COURSES_URL, requestBody).pipe(
             tap({
                 next: () => this.toastrService.success('Courses updated successfully.'),
                 error: () => this.toastrService.error('Failed to update courses.')
@@ -138,16 +142,7 @@ export class CoursesService {
         );
     }
 
-
-    addCourseToStudent(courseCode: string): Observable<any> {
-      return this.http.post<any>(`${ADD_COURSE_TO_STUDENT_URL}/${courseCode}`, {}).pipe(
-          tap({
-              next: () => this.toastrService.success('Course added to student successfully.'),
-              error: () => this.toastrService.error('Failed to add course to student.')
-          })
-      );
-  }
-
+ 
 
 
 }
