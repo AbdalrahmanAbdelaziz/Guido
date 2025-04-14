@@ -131,7 +131,12 @@ export class CoursesService {
 
       updateCourses(updateCourses: UpdateCourse[]): Observable<any> {
         const requestBody = {
-            dTOupdate: updateCourses
+            dTOupdate: updateCourses.map(course => ({
+                SubjectCode: course.code,  // Map code to SubjectCode
+                Grade: course.grade,
+                Hours: course.hours
+                // Include other fields as needed
+            }))
         };
         
         return this.http.post<any>(UPDATE_COURSES_URL, requestBody).pipe(
