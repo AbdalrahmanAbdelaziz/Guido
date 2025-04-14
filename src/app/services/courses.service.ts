@@ -130,7 +130,7 @@ export class CoursesService {
 
 
     updateCourses(updateCourses: UpdateCourse[]): Observable<any> {
-        return this.http.put<any>(UPDATE_COURSES_URL, updateCourses).pipe(
+        return this.http.post<any>(UPDATE_COURSES_URL, updateCourses).pipe(
             tap({
                 next: () => this.toastrService.success('Courses updated successfully.'),
                 error: () => this.toastrService.error('Failed to update courses.')
