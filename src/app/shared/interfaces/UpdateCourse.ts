@@ -1,5 +1,5 @@
 export interface UpdateCourse {
-    Code: string;  
+    code: string;  
     grade: string;
     hours: number;
   }

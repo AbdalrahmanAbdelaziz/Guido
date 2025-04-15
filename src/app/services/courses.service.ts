@@ -18,6 +18,7 @@ import {
     GET_IS_ELECTIVE_COURSE_URL,
     GET_IT_CORE_COURSE_URL,
     GET_IT_ELECTIVE_COURSE_URL,
+    MAKE_COURSES_URL,
     UPDATE_COURSES_URL} from "../shared/constants/urls";
 
 
@@ -131,32 +132,43 @@ export class CoursesService {
 
       updateCourses(updateCourses: UpdateCourse[]): Observable<any> {
         const requestBody = {
-            dTOupdate: updateCourses.map(course => ({
-                Code: course.Code,
-                grade: course.grade,
-                hours: course.hours
-            }))
+          dTOupdate: updateCourses.map(course => ({
+            code: course.code,  
+            grade: course.grade,
+            hours: course.hours
+          }))
         };
         
         return this.http.post<any>(UPDATE_COURSES_URL, requestBody).pipe(
-            tap({
-                next: (response) => {
-                    // Check if response contains valid data
-                    if (response && (response.code || response.grade || response.hours)) {
-                        this.toastrService.success('Courses updated successfully.');
-                    } else {
-                        // If response is empty/null, backend might have issue
-                        this.toastrService.warning('Courses update completed but verify data.');
-                        console.warn('Backend returned null values:', response);
-                    }
-                },
-                error: (error) => {
-                    this.toastrService.error('Failed to update courses.');
-                    console.error('Backend error:', error);
-                }
-            })
+          tap({
+            next: () => this.toastrService.success('Courses updated successfully.'),
+            error: (error) => {
+              this.toastrService.error('Failed to update courses.');
+              console.error('Backend error:', error);
+            }
+          })
         );
-    }
+      }
+
+      makeCourses(updateCourses: UpdateCourse[]): Observable<any> {
+        const requestBody = {
+          dTOupdate: updateCourses.map(course => ({
+            code: course.code, 
+            grade: course.grade,
+            hours: course.hours
+          }))
+        };
+        
+        return this.http.post<any>(MAKE_COURSES_URL, requestBody).pipe(
+          tap({
+            next: () => this.toastrService.success('Courses updated successfully.'),
+            error: (error) => {
+              this.toastrService.error('Failed to update courses.');
+              console.error('Backend error:', error);
+            }
+          })
+        );
+      }
 
  
 

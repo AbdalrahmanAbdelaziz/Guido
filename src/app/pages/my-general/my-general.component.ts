@@ -91,12 +91,12 @@ export class MyGeneralComponent implements OnInit {
     }
   
     const updateCourse: UpdateCourse = {
-        Code: course.code,  
+        code: course.code,  
         grade: course.grade,
         hours: parseInt(course.hours)
     };
   
-    this.coursesService.updateCourses([updateCourse]).subscribe({
+    this.coursesService.makeCourses([updateCourse]).subscribe({
         next: (response) => {
             if (response && (response.code || response.grade || response.hours)) {
                 this.toastr.success(`Course ${course.course_Name} added successfully`);
