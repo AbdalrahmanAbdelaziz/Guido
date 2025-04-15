@@ -72,12 +72,8 @@ export class MyGeneralComponent implements OnInit {
   }
 
   canTakeCourse(course: Course): boolean {
-    // Course is not available if already completed
-    if (course.grade && course.grade !== 'none') return false;
-    
-    // Check prerequisites
     if (!course.prerequest) return true;
-    const preRequestCourse = this.allCourses.find(c => c.code === course.prerequest);
+    const preRequestCourse = this.allCourses.find((c) => c.code === course.prerequest);
     return preRequestCourse?.grade !== 'none' && preRequestCourse?.grade !== 'F';
   }
 
@@ -92,71 +88,50 @@ export class MyGeneralComponent implements OnInit {
     this.sharedHoursService.updateGeneralHours(this.totalHours);
   }
 
- // Add this property to your component class
-addingCourses: Set<string> = new Set(); // Track courses being added
-
-addCourse(course: Course): void {
-  if (!course.grade || course.grade === 'none') {
-    this.toastr.warning('Please select a grade before adding the course');
-    return;
-  }
-
-  if (!this.canTakeCourse(course)) {
-    this.toastr.error('You cannot add this course due to unmet prerequisites');
-    return;
-  }
-
-  // Mark as adding
-  this.addingCourses.add(course.code);
-
-  const updateCourse: UpdateCourse = {
-    code: course.code,
-    grade: course.grade,
-    hours: parseInt(course.hours)
-  };
-
-  this.coursesService.updateCourses([updateCourse]).subscribe({
-    next: (response) => {
-      this.addingCourses.delete(course.code);
-      
-      if (response?.message === "Updated Successfully.") {
-        this.toastr.success(`Course ${course.course_Name} added successfully`);
-        // Now it will be disabled because canTakeCourse will return false
-        this.updateTotalHours();
-        this.refreshCourses();
-      } else {
-        this.toastr.warning(`Course update completed but verify data`);
-      }
-    },
-    error: (error) => {
-      this.addingCourses.delete(course.code);
-      this.toastr.error(`Failed to add course ${course.course_Name}`);
+  addCourse(course: Course): void {
+    if (!course.grade || course.grade === 'none') {
+      this.toastr.warning('Please select a grade before adding the course');
+      return;
     }
-  });
-}
+  
+    if (!this.canTakeCourse(course)) {
+      this.toastr.error('You cannot add this course due to unmet prerequisites');
+      return;
+    }
 
-  private refreshCourses(): void {
-    // Re-fetch courses to ensure UI is in sync with backend
-    this.coursesService.fetchGeneralCoreCourses().subscribe((coreCourses) => {
-      this.coreCourses = coreCourses.map((course) => ({
-        ...course,
-        grade: course.grade || 'none'
-      }));
-      this.allCourses = [...this.coreCourses, ...this.electiveCourses];
-    });
+    if (!course.code) {
+      this.toastr.error('Course code is missing');
+      return;
+    }
 
-    this.coursesService.fetchGeneralElectiveCourses().subscribe((electiveCourses) => {
-      this.electiveCourses = electiveCourses.map((course) => ({
-        ...course,
-        grade: course.grade || 'none'
-      }));
-      this.allCourses = [...this.coreCourses, ...this.electiveCourses];
+    const updateCourse: UpdateCourse = {
+      code: course.code,
+      grade: course.grade,
+      hours: parseInt(course.hours)
+    };
+
+    this.coursesService.updateCourses([updateCourse]).subscribe({
+      next: (response) => {
+        if (response && response.message === "Updated Successfully.") {
+          this.toastr.success(`Course ${course.course_Name} added successfully`);
+          this.updateTotalHours();
+          
+          const updatedCourse = this.allCourses.find(c => c.code === course.code);
+          if (updatedCourse) {
+            updatedCourse.grade = course.grade;
+          }
+        } else {
+          this.toastr.warning(`Course update completed but verify data for ${course.course_Name}`);
+          console.warn('Backend response:', response);
+        }
+      },
+      error: (error) => {
+        this.toastr.error(`Failed to add course ${course.course_Name}`);
+        console.error('Error details:', error);
+        if (error.error) {
+          console.error('Backend error response:', error.error);
+        }
+      }
     });
   }
-
-  shouldDisableGradeSelect(course: Course): boolean {
-    // Only disable if prerequisites aren't met
-    return !this.canTakeCourse(course);
-  }
-
 }
