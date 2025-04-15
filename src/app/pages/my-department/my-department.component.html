@@ -3,16 +3,34 @@
   <div *ngIf="isModalVisible" class="modal">
     <div class="modal-content">
       <h2>Select Your Department</h2>
-      <label for="department-select">Department:</label>
-      <select id="department-select" (change)="onDepartmentChange($event)">
-        <option value="" disabled selected>Select your department</option>
-        <option value="CS">Computer Science (CS)</option>
-        <option value="IS">Information Systems (IS)</option>
-        <option value="AI">Artificial Intelligence (AI)</option>
-        <option value="IT">Information Technology (IT)</option>
-      </select>
+      <div class="form-group">
+        <label for="department-select">Department:</label>
+        <div class="select-wrapper">
+          <select id="department-select" (change)="onDepartmentChange($event)">
+            <option value="" disabled selected>Select your department</option>
+            <option value="CS">Computer Science (CS)</option>
+            <option value="IS">Information Systems (IS)</option>
+            <option value="AI">Artificial Intelligence (AI)</option>
+            <option value="IS">Information Technology (IT)</option>
+          </select>
+          <span class="select-arrow">▼</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Options:</label>
+        <div class="radio-group">
+          <label>
+            <input type="radio" name="option" value="exchange" checked>
+            <span>Exchange/Supplement</span>
+          </label>
+          <label>
+            <input type="radio" name="option" value="custom">
+            <span>Custom</span>
+          </label>
+        </div>
+      </div>
       <div class="modal-footer">
-        <button (click)="closeModal()">Confirm</button>
+        <button class="confirm-btn" (click)="closeModal()">Confirm</button>
       </div>
     </div>
   </div>
