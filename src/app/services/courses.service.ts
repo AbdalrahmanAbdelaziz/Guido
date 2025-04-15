@@ -130,32 +130,32 @@ export class CoursesService {
 
 
 
-      updateCourses(updateCourses: UpdateCourse[]): Observable<any> {
-        const requestBody = {
-          dTOupdate: updateCourses.map(course => ({
-            code: course.code,  
-            grade: course.grade,
-            hours: course.hours
-          }))
-        };
+      // updateCourses(updateCourses: UpdateCourse[]): Observable<any> {
+      //   const requestBody = {
+      //     dTOupdate: updateCourses.map(course => ({
+      //       code: course.code,  
+      //       grade: course.grade,
+      //       hours: course.hours
+      //     }))
+      //   };
         
-        return this.http.post<any>(UPDATE_COURSES_URL, requestBody).pipe(
-          tap({
-            next: () => this.toastrService.success('Courses updated successfully.'),
-            error: (error) => {
-              this.toastrService.error('Failed to update courses.');
-              console.error('Backend error:', error);
-            }
-          })
-        );
-      }
+      //   return this.http.post<any>(UPDATE_COURSES_URL, requestBody).pipe(
+      //     tap({
+      //       next: () => this.toastrService.success('Courses updated successfully.'),
+      //       error: (error) => {
+      //         this.toastrService.error('Failed to update courses.');
+      //         console.error('Backend error:', error);
+      //       }
+      //     })
+      //   );
+      // }
 
       makeCourses(updateCourses: UpdateCourse[]): Observable<any> {
         const requestBody = {
           dTOupdate: updateCourses.map(course => ({
-            code: course.code, 
+            SubjectCode : course.SubjectCode, 
             grade: course.grade,
-            hours: course.hours
+            // hours: course.hours
           }))
         };
         

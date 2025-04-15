@@ -91,14 +91,14 @@ export class MyGeneralComponent implements OnInit {
     }
   
     const updateCourse: UpdateCourse = {
-        code: course.code,  
+      SubjectCode: course.code,  
         grade: course.grade,
-        hours: parseInt(course.hours)
+        // hours: parseInt(course.hours)
     };
   
     this.coursesService.makeCourses([updateCourse]).subscribe({
         next: (response) => {
-            if (response && (response.code || response.grade || response.hours)) {
+            if (response && (response.SubjectCode || response.grade || response.hours)) {
                 this.toastr.success(`Course ${course.course_Name} added successfully`);
                 this.calculatedHoursEvent.emit(this.calculateTotalHours());
             } else {
