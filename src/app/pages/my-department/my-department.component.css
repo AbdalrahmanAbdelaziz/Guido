@@ -201,10 +201,6 @@ body {
       background-position: right 15px center;
       background-size: 15px;
       transition: border-color 0.3s ease;
-      &:focus {
-        outline: none;
-        border-color: #007bff;
-      }
     }
   }
   .modal-footer {
