@@ -1,3 +1,4 @@
+/* Base & Dark Mode */
 body {
   font-family: 'Montserrat', sans-serif;
   margin: 0;
@@ -157,26 +158,91 @@ body {
   }
 }
 .modal {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background-color: rgba(0,0,0,0.5); display: flex; justify-content: center;
-  align-items: center; z-index: 9999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
 
   &-content {
-    background: white; padding: 30px; border-radius: 12px;
-    width: 90%; max-width: 500px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-    
-    h2 { margin: 0 0 25px; font: 600 1.5rem/1.2 sans-serif; color: #2c3e50; text-align: center; }
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+
+    h2 {
+      margin: 0 0 25px;
+      font-size: 1.5em;
+      color: #333;
+      text-align: center;
+      font-weight: 600;
+    }
   }
-  &-footer { display: flex; justify-content: flex-end; margin-top: 25px;
+
+  .form-group {
+    margin-bottom: 25px;
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #555;
+    }
+
+    .form-select {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 16px;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 15px center;
+      background-size: 15px;
+      transition: border-color 0.3s ease;
+
+      &:focus {
+        outline: none;
+        border-color: #007bff;
+      }
+    }
+  }
+  .modal-footer {
+    display: flex;
+    justify-content: center;
+
     .confirm-btn {
-      background: #007bff; color: white; padding: 12px 30px; border: none;
-      border-radius: 6px; cursor: pointer; font: 500 1rem sans-serif;
-      min-width: 120px; text-align: center; transition: all 0.3s ease;
-      &:hover { background: #0069d9; transform: translateY(-1px); }
-      &:active { transform: translateY(0); }
+      background-color: #007bff;
+      color: white;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #0056b3;
+      }
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3);
+      }
     }
   }
 }
+
+/* Responsive Breakpoints */
 @media (max-width: 992px) {
   .tables-container { 
     flex-direction: column; 
@@ -185,12 +251,12 @@ body {
 
 @media screen and (max-width: 768px) {
   .department-page {
-    padding-bottom: 100px; 
+    padding-bottom: 100px; /* Space for fixed bottom navbar */
   }
   
   .course-manager {
     margin: 80px 15px 15px;
-    padding-bottom: 20px; 
+    padding-bottom: 20px; /* Extra padding at bottom */
   }
   
   .course-table {
