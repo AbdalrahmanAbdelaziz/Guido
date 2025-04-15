@@ -12,6 +12,7 @@
   --shadow-dark: 0 4px 8px rgba(255,255,255,0.1);
   --transition: all 0.3s ease;
 }
+
 body {
   font-family: 'Montserrat', sans-serif;
   margin: 0;
@@ -22,38 +23,6 @@ body {
 }
 
 body.dark-mode { background: var(--bg-dark); color: var(--text-dark); }
-.navbar {
-  background: var(--primary);
-  color: #fff;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 5%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-
-.app-name { 
-  font-size: clamp(1.2rem, 4vw, 1.8rem);
-  font-weight: bold;
-  color: #fff;
-  letter-spacing: 1px;
-  cursor: pointer;
-}
-
-.menu-trigger {
-  font-size: clamp(0.9rem, 3vw, 1.2rem);
-  font-weight: 500;
-  color: white;
-  text-decoration: none;
-  transition: var(--transition);
-}
-
-.menu-trigger:hover { background: #457b9d; transform: translateY(-3px); }
 
 .navbar-spacer { height: 70px; }
 .course-manager {
@@ -164,14 +133,33 @@ select {
   font-size: clamp(0.8rem, 2vw, 1rem);
 }
 body.dark-mode select { background: var(--hover-dark); color: var(--text-dark); border-color: #555; }
+
+/* Responsive adjustments */
 @media (min-width: 768px) {
   .table-container { flex: 1 1 calc(50% - 20px); }
   .course-table th, .course-table td { padding: 10px 12px; }
 }
+
+@media screen and (max-width: 768px) {
+  .course-manager {
+    padding-bottom: 100px; /* Space for fixed bottom navbar */
+  }
+  
+  .table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .course-table {
+    min-width: 600px; /* Allows horizontal scrolling */
+  }
+}
+
 @media (min-width: 992px) {
   .course-manager { margin: 100px auto 20px; max-width: 1200px; }
   .tables-container { gap: 30px; }
 }
+
 @media (max-width: 480px) {
   .navbar { padding: 12px 5%; }
   .course-manager { margin: 80px 3% 15px; width: 94%; }
@@ -180,6 +168,7 @@ body.dark-mode select { background: var(--hover-dark); color: var(--text-dark); 
   .add-button { padding: 4px 8px; }
   select { padding: 4px; font-size: 0.8rem; }
 }
+
 @media (max-width: 320px) {
   .navbar { padding: 10px 3%; }
   .app-name { font-size: 1rem; }
