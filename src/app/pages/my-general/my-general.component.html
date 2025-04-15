@@ -29,10 +29,10 @@
               <td>{{ course.prerequest || 'None' }}</td>
               <td>
                 <select
-                [(ngModel)]="course.grade"
-                [disabled]="shouldDisableGradeSelect(course)"
-                title="Select grade for {{ course.course_Name }}"
-              >
+                  [(ngModel)]="course.grade"
+                  [disabled]="!!(shouldDisableGradeSelect(course) || (course.grade && course.grade !== 'none'))"
+                  title="Select grade for {{ course.course_Name }}"
+                >
                   <option value="none">None</option>
                   <option value="A+">A+</option>
                   <option value="A">A</option>
@@ -47,14 +47,13 @@
               </td>
               <td>
                 <button 
-                class="add-button"
-                (click)="addCourse(course)"
-                [disabled]="!canTakeCourse(course) || course.grade === 'none' || course.grade === 'pending'"
-                *ngIf="course.grade === 'none' || course.grade === 'pending'"
-              >
-                {{ course.grade === 'pending' ? 'Adding...' : 'Add' }}
-              </button>
-              <span *ngIf="course.grade && course.grade !== 'none' && course.grade !== 'pending'">Completed</span>
+                  class="add-button"
+                  (click)="addCourse(course)"
+                  [disabled]="!!(!canTakeCourse(course) || course.grade === 'none' || addingCourses.has(course.code))"
+                >
+                  {{ addingCourses.has(course.code) ? 'Adding...' : 'Add' }}
+                </button>
+                <span *ngIf="course.grade && course.grade !== 'none' && !addingCourses.has(course.code)">Completed</span>
               </td>
             </tr>
           </tbody>
@@ -86,7 +85,7 @@
               <td>
                 <select
                   [(ngModel)]="course.grade"
-                  [disabled]="shouldDisableGradeSelect(course)"
+                  [disabled]="!!(shouldDisableGradeSelect(course) || (course.grade && course.grade !== 'none'))"
                   title="Select grade for {{ course.course_Name }}"
                 >
                   <option value="none">None</option>
@@ -103,14 +102,13 @@
               </td>
               <td>
                 <button 
-                class="add-button"
-                (click)="addCourse(course)"
-                [disabled]="!canTakeCourse(course) || course.grade === 'none' || course.grade === 'pending'"
-                *ngIf="course.grade === 'none' || course.grade === 'pending'"
-              >
-                {{ course.grade === 'pending' ? 'Adding...' : 'Add' }}
-              </button>
-              <span *ngIf="course.grade && course.grade !== 'none' && course.grade !== 'pending'">Completed</span>
+                  class="add-button"
+                  (click)="addCourse(course)"
+                  [disabled]="!!(!canTakeCourse(course) || course.grade === 'none' || addingCourses.has(course.code))"
+                >
+                  {{ addingCourses.has(course.code) ? 'Adding...' : 'Add' }}
+                </button>
+                <span *ngIf="course.grade && course.grade !== 'none' && !addingCourses.has(course.code)">Completed</span>
               </td>
             </tr>
           </tbody>
@@ -119,7 +117,7 @@
     </div>
 
     <div class="summary">
-      <p class="total-hours">Total Hours: {{ calculateTotalHours() / 12}}</p>
+      <p class="total-hours">Total Hours: {{ calculateTotalHours() / 12 }}</p>
     </div>
   </div>
 </div>
