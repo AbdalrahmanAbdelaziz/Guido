@@ -68,8 +68,8 @@ body.dark-mode .table-container { background: var(--bg-dark); box-shadow: var(--
 .course-table tr:hover { background: var(--hover-light); }
 body.dark-mode .course-table tr:hover { background: var(--hover-dark); }
 
-.disabled { background: #f9c6c6; }
-body.dark-mode .disabled { background: #5c2a2a; }
+.disabled { background: #0056b3; }
+body.dark-mode .disabled { background: #0056b3; }
 
 .completed-course {
   opacity: 0.7;
