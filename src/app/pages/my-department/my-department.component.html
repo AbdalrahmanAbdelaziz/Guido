@@ -46,7 +46,7 @@
               <td>
                 <select
                   [(ngModel)]="course.grade"
-                  [disabled]="!canTakeCourse(course)"
+                  [disabled]="!canTakeCourse(course) || !showAddButtonMap[course.code]"
                   title="Select grade for {{ course.course_Name }}"
                 >
                   <option value="none">None</option>
@@ -100,7 +100,7 @@
               <td>
                 <select
                   [(ngModel)]="course.grade"
-                  [disabled]="!canTakeCourse(course)"
+                  [disabled]="!canTakeCourse(course) || !showAddButtonMap[course.code]"
                   title="Select grade for {{ course.course_Name }}"
                 >
                   <option value="none">None</option>
