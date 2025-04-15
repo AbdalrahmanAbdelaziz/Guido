@@ -133,8 +133,8 @@ export class CoursesService {
         const requestBody = {
             dTOupdate: updateCourses.map(course => ({
                 code: course.code,
-                Grade: course.grade,
-                Hours: course.hours
+                grade: course.grade,
+                hours: course.hours
             }))
         };
         
