@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { BehaviorSubject, catchError, map, Observable, tap, throwError } from "rxjs";
+import { BehaviorSubject, map, Observable, tap } from "rxjs";
 import { ToastrService } from 'ngx-toastr';
 import { Course } from "../shared/interfaces/Course";
 import { UpdateCourse } from "../shared/interfaces/UpdateCourse";
@@ -130,27 +130,21 @@ export class CoursesService {
 
 
       updateCourses(updateCourses: UpdateCourse[]): Observable<any> {
-        // Verify we have valid SubjectCodes
-        if (updateCourses.some(c => !c.SubjectCode)) {
-          this.toastrService.error('One or more courses are missing SubjectCode');
-          return throwError(() => new Error('Missing SubjectCode'));
-        }
-      
         const requestBody = {
           dTOupdate: updateCourses.map(course => ({
-            SubjectCode: course.SubjectCode,
-            Grade: course.grade,  // Note case sensitivity - adjust if backend expects 'grade'
-            Hours: course.hours   // Same here - adjust if backend expects 'hours'
+            code: course.code,  // Keep as 'code' if backend expects it
+            Grade: course.grade,
+            Hours: course.hours
           }))
         };
         
-        console.log('Final request body:', JSON.stringify(requestBody, null, 2));
-        
         return this.http.post<any>(UPDATE_COURSES_URL, requestBody).pipe(
-          catchError(error => {
-            console.error('Full error:', error);
-            this.toastrService.error(`Update failed: ${error.message}`);
-            return throwError(() => error);
+          tap({
+            next: () => this.toastrService.success('Courses updated successfully.'),
+            error: (error) => {
+              this.toastrService.error('Failed to update courses.');
+              console.error('Backend error:', error);
+            }
           })
         );
       }

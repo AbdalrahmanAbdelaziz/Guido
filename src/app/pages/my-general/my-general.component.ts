@@ -80,12 +80,6 @@ export class MyGeneralComponent implements OnInit {
   }
 
   addCourse(course: Course): void {
-    console.log('Adding course:', course); // Debug log
-    if (!course.code) {
-      this.toastr.error('Course code is missing!');
-      return;
-    }
-    
     if (!course.grade || course.grade === 'none') {
       this.toastr.warning('Please select a grade before adding the course');
       return;
@@ -97,9 +91,9 @@ export class MyGeneralComponent implements OnInit {
     }
   
     const updateCourse: UpdateCourse = {
-      SubjectCode: course.code,  // Map course.code to SubjectCode
+      code: course.code,  
       grade: course.grade,
-      hours: parseFloat(course.hours)
+      hours: parseInt(course.hours)
     };
   
     this.coursesService.updateCourses([updateCourse]).subscribe({
@@ -109,7 +103,7 @@ export class MyGeneralComponent implements OnInit {
       },
       error: (error) => {
         this.toastr.error(`Failed to add course ${course.course_Name}`);
-        console.error('Error details:', error);  // Helpful for debugging
+        console.error('Error details:', error);  
       }
     });
   }
