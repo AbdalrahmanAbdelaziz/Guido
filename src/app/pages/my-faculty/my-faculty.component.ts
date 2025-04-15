@@ -38,18 +38,26 @@ export class MyFacultyComponent implements OnInit {
     });
 
     this.coursesService.fetchFacultyCoreCourses().subscribe((coreCourses) => {
-      this.coreCourses = coreCourses.map((course) => ({
-        ...course,
-        grade: course.grade || 'none'
-      }));
-    });
+        this.coreCourses = coreCourses.map((course) => {
+            this.showAddButtonMap[course.code] = !course.grade || course.grade === 'none';
+            return {
+              ...course,
+              grade: course.grade || 'none'
+            };
+          });
+          this.allCourses = [...this.coreCourses, ...this.electiveCourses];
+        });
 
     this.coursesService.fetchFacultyElectiveCourses().subscribe((electiveCourses) => {
-      this.electiveCourses = electiveCourses.map((course) => ({
-        ...course,
-        grade: course.grade || 'none'
-      }));
-    });
+        this.electiveCourses = electiveCourses.map((course) => {
+            this.showAddButtonMap[course.code] = !course.grade || course.grade === 'none';
+            return {
+              ...course,
+              grade: course.grade || 'none'
+            };
+          });
+          this.allCourses = [...this.coreCourses, ...this.electiveCourses];
+        });
   }
 
   canTakeCourse(course: Course): boolean {
@@ -69,7 +77,7 @@ export class MyFacultyComponent implements OnInit {
       this.toastr.warning('Please select a grade before adding the course');
       return;
     }
-  
+
     if (!this.canTakeCourse(course)) {
       this.toastr.error('You cannot add this course due to unmet prerequisites');
       return;
@@ -79,6 +87,9 @@ export class MyFacultyComponent implements OnInit {
       this.toastr.error('Course code is missing');
       return;
     }
+
+    // Hide the add button immediately
+    this.showAddButtonMap[course.code] = false;
 
     const updateCourse: UpdateCourse = {
       code: course.code,
@@ -90,28 +101,23 @@ export class MyFacultyComponent implements OnInit {
       next: (response) => {
         if (response && response.message === "Updated Successfully.") {
           this.toastr.success(`Course ${course.course_Name} added successfully`);
-          
-          const updatedCourse = this.allCourses.find(c => c.code === course.code);
-          if (updatedCourse) {
-            updatedCourse.grade = course.grade;
-          }
         } else {
+          // Show the add button again if not successful
+          this.showAddButtonMap[course.code] = true;
           this.toastr.warning(`Course update completed but verify data for ${course.course_Name}`);
-          console.warn('Backend response:', response);
         }
       },
       error: (error) => {
+        // Show the add button again on error
+        this.showAddButtonMap[course.code] = true;
         this.toastr.error(`Failed to add course ${course.course_Name}`);
-        console.error('Error details:', error);
-        if (error.error) {
-          console.error('Backend error response:', error.error);
-        }
       }
     });
   }
-  shouldDisableGradeSelect(course: Course): boolean {
-    // Explicitly return boolean
-    return !this.canTakeCourse(course) || 
-           (!!course.grade && course.grade !== 'none');
+
+
+
+  isCourseDisabled(course: Course): boolean {
+    return this.disabledCourses.includes(course.code);
   }
 }

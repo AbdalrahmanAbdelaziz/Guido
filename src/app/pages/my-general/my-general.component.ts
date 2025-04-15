@@ -56,7 +56,6 @@ export class MyGeneralComponent implements OnInit {
 
     this.coursesService.fetchGeneralCoreCourses().subscribe((coreCourses) => {
       this.coreCourses = coreCourses.map((course) => {
-        // Initialize the showAddButton state for each course
         this.showAddButtonMap[course.code] = !course.grade || course.grade === 'none';
         return {
           ...course,
@@ -69,7 +68,6 @@ export class MyGeneralComponent implements OnInit {
 
     this.coursesService.fetchGeneralElectiveCourses().subscribe((electiveCourses) => {
       this.electiveCourses = electiveCourses.map((course) => {
-        // Initialize the showAddButton state for each course
         this.showAddButtonMap[course.code] = !course.grade || course.grade === 'none';
         return {
           ...course,
