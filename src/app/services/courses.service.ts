@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { BehaviorSubject, map, Observable, tap, throwError } from "rxjs";
+import { BehaviorSubject, catchError, map, Observable, tap, throwError } from "rxjs";
 import { ToastrService } from 'ngx-toastr';
 import { Course } from "../shared/interfaces/Course";
 import { UpdateCourse } from "../shared/interfaces/UpdateCourse";
@@ -131,44 +131,41 @@ export class CoursesService {
 
 
       updateCourses(updateCourses: UpdateCourse[]): Observable<any> {
-        // Validate input
         if (!updateCourses || updateCourses.length === 0) {
-            return throwError(() => new Error('No courses provided for update'));
+          this.toastrService.warning('No courses provided for update');
+          return throwError(() => new Error('No courses provided for update'));
         }
     
         const invalidCourses = updateCourses.filter(c => 
-            !c.code || !c.grade || isNaN(c.hours)
+          !c.code || !c.grade || isNaN(c.hours)
         );
         
         if (invalidCourses.length > 0) {
-            return throwError(() => new Error('Invalid course data provided'));
+          this.toastrService.error('Invalid course data provided');
+          return throwError(() => new Error('Invalid course data provided'));
         }
     
-        const requestBody = {
-            dTOupdate: updateCourses.map(course => ({
-                code: course.code,
-                grade: course.grade,
-                hours: course.hours
-            }))
-        };
-        
-        return this.http.post<any>(UPDATE_COURSES_URL, requestBody).pipe(
-            tap({
-                next: (response) => {
-                    if (response.message === "Updated Successfully.") {
-                        this.toastrService.success('Courses updated successfully.');
-                    } else {
-                        this.toastrService.warning('Courses updated with warnings.');
-                    }
-                },
-                error: (error) => {
-                    this.toastrService.error('Failed to update courses.');
-                    console.error('Backend error:', error);
-                }
-            })
+        return this.http.post<any>(UPDATE_COURSES_URL, updateCourses).pipe(
+          tap({
+            next: (response) => {
+              if (response && response.message === "Updated Successfully.") {
+                this.toastrService.success('Courses updated successfully');
+              } else {
+                this.toastrService.warning('Courses updated with warnings');
+                console.warn('Unexpected response:', response);
+              }
+            },
+            error: (error) => {
+              this.toastrService.error('Failed to update courses');
+              console.error('Error:', error);
+            }
+          }),
+          catchError(error => {
+            console.error('API Error:', error);
+            return throwError(() => error);
+          })
         );
-    }
-
+      }
       
 
 }

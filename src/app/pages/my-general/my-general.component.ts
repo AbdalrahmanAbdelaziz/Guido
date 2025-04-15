@@ -57,6 +57,7 @@ export class MyGeneralComponent implements OnInit {
         ...course,
         grade: course.grade || 'none'
       }));
+      this.allCourses = [...this.coreCourses, ...this.electiveCourses];
     });
 
     this.coursesService.fetchGeneralElectiveCourses().subscribe((electiveCourses) => {
@@ -64,6 +65,7 @@ export class MyGeneralComponent implements OnInit {
         ...course,
         grade: course.grade || 'none'
       }));
+      this.allCourses = [...this.coreCourses, ...this.electiveCourses];
     });
   }
 
@@ -79,48 +81,54 @@ export class MyGeneralComponent implements OnInit {
       .reduce((total, course) => total + (parseFloat(course.hours) || 0), 0); 
   }
 
-
-
   addCourse(course: Course): void {
+    // Validation checks
     if (!course.grade || course.grade === 'none') {
-        this.toastr.warning('Please select a grade before adding the course');
-        return;
+      this.toastr.warning('Please select a grade before adding the course');
+      return;
     }
   
     if (!this.canTakeCourse(course)) {
-        this.toastr.error('You cannot add this course due to unmet prerequisites');
-        return;
-    }
-  
-    if (!course.code) {
-        this.toastr.error('Course code is missing');
-        return;
+      this.toastr.error('You cannot add this course due to unmet prerequisites');
+      return;
     }
 
+    if (!course.code) {
+      this.toastr.error('Course code is missing');
+      return;
+    }
+
+    // Prepare the update data
     const updateCourse: UpdateCourse = {
-        code: course.code,  
-        grade: course.grade,
-        hours: parseInt(course.hours)
+      code: course.code,
+      grade: course.grade,
+      hours: parseInt(course.hours)
     };
-  
+
+    // Call the service
     this.coursesService.updateCourses([updateCourse]).subscribe({
-        next: (response) => {
-            if (response && response.message === "Updated Successfully.") {
-                this.toastr.success(`Course ${course.course_Name} added successfully`);
-                this.calculatedHoursEvent.emit(this.calculateTotalHours());
-            } else {
-                this.toastr.warning(`Course update completed but verify data for ${course.course_Name}`);
-                console.warn('Backend response:', response);
-            }
-        },
-        error: (error) => {
-            this.toastr.error(`Failed to add course ${course.course_Name}`);
-            console.error('Error details:', error);  
-            if (error.error) {
-                console.error('Backend error response:', error.error);
-            }
+      next: (response) => {
+        if (response && response.message === "Updated Successfully.") {
+          this.toastr.success(`Course ${course.course_Name} added successfully`);
+          this.calculatedHoursEvent.emit(this.calculateTotalHours());
+          
+          // Update local course state if needed
+          const updatedCourse = this.allCourses.find(c => c.code === course.code);
+          if (updatedCourse) {
+            updatedCourse.grade = course.grade;
+          }
+        } else {
+          this.toastr.warning(`Course update completed but verify data for ${course.course_Name}`);
+          console.warn('Backend response:', response);
         }
+      },
+      error: (error) => {
+        this.toastr.error(`Failed to add course ${course.course_Name}`);
+        console.error('Error details:', error);
+        if (error.error) {
+          console.error('Backend error response:', error.error);
+        }
+      }
     });
-}
-  
+  }
 }
