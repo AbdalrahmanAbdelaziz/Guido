@@ -52,13 +52,16 @@ export class MyGeneralComponent implements OnInit {
       this.student = student;
     });
 
+    this.loadCourses();
+  }
+
+  loadCourses(): void {
     this.coursesService.fetchGeneralCoreCourses().subscribe((coreCourses) => {
       this.coreCourses = coreCourses.map((course) => ({
         ...course,
         grade: course.grade || 'none'
       }));
-      this.allCourses = [...this.coreCourses, ...this.electiveCourses];
-      this.updateTotalHours();
+      this.updateAllCourses();
     });
 
     this.coursesService.fetchGeneralElectiveCourses().subscribe((electiveCourses) => {
@@ -66,24 +69,25 @@ export class MyGeneralComponent implements OnInit {
         ...course,
         grade: course.grade || 'none'
       }));
-      this.allCourses = [...this.coreCourses, ...this.electiveCourses];
-      this.updateTotalHours();
+      this.updateAllCourses();
     });
   }
 
+  updateAllCourses(): void {
+    this.allCourses = [...this.coreCourses, ...this.electiveCourses];
+    this.updateTotalHours();
+  }
+
   canTakeCourse(course: Course): boolean {
-    // If course already has a grade, it's not available for selection
-    if (course.grade && course.grade !== 'none') return false;
-    
     if (!course.prerequest) return true;
     const preRequestCourse = this.allCourses.find((c) => c.code === course.prerequest);
     return preRequestCourse?.grade !== 'none' && preRequestCourse?.grade !== 'F';
   }
 
   calculateTotalHours(): number {
-    return [...this.coreCourses, ...this.electiveCourses]
-      .filter((course) => course.grade !== 'none' && course.grade !== 'F') 
-      .reduce((total, course) => total + (parseFloat(course.hours) || 0), 0); 
+    return this.allCourses
+      .filter((course) => course.grade !== 'none' && course.grade !== 'F')
+      .reduce((total, course) => total + (parseFloat(course.hours) || 0), 0);
   }
 
   updateTotalHours(): void {
@@ -96,7 +100,7 @@ export class MyGeneralComponent implements OnInit {
       this.toastr.warning('Please select a grade before adding the course');
       return;
     }
-  
+
     if (!this.canTakeCourse(course)) {
       this.toastr.error('You cannot add this course due to unmet prerequisites');
       return;
@@ -117,53 +121,27 @@ export class MyGeneralComponent implements OnInit {
       next: (response) => {
         if (response && response.message === "Updated Successfully.") {
           this.toastr.success(`Course ${course.course_Name} added successfully`);
-          this.updateTotalHours();
           
-          // Update the course in our local array
-          const updatedCourse = this.allCourses.find(c => c.code === course.code);
-          if (updatedCourse) {
-            updatedCourse.grade = course.grade;
+          // Update the course in the appropriate array
+          if (this.coreCourses.some(c => c.code === course.code)) {
+            this.coreCourses = this.coreCourses.map(c => 
+              c.code === course.code ? {...c, grade: course.grade} : c
+            );
+          } else {
+            this.electiveCourses = this.electiveCourses.map(c => 
+              c.code === course.code ? {...c, grade: course.grade} : c
+            );
           }
           
-          // Refresh the course lists
-          this.refreshCourses();
+          this.updateAllCourses();
         } else {
           this.toastr.warning(`Course update completed but verify data for ${course.course_Name}`);
-          console.warn('Backend response:', response);
         }
       },
       error: (error) => {
         this.toastr.error(`Failed to add course ${course.course_Name}`);
-        console.error('Error details:', error);
-        if (error.error) {
-          console.error('Backend error response:', error.error);
-        }
+        console.error('Error:', error);
       }
     });
-  }
-
-  private refreshCourses(): void {
-    // Re-fetch courses to ensure UI is in sync with backend
-    this.coursesService.fetchGeneralCoreCourses().subscribe((coreCourses) => {
-      this.coreCourses = coreCourses.map((course) => ({
-        ...course,
-        grade: course.grade || 'none'
-      }));
-      this.allCourses = [...this.coreCourses, ...this.electiveCourses];
-    });
-
-    this.coursesService.fetchGeneralElectiveCourses().subscribe((electiveCourses) => {
-      this.electiveCourses = electiveCourses.map((course) => ({
-        ...course,
-        grade: course.grade || 'none'
-      }));
-      this.allCourses = [...this.coreCourses, ...this.electiveCourses];
-    });
-  }
-
-  shouldDisableGradeSelect(course: Course): boolean {
-    // Explicitly return boolean
-    return !this.canTakeCourse(course) || 
-           (!!course.grade && course.grade !== 'none');
   }
 }

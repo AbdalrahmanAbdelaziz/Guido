@@ -149,7 +149,7 @@ export class CoursesService {
           tap({
             next: (response) => {
               if (response && response.message === "Updated Successfully.") {
-                this.toastrService.success('Courses updated successfully');
+                // this.toastrService.success('Courses updated successfully');
               } else {
                 this.toastrService.warning('Courses updated with warnings');
                 console.warn('Unexpected response:', response);
