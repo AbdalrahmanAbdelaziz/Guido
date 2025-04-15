@@ -6,104 +6,348 @@ body {
   color: #333333;
   overflow-x: hidden;
   transition: background-color 0.3s ease, color 0.3s ease;
+  
   &.dark-mode {
     background-color: #121212;
     color: #ffffff;
-    .table-container { background-color: #1e1e1e; box-shadow: 0 4px 8px rgba(255,255,255,0.1); }
-    .course-table tr:hover { background-color: #2a2a2a; color: #f0f0f0; }
-    .disabled { background-color: #5c2a2a; }
-    .table-title, .modal h2 { color: #ffffff; }
-    .add-button { background-color: #2E7D32; 
-      &:hover { background-color: #1B5E20; }
-      &:disabled { background-color: #424242; }
+    
+    .table-container { 
+      background-color: #1e1e1e; 
+      box-shadow: 0 4px 8px rgba(255,255,255,0.1); 
     }
-    .modal-content { background-color: #1e1e1e; }
-    select { background-color: #2a2a2a; color: #ffffff; }
+    .course-table tr:hover { 
+      background-color: #2a2a2a; 
+      color: #f0f0f0; 
+    }
+    .disabled { 
+      background-color: #5c2a2a; 
+    }
+    .table-title, .modal h2 { 
+      color: #ffffff; 
+    }
+    .add-button { 
+      background-color: #2E7D32;
+      &:hover { 
+        background-color: #1B5E20; 
+      }
+      &:disabled { 
+        background-color: #424242; 
+      }
+    }
+    .modal-content { 
+      background-color: #1e1e1e;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    }
+    select { 
+      background-color: #2a2a2a; 
+      color: #ffffff;
+      border-color: #555;
+    }
   }
 }
 
 /* Layout */
-.department-page { min-height: 100vh; display: flex; flex-direction: column; }
-.course-manager { margin: 100px 20px 20px; flex: 1; }
-.tables-container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between; }
+.department-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 60px; /* Default bottom padding */
+  position: relative;
+}
+
+.course-manager {
+  margin: 100px 20px 20px;
+  flex: 1;
+}
+
+/* Tables Layout */
+.tables-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+/* Bottom navbar spacing for mobile */
+@media screen and (max-width: 768px) {
+  .department-page {
+    padding-bottom: 100px; /* Space for fixed bottom navbar */
+  }
+  
+  .course-manager {
+    margin: 80px 15px 15px;
+  }
+}
 
 /* Tables */
 .table-container {
-  flex: 1 1 100%; min-width: 300px; padding: 20px; border-radius: 8px;
-  background-color: #ffffff; box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  flex: 1 1 100%;
+  min-width: 300px;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   margin-bottom: 20px;
 }
-.table-responsive { overflow-x: auto; }
-.course-table {
-  border-collapse: collapse; width: 100%; margin-top: 10px; min-width: 600px;
-  th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-  th { background-color: #007bff; color: #ffffff; font-weight: bold; position: sticky; top: 0; }
-  tr:hover { background-color: #f0f0f0; color: #333333; }
+
+.table-responsive { 
+  overflow-x: auto; 
 }
-.disabled { background-color: #f9c6c6; }
-.table-title { text-align: center; color: #007bff; font-weight: bold; margin-bottom: 15px; }
+
+.course-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 10px;
+  min-width: 600px;
+  
+  th, td { 
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+  }
+  
+  th { 
+    background-color: #007bff;
+    color: #ffffff;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+  }
+  
+  tr:hover { 
+    background-color: #f0f0f0;
+    color: #333333;
+  }
+}
+
+.disabled { 
+  background-color: #f9c6c6; 
+}
+
+.table-title { 
+  text-align: center;
+  color: #007bff;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
 
 /* Components */
 .summary {
-  margin-top: 30px; display: flex; justify-content: flex-start; align-items: center;
-  background-color: #007bff; color: #ffffff; padding: 15px; border-radius: 8px;
-  .total-hours { font-size: 18px; font-weight: bold; margin: 0; }
+  margin-top: 30px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #007bff;
+  color: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  
+  .total-hours { 
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+  }
 }
 
 .add-button {
-  background-color: #4CAF50; color: white; border: none; padding: 8px 16px;
-  border-radius: 4px; cursor: pointer; transition: all 0.3s ease;
-  &:hover { background-color: #45a049; transform: translateY(-1px); }
-  &:disabled { background-color: #cccccc; cursor: not-allowed; transform: none; }
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  
+  &:hover { 
+    background-color: #45a049;
+    transform: translateY(-1px);
+  }
+  
+  &:disabled { 
+    background-color: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+  }
 }
 
-/* Modal */
+/* Enhanced Modal Styles */
 .modal {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background-color: rgba(0,0,0,0.5); display: flex; justify-content: center;
-  align-items: center; z-index: 9999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.3s ease;
+  
   &-content {
-    background-color: white; padding: 25px; border-radius: 8px;
-    width: 90%; max-width: 600px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    h2 { margin: 0 0 20px; font-size: 1.5em; color: #333; text-align: center; }
-    label { font-size: 1em; margin-bottom: 8px; display: block; font-weight: 500; }
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    transform: translateY(-20px);
+    animation: modalFadeIn 0.4s ease forwards;
+    
+    h2 {
+      margin: 0 0 20px;
+      font-size: 1.8rem;
+      color: #2c3e50;
+      text-align: center;
+      font-weight: 600;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #34495e;
+      font-size: 1rem;
+    }
+    
     select {
-      width: 100%; padding: 12px; margin-bottom: 25px; border: 2px solid #007bff;
-      border-radius: 5px; font-size: 16px; appearance: none;
-      background: white url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e") no-repeat right 10px center/1em;
+      width: 100%;
+      padding: 12px 15px;
+      margin-bottom: 25px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+      background-color: #f9f9f9;
+      cursor: pointer;
+      
+      &:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+      }
     }
   }
+  
   &-footer {
-    display: flex; justify-content: flex-end; margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    
     button {
-      background-color: #007bff; color: white; padding: 12px 24px;
-      border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s ease;
-      &:hover { background-color: #0056b3; }
+      background-color: #007bff;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background-color: #0069d9;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      
+      &:active {
+        transform: translateY(0);
+      }
     }
+  }
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
 /* Responsive Breakpoints */
-@media (max-width: 992px) { .tables-container { flex-direction: column; } }
-@media (max-width: 768px) { .course-manager { margin: 80px 15px 15px; } }
-@media (max-width: 576px) {
-  .course-table {
-    th, td { padding: 8px; font-size: 14px; }
-    td[data-label]::before { content: attr(data-label); font-weight: bold; display: inline-block; width: 120px; }
-  }
-  .add-button { padding: 6px 12px; font-size: 13px; }
-  .table-title { font-size: 18px; }
-  .total-hours { font-size: 16px; }
-  .modal {
-    &-content { padding: 20px; }
-    h2 { font-size: 1.3em; }
-    select { padding: 10px; font-size: 15px; }
-    button { padding: 10px 20px; }
+@media (max-width: 992px) {
+  .tables-container { 
+    flex-direction: column; 
   }
 }
+
+@media (max-width: 768px) {
+  .course-table {
+    th, td { 
+      padding: 8px;
+      font-size: 14px;
+    }
+  }
+  
+  .add-button {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+  
+  .table-title { 
+    font-size: 18px;
+  }
+  
+  .total-hours {
+    font-size: 16px;
+  }
+  
+  .modal-content {
+    padding: 20px;
+    
+    h2 {
+      font-size: 1.5rem;
+    }
+    
+    select {
+      padding: 10px 12px;
+    }
+    
+    button {
+      padding: 10px 20px;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .course-table td[data-label]::before {
+    content: attr(data-label);
+    font-weight: bold;
+    display: inline-block;
+    width: 120px;
+  }
+}
+
 @media (max-width: 400px) {
-  .course-table { min-width: 300px; }
-  .table-container { padding: 15px; }
-  .modal-content { padding: 15px; h2 { font-size: 1.2em; } }
-  select { padding: 8px; font-size: 14px; }
+  .course-table { 
+    min-width: 300px;
+    
+    th, td {
+      padding: 6px;
+      font-size: 13px;
+    }
+  }
+  
+  .table-container { 
+    padding: 15px;
+  }
+  
+  .modal-content {
+    padding: 15px;
+    
+    h2 {
+      font-size: 1.3rem;
+    }
+    
+    select {
+      padding: 8px 10px;
+      font-size: 14px;
+    }
+  }
 }
