@@ -4,14 +4,11 @@
   --radius: 8px; --shadow: 0 4px 8px rgba(0,0,0,0.1); --shadow-dark: 0 4px 8px rgba(255,255,255,0.1);
   --transition: all 0.3s ease;
 }
-
 body {
   font-family: 'Montserrat', sans-serif; margin: 0; background: var(--bg-light); color: var(--text-light);
   overflow-x: hidden; transition: var(--transition);
 }
 body.dark-mode { background: var(--bg-dark); color: var(--text-dark); }
-
-/* Layout */
 .navbar-spacer { height: 70px; }
 .course-manager { margin: 100px 5% 20px; width: 90%; }
 .tables-container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between; }
@@ -20,8 +17,6 @@ body.dark-mode { background: var(--bg-dark); color: var(--text-dark); }
   background: var(--bg-light); box-shadow: var(--shadow); transition: var(--transition);
 }
 body.dark-mode .table-container { background: var(--bg-dark); box-shadow: var(--shadow-dark); }
-
-/* Tables */
 .course-table {
   width: 100%; border-collapse: collapse; margin-top: 10px; font-size: clamp(0.8rem, 2vw, 1rem);
 }
@@ -29,22 +24,16 @@ body.dark-mode .table-container { background: var(--bg-dark); box-shadow: var(--
 .course-table th { background: var(--primary); color: var(--text-dark); font-weight: bold; top: 70px; }
 .course-table tr:hover { background: var(--hover-light); }
 body.dark-mode .course-table tr:hover { background: var(--hover-dark); }
-
-/* Course States */
 .disabled { background: #f9c6c6; }
 body.dark-mode .disabled { background: #5c2a2a; }
 .completed-course { opacity: 0.7; background-color: #e8f5e9; }
 body.dark-mode .completed-course { background-color: #1b5e20; opacity: 0.8; }
-
-/* Typography */
 .table-title {
   text-align: center; color: var(--primary); font-weight: bold; margin-bottom: 10px;
   font-size: clamp(1rem, 3vw, 1.2rem);
 }
 body.dark-mode .table-title { color: var(--text-dark); }
 .total-hours { font-size: clamp(1rem, 3vw, 1.2rem); font-weight: bold; }
-
-/* Buttons */
 .add-button, .submit-button {
   border: none; border-radius: 4px; cursor: pointer; transition: var(--transition); white-space: nowrap;
 }
@@ -55,15 +44,11 @@ body.dark-mode .table-title { color: var(--text-dark); }
 .add-button:disabled { background: #ccc; cursor: not-allowed; transform: none; }
 .submit-button { background: #32CD32; color: var(--text-dark); padding: 12px 24px; font-size: 1rem; }
 .submit-button:hover { background: #0056b3; transform: translateY(-2px); }
-
-/* Form Elements */
 select {
   padding: 6px; border-radius: 4px; border: 1px solid #ddd; background: var(--bg-light);
   color: var(--text-light); font-size: clamp(0.8rem, 2vw, 1rem);
 }
 body.dark-mode select { background: var(--hover-dark); color: var(--text-dark); border-color: #555; }
-
-/* Modal */
 .modal {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5);
   display: flex; justify-content: center; align-items: center; z-index: 9999;
@@ -78,8 +63,6 @@ body.dark-mode select { background: var(--hover-dark); color: var(--text-dark); 
   cursor: pointer; font-size: 1em; transition: background-color 0.3s ease;
 }
 .modal-footer button:hover { background-color: #0056b3; }
-
-/* Responsive */
 @media (min-width: 768px) {
   .table-container { flex: 1 1 calc(50% - 20px); }
   .course-table th, .course-table td { padding: 10px 12px; }
@@ -108,8 +91,6 @@ body.dark-mode select { background: var(--hover-dark); color: var(--text-dark); 
   .table-title { font-size: 0.9rem; }
   .add-button { padding: 3px 6px; font-size: 0.7rem; }
 }
-
-/* Dark Mode Overrides */
 body.dark-mode {
   .add-button { background: #2E7D32; }
   .add-button:hover { background: #1B5E20; }
