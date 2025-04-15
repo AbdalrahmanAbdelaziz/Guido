@@ -93,7 +93,6 @@ body.dark-mode .table-container { background: var(--bg-dark); box-shadow: var(--
   background: var(--primary);
   color: var(--text-dark);
   font-weight: bold;
-  position: sticky;
   top: 70px;
 }
 
