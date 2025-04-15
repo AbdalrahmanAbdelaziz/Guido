@@ -146,7 +146,7 @@ body.dark-mode .table-title {
 .summary {
   margin-top: 30px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start; 
   align-items: center;
   background-color: #007bff;
   color: var(--text-dark);
@@ -154,6 +154,7 @@ body.dark-mode .table-title {
   border-radius: 8px;
   transition: background-color 0.3s ease;
 }
+
 
 .total-hours {
   font-size: 18px;
@@ -207,3 +208,46 @@ body.dark-mode .submit-button:hover {
     text-align: center;
   }
 }
+
+/* Add these new styles to your existing CSS */
+
+.add-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.add-button:hover {
+  background-color: #45a049;
+  transform: translateY(-1px);
+}
+
+.add-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+body.dark-mode .add-button {
+  background-color: #2E7D32;
+}
+
+body.dark-mode .add-button:hover {
+  background-color: #1B5E20;
+}
+
+body.dark-mode .add-button:disabled {
+  background-color: #424242;
+}
+
+
+
