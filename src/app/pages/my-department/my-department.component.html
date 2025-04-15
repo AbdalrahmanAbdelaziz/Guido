@@ -23,7 +23,7 @@
   <div *ngIf="selectedDepartment && !isModalVisible" class="course-manager">
     <div class="tables-container">
       <div class="table-container">
-        <h3 class="table-title">Compulsory Subjects (39 hours)</h3>
+        <h3 class="table-title">Compulsory Subjects ( 39 hours)</h3>
         <table class="course-table">
           <thead>
             <tr>
@@ -36,19 +36,17 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let course of coreCourses" 
-                [class.disabled]="!canTakeCourse(course)"
-                [class.completed-course]="course.grade && course.grade !== 'none'">
+            <tr *ngFor="let course of coreCourses" [class.disabled]="!canTakeCourse(course)">
               <td>{{ course.code }}</td>
               <td>{{ course.course_Name }}</td>
               <td>{{ course.hours }}</td>
               <td>{{ course.prerequest || 'None' }}</td>
               <td>
                 <select
-                [(ngModel)]="course.grade"
-                [disabled]="shouldDisableGradeSelect(course)"
-                title="Select grade for {{ course.course_Name }}"
-              >
+                  [(ngModel)]="course.grade"
+                  [disabled]="!canTakeCourse(course)"
+                  title="Select grade for {{ course.course_Name }}"
+                >
                   <option value="none">None</option>
                   <option value="A+">A+</option>
                   <option value="A">A</option>
@@ -63,14 +61,14 @@
               </td>
               <td>
                 <button 
+                  *ngIf="showAddButtonMap[course.code]"
                   class="add-button"
                   (click)="addCourse(course)"
                   [disabled]="!canTakeCourse(course) || course.grade === 'none'"
-                  *ngIf="course.grade === 'none'"
                 >
                   Add
                 </button>
-                <span *ngIf="course.grade && course.grade !== 'none'">Completed</span>
+                <span *ngIf="!showAddButtonMap[course.code]">Added</span>
               </td>
             </tr>
           </tbody>
@@ -92,9 +90,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let course of electiveCourses" 
-                [class.disabled]="!canTakeCourse(course)"
-                [class.completed-course]="course.grade && course.grade !== 'none'">
+            <tr *ngFor="let course of electiveCourses" [class.disabled]="!canTakeCourse(course)">
               <td>{{ course.code }}</td>
               <td>{{ course.course_Name }}</td>
               <td>{{ course.hours }}</td>
@@ -102,7 +98,7 @@
               <td>
                 <select
                   [(ngModel)]="course.grade"
-                  [disabled]="shouldDisableGradeSelect(course)"
+                  [disabled]="!canTakeCourse(course)"
                   title="Select grade for {{ course.course_Name }}"
                 >
                   <option value="none">None</option>
@@ -119,14 +115,14 @@
               </td>
               <td>
                 <button 
+                  *ngIf="showAddButtonMap[course.code]"
                   class="add-button"
                   (click)="addCourse(course)"
                   [disabled]="!canTakeCourse(course) || course.grade === 'none'"
-                  *ngIf="course.grade === 'none'"
                 >
                   Add
                 </button>
-                <span *ngIf="course.grade && course.grade !== 'none'">Completed</span>
+                <span *ngIf="!showAddButtonMap[course.code]">Added</span>
               </td>
             </tr>
           </tbody>
@@ -135,7 +131,7 @@
     </div>
 
     <div class="summary">
-      <p class="total-hours">Total Hours: {{ calculateDepartmentHours() / 60}}</p>
+      <p class="total-hours">Total Hours: {{ calculateDepartmentHours()}} / 60</p>
     </div>
   </div>
 </div>
