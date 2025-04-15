@@ -1,7 +1,9 @@
+// my-courses.component.ts
 import { Component, OnInit } from '@angular/core';
 import { Student } from '../../shared/interfaces/Student';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { SharedHoursService } from '../../services/shared-hours.service';
 
 @Component({
   selector: 'app-my-courses',
@@ -32,7 +34,11 @@ export class MyCoursesComponent implements OnInit {
     }
   ];
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(
+    private authService: AuthService, 
+    private router: Router,
+    private sharedHoursService: SharedHoursService
+  ) {
     this.authService.studentObservable.subscribe((newStudent) => {
       if (newStudent) {
         this.student = newStudent;
@@ -40,7 +46,11 @@ export class MyCoursesComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.sharedHoursService.currentGeneralHours.subscribe(hours => {
+      this.generalHours = hours;
+    });
+  }
 
   logout() {
     this.authService.logout();
@@ -49,17 +59,5 @@ export class MyCoursesComponent implements OnInit {
 
   navigateTo(link: string) {
     this.router.navigate([link]);
-  }
-
-  updateGeneralHours(hours: number) {
-    this.generalHours = hours; 
-  }
-
-  updateFacultyHours(hours: number) {
-    this.facultyHours = hours;
-  }
-
-  updateDepartmentHours(hours: number) {
-    this.departmentHours = hours;
   }
 }

@@ -1,3 +1,4 @@
+// my-general.component.ts
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Course } from '../../shared/interfaces/Course';
@@ -7,6 +8,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { DarkModeService } from '../../services/dark-mode.service';
 import { CoursesService } from '../../services/courses.service';
 import { ToastrService } from 'ngx-toastr';
+import { SharedHoursService } from '../../services/shared-hours.service';
 
 @Component({
   selector: 'app-my-general',
@@ -36,13 +38,12 @@ export class MyGeneralComponent implements OnInit {
   totalHours: number = 0;
   isDarkMode = false;
 
-  @Output() calculatedHoursEvent = new EventEmitter<number>();
-
   constructor(
     private authService: AuthService, 
     private darkModeService: DarkModeService, 
     private coursesService: CoursesService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private sharedHoursService: SharedHoursService
   ) {}
 
   ngOnInit(): void {
@@ -58,6 +59,7 @@ export class MyGeneralComponent implements OnInit {
         grade: course.grade || 'none'
       }));
       this.allCourses = [...this.coreCourses, ...this.electiveCourses];
+      this.updateTotalHours();
     });
 
     this.coursesService.fetchGeneralElectiveCourses().subscribe((electiveCourses) => {
@@ -66,6 +68,7 @@ export class MyGeneralComponent implements OnInit {
         grade: course.grade || 'none'
       }));
       this.allCourses = [...this.coreCourses, ...this.electiveCourses];
+      this.updateTotalHours();
     });
   }
 
@@ -81,8 +84,12 @@ export class MyGeneralComponent implements OnInit {
       .reduce((total, course) => total + (parseFloat(course.hours) || 0), 0); 
   }
 
+  updateTotalHours(): void {
+    this.totalHours = this.calculateTotalHours();
+    this.sharedHoursService.updateGeneralHours(this.totalHours);
+  }
+
   addCourse(course: Course): void {
-    // Validation checks
     if (!course.grade || course.grade === 'none') {
       this.toastr.warning('Please select a grade before adding the course');
       return;
@@ -98,21 +105,18 @@ export class MyGeneralComponent implements OnInit {
       return;
     }
 
-    // Prepare the update data
     const updateCourse: UpdateCourse = {
       code: course.code,
       grade: course.grade,
       hours: parseInt(course.hours)
     };
 
-    // Call the service
     this.coursesService.updateCourses([updateCourse]).subscribe({
       next: (response) => {
         if (response && response.message === "Updated Successfully.") {
           this.toastr.success(`Course ${course.course_Name} added successfully`);
-          this.calculatedHoursEvent.emit(this.calculateTotalHours());
+          this.updateTotalHours();
           
-          // Update local course state if needed
           const updatedCourse = this.allCourses.find(c => c.code === course.code);
           if (updatedCourse) {
             updatedCourse.grade = course.grade;
