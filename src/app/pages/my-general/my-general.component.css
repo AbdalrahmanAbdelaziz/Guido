@@ -1,4 +1,4 @@
-/* Base & Dark Mode */
+/* Base Styles */
 body {
   font-family: 'Montserrat', sans-serif;
   margin: 0;
@@ -6,60 +6,17 @@ body {
   color: #333333;
   overflow-x: hidden;
   transition: background-color 0.3s ease, color 0.3s ease;
-  
-  &.dark-mode {
-    background-color: #121212;
-    color: #ffffff;
-    
-    .table-container { 
-      background-color: #121212;
-      box-shadow: 0 4px 8px rgba(255,255,255,0.1);
-      .course-table {
-        th, td {
-          border-color: #333;
-        }
-        th {
-          background-color: #1a1a1a;
-          color: #ffffff;
-        }
-      }
-    }
-    .course-table tr:hover { 
-      background-color: #2a2a2a; 
-      color: #f0f0f0; 
-    }
-    .disabled { 
-      background-color: #5c2a2a; 
-    }
-    .table-title { 
-      color: #ffffff; 
-    }
-    .summary {
-      background-color: #1a1a1a;
-    }
-    .add-button { 
-      background-color: #2E7D32;
-      &:hover { 
-        background-color: #1B5E20; 
-      }
-      &:disabled { 
-        background-color: #424242; 
-      }
-    }
-  }
 }
 
-/* Layout */
-.courses-page {
+body.dark-mode {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+.department-page {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding-bottom: 60px;
-  position: relative;
-}
-
-.navbar-spacer {
-  height: 80px;
 }
 
 .course-manager {
@@ -67,7 +24,7 @@ body {
   flex: 1;
 }
 
-/* Tables */
+/* Tables Layout */
 .tables-container {
   display: flex;
   flex-wrap: wrap;
@@ -81,8 +38,19 @@ body {
   padding: 20px;
   border-radius: 8px;
   background-color: #ffffff;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
   margin-bottom: 20px;
+}
+
+body.dark-mode .table-container {
+  background-color: #121212;
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive Tables */
+.table-responsive {
+  overflow-x: auto;
 }
 
 .course-table {
@@ -90,39 +58,67 @@ body {
   width: 100%;
   margin-top: 10px;
   min-width: 600px;
-  
-  th, td { 
-    border: 1px solid #ddd;
-    padding: 12px;
-    text-align: left;
-  }
-  
-  th { 
-    background-color: #007bff;
-    color: #ffffff;
-    font-weight: bold;
-    position: sticky;
-    top: 0;
-  }
-  
-  tr:hover { 
-    background-color: #f0f0f0;
-    color: #333333;
-  }
 }
 
-.disabled { 
-  background-color: #f9c6c6; 
+.course-table th,
+.course-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
 }
 
-.table-title { 
+.course-table th {
+  background-color: #007bff;
+  color: #ffffff;
+  font-weight: bold;
+  position: sticky;
+  top: 0;
+}
+
+.course-table tr:hover {
+  background-color: #f0f0f0;
+  color: #333333;
+}
+
+body.dark-mode .course-table {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+body.dark-mode .course-table th {
+  background-color: #1f1f1f;
+  color: #ffffff;
+}
+
+body.dark-mode .course-table td {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+body.dark-mode .course-table tr:hover {
+  background-color: #2a2a2a;
+  color: #f0f0f0;
+}
+
+.disabled {
+  background-color: #f9c6c6;
+}
+
+body.dark-mode .disabled {
+  background-color: #5c2a2a;
+}
+
+.table-title {
   text-align: center;
   color: #007bff;
   font-weight: bold;
   margin-bottom: 15px;
 }
 
-/* Components */
+body.dark-mode .table-title {
+  color: #ffffff;
+}
+
 .summary {
   margin-top: 30px;
   display: flex;
@@ -132,12 +128,13 @@ body {
   color: #ffffff;
   padding: 15px;
   border-radius: 8px;
-  
-  .total-hours { 
-    font-size: 18px;
-    font-weight: bold;
-    margin: 0;
-  }
+  transition: background-color 0.3s ease;
+}
+
+.total-hours {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
 }
 
 .add-button {
@@ -145,44 +142,62 @@ body {
   color: white;
   border: none;
   padding: 8px 16px;
-  border-radius: 4px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
   white-space: nowrap;
-  
-  &:hover { 
-    background-color: #45a049;
-    transform: translateY(-1px);
-  }
-  
-  &:disabled { 
-    background-color: #cccccc;
-    cursor: not-allowed;
-    transform: none;
-  }
 }
 
-/* Responsive Breakpoints */
+.add-button:hover {
+  background-color: #45a049;
+  transform: translateY(-1px);
+}
+
+.add-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+body.dark-mode .add-button {
+  background-color: #2E7D32;
+}
+
+body.dark-mode .add-button:hover {
+  background-color: #1B5E20;
+}
+
+body.dark-mode .add-button:disabled {
+  background-color: #424242;
+}
+
+/* Mobile Responsiveness */
 @media (max-width: 992px) {
-  .tables-container { 
-    flex-direction: column; 
+  .tables-container {
+    flex-direction: column;
+  }
+  
+  .table-container {
+    width: 100%;
   }
 }
 
-@media screen and (max-width: 768px) {
-  .courses-page {
-    padding-bottom: 100px;
-  }
-  
+@media (max-width: 768px) {
   .course-manager {
     margin: 80px 15px 15px;
   }
-  
-  .course-table {
-    th, td { 
-      padding: 8px;
-      font-size: 14px;
-    }
+}
+
+@media (max-width: 576px) {
+  .course-table th,
+  .course-table td {
+    padding: 8px;
+    font-size: 14px;
   }
   
   .add-button {
@@ -190,7 +205,7 @@ body {
     font-size: 13px;
   }
   
-  .table-title { 
+  .table-title {
     font-size: 18px;
   }
   
@@ -199,26 +214,19 @@ body {
   }
 }
 
-@media (max-width: 576px) {
-  .course-table td[data-label]::before {
-    content: attr(data-label);
-    font-weight: bold;
-    display: inline-block;
-    width: 120px;
-  }
-}
-
+/* Small mobile devices */
 @media (max-width: 400px) {
-  .course-table { 
+  .course-table {
     min-width: 300px;
-    
-    th, td {
-      padding: 6px;
-      font-size: 13px;
-    }
   }
   
-  .table-container { 
+  .course-table th,
+  .course-table td {
+    padding: 6px;
+    font-size: 13px;
+  }
+  
+  .table-container {
     padding: 15px;
   }
 }
