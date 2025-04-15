@@ -36,6 +36,7 @@ export class MyGeneralComponent implements OnInit {
   selectedCourses: Course[] = [];
   totalHours: number = 0;
   isDarkMode = false;
+  disabledCourses: string[] = []; // Array to track disabled course codes
 
   constructor(
     private authService: AuthService, 
@@ -93,7 +94,7 @@ export class MyGeneralComponent implements OnInit {
       this.toastr.warning('Please select a grade before adding the course');
       return;
     }
-  
+
     if (!this.canTakeCourse(course)) {
       this.toastr.error('You cannot add this course due to unmet prerequisites');
       return;
@@ -103,6 +104,9 @@ export class MyGeneralComponent implements OnInit {
       this.toastr.error('Course code is missing');
       return;
     }
+
+    // Add to disabled courses immediately to prevent multiple clicks
+    this.disabledCourses.push(course.code);
 
     const updateCourse: UpdateCourse = {
       code: course.code,
@@ -116,22 +120,23 @@ export class MyGeneralComponent implements OnInit {
           this.toastr.success(`Course ${course.course_Name} added successfully`);
           this.updateTotalHours();
           
-          const updatedCourse = this.allCourses.find(c => c.code === course.code);
-          if (updatedCourse) {
-            updatedCourse.grade = course.grade;
-          }
+          // The course remains disabled since it's already in disabledCourses
         } else {
+          // Remove from disabled courses if not successful
+          this.disabledCourses = this.disabledCourses.filter(c => c !== course.code);
           this.toastr.warning(`Course update completed but verify data for ${course.course_Name}`);
-          console.warn('Backend response:', response);
         }
       },
       error: (error) => {
+        // Remove from disabled courses on error
+        this.disabledCourses = this.disabledCourses.filter(c => c !== course.code);
         this.toastr.error(`Failed to add course ${course.course_Name}`);
-        console.error('Error details:', error);
-        if (error.error) {
-          console.error('Backend error response:', error.error);
-        }
       }
     });
   }
+
+  isCourseDisabled(course: Course): boolean {
+    return this.disabledCourses.includes(course.code);
+  }
+
 }

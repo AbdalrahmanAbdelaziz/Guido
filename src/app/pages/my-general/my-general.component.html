@@ -45,12 +45,12 @@
               </td>
               <td>
                 <button 
-                  class="add-button"
-                  (click)="addCourse(course)"
-                  [disabled]="!canTakeCourse(course) || course.grade === 'none'"
-                >
-                  Add
-                </button>
+                class="add-button"
+                (click)="addCourse(course)"
+                [disabled]="!canTakeCourse(course) || course.grade === 'none' || isCourseDisabled(course)"
+              >
+                Add
+              </button>
               </td>
             </tr>
           </tbody>
@@ -97,12 +97,12 @@
               </td>
               <td>
                 <button 
-                  class="add-button"
-                  (click)="addCourse(course)"
-                  [disabled]="!canTakeCourse(course) || course.grade === 'none'"
-                >
-                  Add
-                </button>
+                class="add-button"
+                (click)="addCourse(course)"
+                [disabled]="!canTakeCourse(course) || course.grade === 'none' || isCourseDisabled(course)"
+              >
+                Add
+              </button>
               </td>
             </tr>
           </tbody>
