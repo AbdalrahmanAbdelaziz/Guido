@@ -72,11 +72,12 @@ export class MyGeneralComponent implements OnInit {
   }
 
   canTakeCourse(course: Course): boolean {
-    // If course already has a grade, it's not available for selection
+    // Course is not available if already completed
     if (course.grade && course.grade !== 'none') return false;
     
+    // Check prerequisites
     if (!course.prerequest) return true;
-    const preRequestCourse = this.allCourses.find((c) => c.code === course.prerequest);
+    const preRequestCourse = this.allCourses.find(c => c.code === course.prerequest);
     return preRequestCourse?.grade !== 'none' && preRequestCourse?.grade !== 'F';
   }
 
@@ -105,12 +106,7 @@ addCourse(course: Course): void {
     return;
   }
 
-  if (!course.code) {
-    this.toastr.error('Course code is missing');
-    return;
-  }
-
-  // Track that we're adding this course
+  // Mark as adding
   this.addingCourses.add(course.code);
 
   const updateCourse: UpdateCourse = {
@@ -125,10 +121,11 @@ addCourse(course: Course): void {
       
       if (response?.message === "Updated Successfully.") {
         this.toastr.success(`Course ${course.course_Name} added successfully`);
+        // Now it will be disabled because canTakeCourse will return false
         this.updateTotalHours();
         this.refreshCourses();
       } else {
-        this.toastr.warning(`Course update completed but verify data for ${course.course_Name}`);
+        this.toastr.warning(`Course update completed but verify data`);
       }
     },
     error: (error) => {
