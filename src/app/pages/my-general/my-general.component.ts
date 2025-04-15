@@ -81,31 +81,40 @@ export class MyGeneralComponent implements OnInit {
 
   addCourse(course: Course): void {
     if (!course.grade || course.grade === 'none') {
-      this.toastr.warning('Please select a grade before adding the course');
-      return;
+        this.toastr.warning('Please select a grade before adding the course');
+        return;
     }
   
     if (!this.canTakeCourse(course)) {
-      this.toastr.error('You cannot add this course due to unmet prerequisites');
-      return;
+        this.toastr.error('You cannot add this course due to unmet prerequisites');
+        return;
     }
   
     const updateCourse: UpdateCourse = {
-      code: course.code,  
-      grade: course.grade,
-      hours: parseInt(course.hours)
+        code: course.code,  
+        grade: course.grade,
+        hours: parseInt(course.hours)
     };
   
     this.coursesService.updateCourses([updateCourse]).subscribe({
-      next: () => {
-        this.toastr.success(`Course ${course.course_Name} added successfully`);
-        this.calculatedHoursEvent.emit(this.calculateTotalHours());
-      },
-      error: (error) => {
-        this.toastr.error(`Failed to add course ${course.course_Name}`);
-        console.error('Error details:', error);  
-      }
+        next: (response) => {
+            if (response && (response.code || response.grade || response.hours)) {
+                this.toastr.success(`Course ${course.course_Name} added successfully`);
+                this.calculatedHoursEvent.emit(this.calculateTotalHours());
+            } else {
+                this.toastr.warning(`Course update completed but verify data for ${course.course_Name}`);
+                console.warn('Backend response:', response);
+            }
+        },
+        error: (error) => {
+            this.toastr.error(`Failed to add course ${course.course_Name}`);
+            console.error('Error details:', error);  
+            // You might want to inspect the error response
+            if (error.error) {
+                console.error('Backend error response:', error.error);
+            }
+        }
     });
-  }
+}
   
 }
