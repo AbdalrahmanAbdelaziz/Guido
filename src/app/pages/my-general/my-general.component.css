@@ -12,9 +12,6 @@
   --shadow-dark: 0 4px 8px rgba(255,255,255,0.1);
   --transition: all 0.3s ease;
 }
-
-*, *::before, *::after { box-sizing: border-box; }
-
 body {
   font-family: 'Montserrat', sans-serif;
   margin: 0;
@@ -25,8 +22,6 @@ body {
 }
 
 body.dark-mode { background: var(--bg-dark); color: var(--text-dark); }
-
-/* Navbar */
 .navbar {
   background: var(--primary);
   color: #fff;
@@ -61,20 +56,16 @@ body.dark-mode { background: var(--bg-dark); color: var(--text-dark); }
 .menu-trigger:hover { background: #457b9d; transform: translateY(-3px); }
 
 .navbar-spacer { height: 70px; }
-
-/* Course Manager */
 .course-manager {
   margin: 100px 5% 20px;
   width: 90%;
 }
-
 .tables-container {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
   justify-content: space-between;
 }
-
 .table-container {
   flex: 1 1 100%;
   min-width: 300px;
@@ -84,16 +75,13 @@ body.dark-mode { background: var(--bg-dark); color: var(--text-dark); }
   box-shadow: var(--shadow);
   transition: var(--transition);
 }
-
 body.dark-mode .table-container { background: var(--bg-dark); box-shadow: var(--shadow-dark); }
-
 .course-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
   font-size: clamp(0.8rem, 2vw, 1rem);
 }
-
 .course-table th, .course-table td {
   border: 1px solid #ddd;
   padding: 8px 10px;
@@ -134,10 +122,7 @@ body.dark-mode .table-title { color: var(--text-dark); }
   padding: 15px;
   border-radius: var(--radius);
 }
-
 .total-hours { font-size: clamp(1rem, 3vw, 1.2rem); font-weight: bold; }
-
-/* Buttons */
 .add-button, .submit-button {
   border: none;
   border-radius: 4px;
@@ -171,7 +156,6 @@ body.dark-mode {
   .submit-button { background: #32CD32; color: var(--text-light); }
   .submit-button:hover { background: #0056b3; }
 }
-
 select {
   padding: 6px;
   border-radius: 4px;
@@ -181,18 +165,14 @@ select {
   font-size: clamp(0.8rem, 2vw, 1rem);
 }
 body.dark-mode select { background: var(--hover-dark); color: var(--text-dark); border-color: #555; }
-
-/* Responsive */
 @media (min-width: 768px) {
   .table-container { flex: 1 1 calc(50% - 20px); }
   .course-table th, .course-table td { padding: 10px 12px; }
 }
-
 @media (min-width: 992px) {
   .course-manager { margin: 100px auto 20px; max-width: 1200px; }
   .tables-container { gap: 30px; }
 }
-
 @media (max-width: 480px) {
   .navbar { padding: 12px 5%; }
   .course-manager { margin: 80px 3% 15px; width: 94%; }
@@ -201,7 +181,6 @@ body.dark-mode select { background: var(--hover-dark); color: var(--text-dark); 
   .add-button { padding: 4px 8px; }
   select { padding: 4px; font-size: 0.8rem; }
 }
-
 @media (max-width: 320px) {
   .navbar { padding: 10px 3%; }
   .app-name { font-size: 1rem; }
