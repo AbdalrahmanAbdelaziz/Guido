@@ -1,5 +1,5 @@
 export interface UpdateCourse {
-  SubjectCode: string;  
+    code: string;  
     grade: string;
-    // hours: number;
+    hours: number;
   }
