@@ -91,7 +91,7 @@ export class MyGeneralComponent implements OnInit {
     }
   
     const updateCourse: UpdateCourse = {
-        code: course.code,  
+        Code: course.code,  
         grade: course.grade,
         hours: parseInt(course.hours)
     };
@@ -109,7 +109,6 @@ export class MyGeneralComponent implements OnInit {
         error: (error) => {
             this.toastr.error(`Failed to add course ${course.course_Name}`);
             console.error('Error details:', error);  
-            // You might want to inspect the error response
             if (error.error) {
                 console.error('Backend error response:', error.error);
             }

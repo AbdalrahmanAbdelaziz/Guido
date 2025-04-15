@@ -132,7 +132,7 @@ export class CoursesService {
       updateCourses(updateCourses: UpdateCourse[]): Observable<any> {
         const requestBody = {
             dTOupdate: updateCourses.map(course => ({
-                code: course.code,
+                Code: course.Code,
                 grade: course.grade,
                 hours: course.hours
             }))
