@@ -1,4 +1,3 @@
-/* Base & Dark Mode */
 body {
   font-family: 'Montserrat', sans-serif;
   margin: 0;
@@ -49,7 +48,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding-bottom: 60px; /* Default bottom padding */
+  padding-bottom: 60px; 
   position: relative;
 }
 
@@ -117,8 +116,6 @@ body {
   font-weight: bold;
   margin-bottom: 15px;
 }
-
-/* Components */
 .summary {
   margin-top: 30px;
   display: flex;
@@ -241,8 +238,6 @@ body {
     }
   }
 }
-
-/* Responsive Breakpoints */
 @media (max-width: 992px) {
   .tables-container { 
     flex-direction: column; 
@@ -251,12 +246,12 @@ body {
 
 @media screen and (max-width: 768px) {
   .department-page {
-    padding-bottom: 100px; /* Space for fixed bottom navbar */
+    padding-bottom: 100px;
   }
   
   .course-manager {
     margin: 80px 15px 15px;
-    padding-bottom: 20px; /* Extra padding at bottom */
+    padding-bottom: 20px; 
   }
   
   .course-table {
