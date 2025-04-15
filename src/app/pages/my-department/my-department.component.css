@@ -42,8 +42,6 @@ body.dark-mode .table-title { color: var(--text-dark); }
 }
 .add-button:hover { background: #45a049; transform: translateY(-1px); }
 .add-button:disabled { background: #ccc; cursor: not-allowed; transform: none; }
-.submit-button { background: #32CD32; color: var(--text-dark); padding: 12px 24px; font-size: 1rem; }
-.submit-button:hover { background: #0056b3; transform: translateY(-2px); }
 select {
   padding: 6px; border-radius: 4px; border: 1px solid #ddd; background: var(--bg-light);
   color: var(--text-light); font-size: clamp(0.8rem, 2vw, 1rem);
@@ -95,6 +93,5 @@ body.dark-mode {
   .add-button { background: #2E7D32; }
   .add-button:hover { background: #1B5E20; }
   .add-button:disabled { background: #424242; }
-  .submit-button { background: #32CD32; color: var(--text-light); }
-  .submit-button:hover { background: #0056b3; }
+
 }

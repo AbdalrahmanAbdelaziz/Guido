@@ -1,13 +1,29 @@
-<div class="courses-page">
+<div class="department-page">
+  <div *ngIf="isModalVisible" class="modal">
+    <div class="modal-content">
+      <h2>Select Your Department</h2>
+      <label for="department-select">Department:</label>
+      <select id="department-select" (change)="onDepartmentChange($event)">
+        <option value="" disabled selected>Select your department</option>
+        <option value="CS">Computer Science (CS)</option>
+        <option value="IS">Information Systems (IS)</option>
+        <option value="AI">Artificial Intelligence (AI)</option>
+        <option value="IT">Information Technology (IT)</option>
+      </select>
+      <div class="modal-footer">
+        <button (click)="closeModal()">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+ 
+
   <app-student-header></app-student-header>
-
-  <div class="navbar-spacer"></div>
-
-  <div class="course-manager">
+  
+  <div *ngIf="selectedDepartment && !isModalVisible" class="course-manager">
     <div class="tables-container">
-      <!-- Compulsory Subjects -->
       <div class="table-container">
-        <h3 class="table-title">Compulsory Subjects (6 hours)</h3>
+        <h3 class="table-title">Compulsory Subjects (39 hours)</h3>
         <table class="course-table">
           <thead>
             <tr>
@@ -63,7 +79,7 @@
 
       <!-- Elective Subjects -->
       <div class="table-container">
-        <h3 class="table-title">Electives Subjects (6 hours)</h3>
+        <h3 class="table-title">Electives Subjects (21 hours)</h3>
         <table class="course-table">
           <thead>
             <tr>
@@ -119,7 +135,7 @@
     </div>
 
     <div class="summary">
-      <p class="total-hours">Total Hours: {{ calculateDepartmentHours() / 12}}</p>
+      <p class="total-hours">Total Hours: {{ calculateDepartmentHours() / 60}}</p>
     </div>
   </div>
 </div>
