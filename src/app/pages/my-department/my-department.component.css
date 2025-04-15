@@ -1,3 +1,4 @@
+/* Base Styles */
 body {
   font-family: 'Montserrat', sans-serif;
   margin: 0;
@@ -12,46 +13,57 @@ body.dark-mode {
   color: #ffffff;
 }
 
+.department-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 .course-manager {
-  margin: 100px 20px 20px 20px;
+  margin: 100px 20px 20px;
+  flex: 1;
 }
 
+/* Tables Layout */
 .tables-container {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
   gap: 20px;
-}
-
-.tables-container {
-  display: flex;
   justify-content: space-between;
-  gap: 20px;
 }
 
 .table-container {
-  width: 48%;
+  flex: 1 1 100%;
+  min-width: 300px;
   padding: 20px;
   border-radius: 8px;
   background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 20px;
 }
 
 body.dark-mode .table-container {
-  background-color: #121212;
+  background-color: #1e1e1e;
   box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive Tables */
+.table-responsive {
+  overflow-x: auto;
 }
 
 .course-table {
   border-collapse: collapse;
   width: 100%;
   margin-top: 10px;
+  min-width: 600px;
 }
 
 .course-table th,
 .course-table td {
   border: 1px solid #ddd;
-  padding: 10px;
+  padding: 12px;
   text-align: left;
 }
 
@@ -59,6 +71,8 @@ body.dark-mode .table-container {
   background-color: #007bff;
   color: #ffffff;
   font-weight: bold;
+  position: sticky;
+  top: 0;
 }
 
 .course-table tr:hover {
@@ -67,7 +81,7 @@ body.dark-mode .table-container {
 }
 
 body.dark-mode .course-table tr:hover {
-  background-color: #1e1e1e;
+  background-color: #2a2a2a;
   color: #f0f0f0;
 }
 
@@ -83,18 +97,18 @@ body.dark-mode .disabled {
   text-align: center;
   color: #007bff;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 body.dark-mode .table-title {
   color: #ffffff;
 }
 
-
+/* Summary Section */
 .summary {
   margin-top: 30px;
   display: flex;
-  justify-content: flex-start; 
+  justify-content: flex-start;
   align-items: center;
   background-color: #007bff;
   color: #ffffff;
@@ -106,103 +120,10 @@ body.dark-mode .table-title {
 .total-hours {
   font-size: 18px;
   font-weight: bold;
+  margin: 0;
 }
 
-.submit-button {
-  background-color: #32CD32;
-  color: #ffffff;
-  padding: 12px 24px;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  border-radius: 5px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.submit-button:hover {
-  background-color: #0056b3;
-  transform: translateY(-2px);
-}
-
-body.dark-mode .submit-button {
-  background-color: #32CD32;
-  color: #333333;
-}
-
-body.dark-mode .submit-button:hover {
-  background-color: #0056b3;;
-}
-
-/* Modal Styles */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-.modal-content {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  width: 600px; 
-  height: auto; 
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.modal select option:hover {
-  background: #0056b3; 
-  color: white; 
-}
-
-.modal h2 {
-  margin-top: 0;
-  font-size: 1.5em;
-  color: #333;
-}
-
-.modal label {
-  font-size: 1em;
-  margin-bottom: 5px;
-  display: block;
-}
-
-.modal select {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
-  border: 2px solid #e63946;
-  border-radius: 5px;
-  background-color: white;
-  color: #333;
-}
-
-
-.modal-footer {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.modal-footer button {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1em;
-  transition: background-color 0.3s ease;
-}
-
-.modal-footer button:hover {
-  background-color: #0056b3;
-}
+/* Buttons */
 .add-button {
   background-color: #4CAF50;
   color: white;
@@ -216,6 +137,7 @@ body.dark-mode .submit-button:hover {
   cursor: pointer;
   border-radius: 4px;
   transition: background-color 0.3s ease, transform 0.2s ease;
+  white-space: nowrap;
 }
 
 .add-button:hover {
@@ -241,5 +163,178 @@ body.dark-mode .add-button:disabled {
   background-color: #424242;
 }
 
+/* Modal Styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
 
+.modal-content {
+  background-color: white;
+  padding: 25px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
 
+body.dark-mode .modal-content {
+  background-color: #1e1e1e;
+  color: #ffffff;
+}
+
+.modal h2 {
+  margin-top: 0;
+  font-size: 1.5em;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+body.dark-mode .modal h2 {
+  color: #ffffff;
+}
+
+.modal label {
+  font-size: 1em;
+  margin-bottom: 8px;
+  display: block;
+  font-weight: 500;
+}
+
+.modal select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 25px;
+  border: 2px solid #007bff;
+  border-radius: 5px;
+  background-color: white;
+  color: #333;
+  font-size: 16px;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 1em;
+}
+
+body.dark-mode .modal select {
+  background-color: #2a2a2a;
+  color: #ffffff;
+  border-color: #007bff;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.modal-footer button {
+  background-color: #007bff;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+}
+
+.modal-footer button:hover {
+  background-color: #0056b3;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 992px) {
+  .tables-container {
+    flex-direction: column;
+  }
+  
+  .table-container {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .course-manager {
+    margin: 80px 15px 15px;
+  }
+  
+  .modal-content {
+    padding: 20px;
+    width: 95%;
+  }
+}
+
+@media (max-width: 576px) {
+  .course-table th,
+  .course-table td {
+    padding: 8px;
+    font-size: 14px;
+  }
+  
+  .add-button {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+  
+  .table-title {
+    font-size: 18px;
+  }
+  
+  .total-hours {
+    font-size: 16px;
+  }
+  
+  .modal h2 {
+    font-size: 1.3em;
+  }
+  
+  .modal select {
+    padding: 10px;
+    font-size: 15px;
+  }
+  
+  .modal-footer button {
+    padding: 10px 20px;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 400px) {
+  .course-table {
+    min-width: 300px;
+  }
+  
+  .course-table th,
+  .course-table td {
+    padding: 6px;
+    font-size: 13px;
+  }
+  
+  .table-container {
+    padding: 15px;
+  }
+  
+  .modal-content {
+    padding: 15px;
+  }
+  
+  .modal h2 {
+    font-size: 1.2em;
+  }
+  
+  .modal select {
+    padding: 8px;
+    font-size: 14px;
+  }
+}
