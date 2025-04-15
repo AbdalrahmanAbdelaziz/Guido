@@ -1,4 +1,3 @@
-/* Base Styles */
 body {
   font-family: 'Montserrat', sans-serif;
   margin: 0;
@@ -7,31 +6,25 @@ body {
   overflow-x: hidden;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
-
 body.dark-mode {
   background-color: #121212;
   color: #ffffff;
 }
-
 .department-page {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
-
 .course-manager {
   margin: 100px 20px 20px;
   flex: 1;
 }
-
-/* Tables Layout */
 .tables-container {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
   justify-content: space-between;
 }
-
 .table-container {
   flex: 1 1 100%;
   min-width: 300px;
@@ -42,31 +35,25 @@ body.dark-mode {
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
   margin-bottom: 20px;
 }
-
 body.dark-mode .table-container {
   background-color: #1e1e1e;
   box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
 }
-
-/* Responsive Tables */
 .table-responsive {
   overflow-x: auto;
 }
-
 .course-table {
   border-collapse: collapse;
   width: 100%;
   margin-top: 10px;
   min-width: 600px;
 }
-
 .course-table th,
 .course-table td {
   border: 1px solid #ddd;
   padding: 12px;
   text-align: left;
 }
-
 .course-table th {
   background-color: #007bff;
   color: #ffffff;
@@ -74,37 +61,29 @@ body.dark-mode .table-container {
   position: sticky;
   top: 0;
 }
-
 .course-table tr:hover {
   background-color: #f0f0f0;
   color: #333333;
 }
-
 body.dark-mode .course-table tr:hover {
   background-color: #2a2a2a;
   color: #f0f0f0;
 }
-
 .disabled {
   background-color: #f9c6c6;
 }
-
 body.dark-mode .disabled {
   background-color: #5c2a2a;
 }
-
 .table-title {
   text-align: center;
   color: #007bff;
   font-weight: bold;
   margin-bottom: 15px;
 }
-
 body.dark-mode .table-title {
   color: #ffffff;
 }
-
-/* Summary Section */
 .summary {
   margin-top: 30px;
   display: flex;
@@ -116,14 +95,11 @@ body.dark-mode .table-title {
   border-radius: 8px;
   transition: background-color 0.3s ease;
 }
-
 .total-hours {
   font-size: 18px;
   font-weight: bold;
   margin: 0;
 }
-
-/* Buttons */
 .add-button {
   background-color: #4CAF50;
   color: white;
@@ -139,31 +115,24 @@ body.dark-mode .table-title {
   transition: background-color 0.3s ease, transform 0.2s ease;
   white-space: nowrap;
 }
-
 .add-button:hover {
   background-color: #45a049;
   transform: translateY(-1px);
 }
-
 .add-button:disabled {
   background-color: #cccccc;
   cursor: not-allowed;
   transform: none;
 }
-
 body.dark-mode .add-button {
   background-color: #2E7D32;
 }
-
 body.dark-mode .add-button:hover {
   background-color: #1B5E20;
 }
-
 body.dark-mode .add-button:disabled {
   background-color: #424242;
 }
-
-/* Modal Styles */
 .modal {
   position: fixed;
   top: 0;
@@ -176,7 +145,6 @@ body.dark-mode .add-button:disabled {
   align-items: center;
   z-index: 9999;
 }
-
 .modal-content {
   background-color: white;
   padding: 25px;
@@ -253,7 +221,6 @@ body.dark-mode .modal select {
   background-color: #0056b3;
 }
 
-/* Mobile Responsiveness */
 @media (max-width: 992px) {
   .tables-container {
     flex-direction: column;
@@ -308,8 +275,6 @@ body.dark-mode .modal select {
     padding: 10px 20px;
   }
 }
-
-/* Small mobile devices */
 @media (max-width: 400px) {
   .course-table {
     min-width: 300px;
