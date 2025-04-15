@@ -7,7 +7,7 @@
     <div class="tables-container">
       <!-- Compulsory Subjects -->
       <div class="table-container">
-        <h3 class="table-title">Compulsory Subjects (63 hours)</h3>
+        <h3 class="table-title">Compulsory Subjects (6 hours)</h3>
         <table class="course-table">
           <thead>
             <tr>
@@ -20,17 +20,19 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let course of coreCourses" [class.disabled]="!canTakeCourse(course)">
+            <tr *ngFor="let course of coreCourses" 
+                [class.disabled]="!canTakeCourse(course)"
+                [class.completed-course]="course.grade && course.grade !== 'none'">
               <td>{{ course.code }}</td>
               <td>{{ course.course_Name }}</td>
               <td>{{ course.hours }}</td>
               <td>{{ course.prerequest || 'None' }}</td>
               <td>
                 <select
-                  [(ngModel)]="course.grade"
-                  [disabled]="!canTakeCourse(course)"
-                  title="Select grade for {{ course.course_Name }}"
-                >
+                [(ngModel)]="course.grade"
+                [disabled]="shouldDisableGradeSelect(course)"
+                title="Select grade for {{ course.course_Name }}"
+              >
                   <option value="none">None</option>
                   <option value="A+">A+</option>
                   <option value="A">A</option>
@@ -45,14 +47,14 @@
               </td>
               <td>
                 <button 
-                  *ngIf="showAddButtonMap[course.code]"
                   class="add-button"
                   (click)="addCourse(course)"
                   [disabled]="!canTakeCourse(course) || course.grade === 'none'"
+                  *ngIf="course.grade === 'none'"
                 >
                   Add
                 </button>
-                <span *ngIf="!showAddButtonMap[course.code]">Added</span>
+                <span *ngIf="course.grade && course.grade !== 'none'">Completed</span>
               </td>
             </tr>
           </tbody>
@@ -61,7 +63,7 @@
 
       <!-- Elective Subjects -->
       <div class="table-container">
-        <h3 class="table-title">Electives Subjects (9 hours)</h3>
+        <h3 class="table-title">Electives Subjects (6 hours)</h3>
         <table class="course-table">
           <thead>
             <tr>
@@ -74,7 +76,9 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let course of electiveCourses" [class.disabled]="!canTakeCourse(course)">
+            <tr *ngFor="let course of electiveCourses" 
+                [class.disabled]="!canTakeCourse(course)"
+                [class.completed-course]="course.grade && course.grade !== 'none'">
               <td>{{ course.code }}</td>
               <td>{{ course.course_Name }}</td>
               <td>{{ course.hours }}</td>
@@ -82,7 +86,7 @@
               <td>
                 <select
                   [(ngModel)]="course.grade"
-                  [disabled]="!canTakeCourse(course)"
+                  [disabled]="shouldDisableGradeSelect(course)"
                   title="Select grade for {{ course.course_Name }}"
                 >
                   <option value="none">None</option>
@@ -99,14 +103,14 @@
               </td>
               <td>
                 <button 
-                  *ngIf="showAddButtonMap[course.code]"
                   class="add-button"
                   (click)="addCourse(course)"
                   [disabled]="!canTakeCourse(course) || course.grade === 'none'"
+                  *ngIf="course.grade === 'none'"
                 >
                   Add
                 </button>
-                <span *ngIf="!showAddButtonMap[course.code]">Added</span>
+                <span *ngIf="course.grade && course.grade !== 'none'">Completed</span>
               </td>
             </tr>
           </tbody>
@@ -115,7 +119,7 @@
     </div>
 
     <div class="summary">
-      <p class="total-hours">Total Hours: {{ calculateFacultyHours()}} / 72</p>
+      <p class="total-hours">Total Hours: {{ calculateFacultyHours() / 72}}</p>
     </div>
   </div>
 </div>
