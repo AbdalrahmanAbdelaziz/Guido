@@ -1,14 +1,14 @@
+<!-- my-general.component.html -->
 <div class="courses-page">
-
   <app-student-header></app-student-header>
 
   <div class="navbar-spacer"></div>
 
   <div class="course-manager">
     <div class="tables-container">
-      <!-- Core Courses -->
+      <!-- Compulsory Subjects -->
       <div class="table-container">
-        <h3 class="table-title"> Compulsory Subjects (63 hours)</h3>
+        <h3 class="table-title">Compulsory Subjects (6 hours)</h3>
         <table class="course-table">
           <thead>
             <tr>
@@ -17,6 +17,7 @@
               <th>Hours</th>
               <th>PreRequest</th>
               <th>Grade</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -43,14 +44,23 @@
                   <option value="F">F</option>
                 </select>
               </td>
+              <td>
+                <button 
+                  class="add-button"
+                  (click)="addCourse(course)"
+                  [disabled]="!canTakeCourse(course) || course.grade === 'none'"
+                >
+                  Add
+                </button>
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <!-- Elective Courses -->
+      <!-- Elective Subjects -->
       <div class="table-container">
-        <h3 class="table-title">Electives Subjects (9 hours)</h3>
+        <h3 class="table-title">Electives Subjects (6 hours)</h3>
         <table class="course-table">
           <thead>
             <tr>
@@ -59,6 +69,7 @@
               <th>Hours</th>
               <th>PreRequest</th>
               <th>Grade</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -85,16 +96,23 @@
                   <option value="F">F</option>
                 </select>
               </td>
+              <td>
+                <button 
+                  class="add-button"
+                  (click)="addCourse(course)"
+                  [disabled]="!canTakeCourse(course) || course.grade === 'none'"
+                >
+                  Add
+                </button>
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- Summary Section -->
     <div class="summary">
-      <div class="total-hours">Total Hours: {{ calculateFacultyHours() }}</div>
-      <button class="submit-button" (click)="submitCourses()">Submit</button>
+      <p class="total-hours">Total Hours: {{ calculateFacultyHours }}/72</p>
     </div>
   </div>
 </div>

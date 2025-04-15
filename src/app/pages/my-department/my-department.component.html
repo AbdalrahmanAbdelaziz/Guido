@@ -1,31 +1,14 @@
-<div class="department-page">
-  <!-- Department Selection Modal -->
-  <div *ngIf="isModalVisible" class="modal">
-    <div class="modal-content">
-      <h2>Select Your Department</h2>
-      <label for="department-select">Department:</label>
-      <select id="department-select" (change)="onDepartmentChange($event)">
-        <option value="" disabled selected>Select your department</option>
-        <option value="CS">Computer Science (CS)</option>
-        <option value="IS">Information Systems (IS)</option>
-        <option value="AI">Artificial Intelligence (AI)</option>
-        <option value="IT">Information Technology (IT)</option>
-      </select>
-      <div class="modal-footer">
-        <button (click)="closeModal()">Confirm</button>
-      </div>
-    </div>
-  </div>
-
- 
-
+<!-- my-general.component.html -->
+<div class="courses-page">
   <app-student-header></app-student-header>
-  
-  <!-- Courses Tables -->
-  <div *ngIf="selectedDepartment && !isModalVisible" class="course-manager">
+
+  <div class="navbar-spacer"></div>
+
+  <div class="course-manager">
     <div class="tables-container">
+      <!-- Compulsory Subjects -->
       <div class="table-container">
-        <h3>Compulsory Subjects (39 hours)</h3>
+        <h3 class="table-title">Compulsory Subjects (6 hours)</h3>
         <table class="course-table">
           <thead>
             <tr>
@@ -34,6 +17,7 @@
               <th>Hours</th>
               <th>PreRequest</th>
               <th>Grade</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -60,13 +44,23 @@
                   <option value="F">F</option>
                 </select>
               </td>
+              <td>
+                <button 
+                  class="add-button"
+                  (click)="addCourse(course)"
+                  [disabled]="!canTakeCourse(course) || course.grade === 'none'"
+                >
+                  Add
+                </button>
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
 
+      <!-- Elective Subjects -->
       <div class="table-container">
-        <h3>Electives Subjects (21 hours)</h3>
+        <h3 class="table-title">Electives Subjects (6 hours)</h3>
         <table class="course-table">
           <thead>
             <tr>
@@ -75,6 +69,7 @@
               <th>Hours</th>
               <th>PreRequest</th>
               <th>Grade</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -101,17 +96,23 @@
                   <option value="F">F</option>
                 </select>
               </td>
+              <td>
+                <button 
+                  class="add-button"
+                  (click)="addCourse(course)"
+                  [disabled]="!canTakeCourse(course) || course.grade === 'none'"
+                >
+                  Add
+                </button>
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- Summary Section -->
     <div class="summary">
-      <p class="total-hours">Total Hours: {{ calculateDepartmentHours() }}</p>
-      <button class="submit-button" (click)="submitCourses()">Submit</button>
+      <p class="total-hours">Total Hours: {{ calculateDepartmentHours }}/60</p>
     </div>
-    
   </div>
 </div>
