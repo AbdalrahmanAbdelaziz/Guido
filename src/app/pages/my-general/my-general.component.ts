@@ -1,4 +1,3 @@
-// my-general.component.ts
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Course } from '../../shared/interfaces/Course';
@@ -73,6 +72,9 @@ export class MyGeneralComponent implements OnInit {
   }
 
   canTakeCourse(course: Course): boolean {
+    // If course already has a grade, it's not available for selection
+    if (course.grade && course.grade !== 'none') return false;
+    
     if (!course.prerequest) return true;
     const preRequestCourse = this.allCourses.find((c) => c.code === course.prerequest);
     return preRequestCourse?.grade !== 'none' && preRequestCourse?.grade !== 'F';
@@ -117,10 +119,14 @@ export class MyGeneralComponent implements OnInit {
           this.toastr.success(`Course ${course.course_Name} added successfully`);
           this.updateTotalHours();
           
+          // Update the course in our local array
           const updatedCourse = this.allCourses.find(c => c.code === course.code);
           if (updatedCourse) {
             updatedCourse.grade = course.grade;
           }
+          
+          // Refresh the course lists
+          this.refreshCourses();
         } else {
           this.toastr.warning(`Course update completed but verify data for ${course.course_Name}`);
           console.warn('Backend response:', response);
@@ -134,5 +140,30 @@ export class MyGeneralComponent implements OnInit {
         }
       }
     });
+  }
+
+  private refreshCourses(): void {
+    // Re-fetch courses to ensure UI is in sync with backend
+    this.coursesService.fetchGeneralCoreCourses().subscribe((coreCourses) => {
+      this.coreCourses = coreCourses.map((course) => ({
+        ...course,
+        grade: course.grade || 'none'
+      }));
+      this.allCourses = [...this.coreCourses, ...this.electiveCourses];
+    });
+
+    this.coursesService.fetchGeneralElectiveCourses().subscribe((electiveCourses) => {
+      this.electiveCourses = electiveCourses.map((course) => ({
+        ...course,
+        grade: course.grade || 'none'
+      }));
+      this.allCourses = [...this.coreCourses, ...this.electiveCourses];
+    });
+  }
+
+  shouldDisableGradeSelect(course: Course): boolean {
+    // Explicitly return boolean
+    return !this.canTakeCourse(course) || 
+           (!!course.grade && course.grade !== 'none');
   }
 }

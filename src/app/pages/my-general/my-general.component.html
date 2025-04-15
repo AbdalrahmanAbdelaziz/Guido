@@ -20,17 +20,19 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let course of coreCourses" [class.disabled]="!canTakeCourse(course)">
+            <tr *ngFor="let course of coreCourses" 
+                [class.disabled]="!canTakeCourse(course)"
+                [class.completed-course]="course.grade && course.grade !== 'none'">
               <td>{{ course.code }}</td>
               <td>{{ course.course_Name }}</td>
               <td>{{ course.hours }}</td>
               <td>{{ course.prerequest || 'None' }}</td>
               <td>
                 <select
-                  [(ngModel)]="course.grade"
-                  [disabled]="!canTakeCourse(course)"
-                  title="Select grade for {{ course.course_Name }}"
-                >
+                [(ngModel)]="course.grade"
+                [disabled]="shouldDisableGradeSelect(course)"
+                title="Select grade for {{ course.course_Name }}"
+              >
                   <option value="none">None</option>
                   <option value="A+">A+</option>
                   <option value="A">A</option>
@@ -48,9 +50,11 @@
                   class="add-button"
                   (click)="addCourse(course)"
                   [disabled]="!canTakeCourse(course) || course.grade === 'none'"
+                  *ngIf="course.grade === 'none'"
                 >
                   Add
                 </button>
+                <span *ngIf="course.grade && course.grade !== 'none'">Completed</span>
               </td>
             </tr>
           </tbody>
@@ -72,7 +76,9 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let course of electiveCourses" [class.disabled]="!canTakeCourse(course)">
+            <tr *ngFor="let course of electiveCourses" 
+                [class.disabled]="!canTakeCourse(course)"
+                [class.completed-course]="course.grade && course.grade !== 'none'">
               <td>{{ course.code }}</td>
               <td>{{ course.course_Name }}</td>
               <td>{{ course.hours }}</td>
@@ -80,7 +86,7 @@
               <td>
                 <select
                   [(ngModel)]="course.grade"
-                  [disabled]="!canTakeCourse(course)"
+                  [disabled]="shouldDisableGradeSelect(course)"
                   title="Select grade for {{ course.course_Name }}"
                 >
                   <option value="none">None</option>
@@ -100,9 +106,11 @@
                   class="add-button"
                   (click)="addCourse(course)"
                   [disabled]="!canTakeCourse(course) || course.grade === 'none'"
+                  *ngIf="course.grade === 'none'"
                 >
                   Add
                 </button>
+                <span *ngIf="course.grade && course.grade !== 'none'">Completed</span>
               </td>
             </tr>
           </tbody>

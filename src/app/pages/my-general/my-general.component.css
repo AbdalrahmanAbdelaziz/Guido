@@ -71,6 +71,15 @@ body.dark-mode .course-table tr:hover { background: var(--hover-dark); }
 .disabled { background: #f9c6c6; }
 body.dark-mode .disabled { background: #5c2a2a; }
 
+.completed-course {
+  opacity: 0.7;
+  background-color: #e8f5e9;
+}
+body.dark-mode .completed-course {
+  background-color: #1b5e20;
+  opacity: 0.8;
+}
+
 .table-title {
   text-align: center;
   color: var(--primary);
@@ -142,7 +151,7 @@ body.dark-mode select { background: var(--hover-dark); color: var(--text-dark); 
 
 @media screen and (max-width: 768px) {
   .course-manager {
-    padding-bottom: 100px; /* Space for fixed bottom navbar */
+    padding-bottom: 100px;
   }
   
   .table-container {
@@ -151,7 +160,7 @@ body.dark-mode select { background: var(--hover-dark); color: var(--text-dark); 
   }
   
   .course-table {
-    min-width: 600px; /* Allows horizontal scrolling */
+    min-width: 600px;
   }
 }
 
