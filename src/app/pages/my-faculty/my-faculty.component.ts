@@ -107,4 +107,9 @@ export class MyFacultyComponent implements OnInit {
       }
     });
   }
+  shouldDisableGradeSelect(course: Course): boolean {
+    // Explicitly return boolean
+    return !this.canTakeCourse(course) || 
+           (!!course.grade && course.grade !== 'none');
+  }
 }
