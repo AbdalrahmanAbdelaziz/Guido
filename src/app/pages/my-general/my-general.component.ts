@@ -79,6 +79,8 @@ export class MyGeneralComponent implements OnInit {
       .reduce((total, course) => total + (parseFloat(course.hours) || 0), 0); 
   }
 
+
+
   addCourse(course: Course): void {
     if (!course.grade || course.grade === 'none') {
         this.toastr.warning('Please select a grade before adding the course');
@@ -90,15 +92,20 @@ export class MyGeneralComponent implements OnInit {
         return;
     }
   
+    if (!course.code) {
+        this.toastr.error('Course code is missing');
+        return;
+    }
+
     const updateCourse: UpdateCourse = {
-      code: course.code,  
+        code: course.code,  
         grade: course.grade,
         hours: parseInt(course.hours)
     };
   
     this.coursesService.updateCourses([updateCourse]).subscribe({
         next: (response) => {
-            if (response && (response.SubjectCode || response.grade || response.hours)) {
+            if (response && response.message === "Updated Successfully.") {
                 this.toastr.success(`Course ${course.course_Name} added successfully`);
                 this.calculatedHoursEvent.emit(this.calculateTotalHours());
             } else {

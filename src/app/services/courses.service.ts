@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { BehaviorSubject, map, Observable, tap } from "rxjs";
+import { BehaviorSubject, map, Observable, tap, throwError } from "rxjs";
 import { ToastrService } from 'ngx-toastr';
 import { Course } from "../shared/interfaces/Course";
 import { UpdateCourse } from "../shared/interfaces/UpdateCourse";
@@ -131,24 +131,43 @@ export class CoursesService {
 
 
       updateCourses(updateCourses: UpdateCourse[]): Observable<any> {
+        // Validate input
+        if (!updateCourses || updateCourses.length === 0) {
+            return throwError(() => new Error('No courses provided for update'));
+        }
+    
+        const invalidCourses = updateCourses.filter(c => 
+            !c.code || !c.grade || isNaN(c.hours)
+        );
+        
+        if (invalidCourses.length > 0) {
+            return throwError(() => new Error('Invalid course data provided'));
+        }
+    
         const requestBody = {
-          dTOupdate: updateCourses.map(course => ({
-            code: course.code,  
-            grade: course.grade,
-            hours: course.hours
-          }))
+            dTOupdate: updateCourses.map(course => ({
+                code: course.code,
+                grade: course.grade,
+                hours: course.hours
+            }))
         };
         
         return this.http.post<any>(UPDATE_COURSES_URL, requestBody).pipe(
-          tap({
-            next: () => this.toastrService.success('Courses updated successfully.'),
-            error: (error) => {
-              this.toastrService.error('Failed to update courses.');
-              console.error('Backend error:', error);
-            }
-          })
+            tap({
+                next: (response) => {
+                    if (response.message === "Updated Successfully.") {
+                        this.toastrService.success('Courses updated successfully.');
+                    } else {
+                        this.toastrService.warning('Courses updated with warnings.');
+                    }
+                },
+                error: (error) => {
+                    this.toastrService.error('Failed to update courses.');
+                    console.error('Backend error:', error);
+                }
+            })
         );
-      }
+    }
 
       
 

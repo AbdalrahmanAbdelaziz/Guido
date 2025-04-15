@@ -1,5 +1,5 @@
 export interface UpdateCourse {
-    code: string;  
-    grade: string;
-    hours: number;
-  }
+  code: string;  // Non-nullable
+  grade: string; // Non-nullable
+  hours: number; // Non-nullable
+}
