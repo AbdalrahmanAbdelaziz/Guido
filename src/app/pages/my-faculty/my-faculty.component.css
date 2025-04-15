@@ -1,78 +1,25 @@
-:root {
-  --primary-color: #007bff;
-  --secondary-color: #0056b3;
-  --background-light: #ffffff;
-  --text-light: #333333;
-  --background-dark: #121212;
-  --text-dark: #ffffff;
-  --hover-light: #f0f0f0;
-  --hover-dark: #1e1e1e;
-}
-
 body {
   font-family: 'Montserrat', sans-serif;
   margin: 0;
-  background-color: var(--background-light);
-  color: var(--text-light);
+  background-color: #ffffff;
+  color: #333333;
   overflow-x: hidden;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body.dark-mode {
-  background-color: var(--background-dark);
-  color: var(--text-dark);
+  background-color: #121212;
+  color: #ffffff;
 }
 
-/* Navbar */
-.navbar {
-  background-color: #007bff;
-  color: #fff;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 30px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); 
-}
-
-.app-name {
-  font-size: 1.8em;
-  font-weight: bold;
-  color: #fff;
-  letter-spacing: 2px;
-  cursor: pointer;
-}
-
-.right-button {
-  display: flex;
-  align-items: center;
-}
-
-.menu-trigger {
-  font-size: 1.2em;
-  font-weight: 500;
-  color: white;
-  text-decoration: none;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.menu-trigger:hover {
-  background-color: #457b9d;
-  transform: translateY(-3px); 
-}
-
-
-.navbar-spacer {
-  height: 70px; /* Adjust based on the navbar height */
-}
-
-/* Course Manager */
 .course-manager {
   margin: 100px 20px 20px 20px;
+}
+
+.tables-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
 }
 
 .tables-container {
@@ -85,13 +32,13 @@ body.dark-mode {
   width: 48%;
   padding: 20px;
   border-radius: 8px;
-  background-color: var(--background-light);
+  background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 body.dark-mode .table-container {
-  background-color: var(--background-dark);
+  background-color: #121212;
   box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
 }
 
@@ -109,19 +56,19 @@ body.dark-mode .table-container {
 }
 
 .course-table th {
-  background-color: var(--primary-color);
-  color: var(--text-dark);
+  background-color: #007bff;
+  color: #ffffff;
   font-weight: bold;
 }
 
 .course-table tr:hover {
-  background-color: var(--hover-light);
-  color: var(--text-light);
+  background-color: #f0f0f0;
+  color: #333333;
 }
 
 body.dark-mode .course-table tr:hover {
-  background-color: var(--hover-dark);
-  color: var(--text-dark);
+  background-color: #1e1e1e;
+  color: #f0f0f0;
 }
 
 .disabled {
@@ -134,14 +81,15 @@ body.dark-mode .disabled {
 
 .table-title {
   text-align: center;
-  color: var(--primary-color);
+  color: #007bff;
   font-weight: bold;
   margin-bottom: 10px;
 }
 
 body.dark-mode .table-title {
-  color: var(--text-dark);
+  color: #ffffff;
 }
+
 
 .summary {
   margin-top: 30px;
@@ -149,12 +97,11 @@ body.dark-mode .table-title {
   justify-content: flex-start; 
   align-items: center;
   background-color: #007bff;
-  color: var(--text-dark);
+  color: #ffffff;
   padding: 15px;
   border-radius: 8px;
   transition: background-color 0.3s ease;
 }
-
 
 .total-hours {
   font-size: 18px;
@@ -163,7 +110,7 @@ body.dark-mode .table-title {
 
 .submit-button {
   background-color: #32CD32;
-  color: var(--text-dark);
+  color: #ffffff;
   padding: 12px 24px;
   border: none;
   cursor: pointer;
@@ -179,37 +126,12 @@ body.dark-mode .table-title {
 
 body.dark-mode .submit-button {
   background-color: #32CD32;
-  color: var(--text-light);
+  color: #333333;
 }
 
 body.dark-mode .submit-button:hover {
-  background-color: #0056b3;
+  background-color: #0056b3;;
 }
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .tables-container {
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .table-container {
-    width: 100%;
-  }
-
-  .course-table th,
-  .course-table td {
-    padding: 8px;
-  }
-
-  .summary {
-    flex-direction: column;
-    gap: 10px;
-    text-align: center;
-  }
-}
-
-/* Add these new styles to your existing CSS */
 
 .add-button {
   background-color: #4CAF50;
