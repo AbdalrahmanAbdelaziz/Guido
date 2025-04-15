@@ -36,7 +36,8 @@ export class MyGeneralComponent implements OnInit {
   selectedCourses: Course[] = [];
   totalHours: number = 0;
   isDarkMode = false;
-  disabledCourses: string[] = []; // Array to track disabled course codes
+  disabledCourses: string[] = [];
+  showAddButtonMap: { [courseCode: string]: boolean } = {};
 
   constructor(
     private authService: AuthService, 
@@ -54,19 +55,27 @@ export class MyGeneralComponent implements OnInit {
     });
 
     this.coursesService.fetchGeneralCoreCourses().subscribe((coreCourses) => {
-      this.coreCourses = coreCourses.map((course) => ({
-        ...course,
-        grade: course.grade || 'none'
-      }));
+      this.coreCourses = coreCourses.map((course) => {
+        // Initialize the showAddButton state for each course
+        this.showAddButtonMap[course.code] = !course.grade || course.grade === 'none';
+        return {
+          ...course,
+          grade: course.grade || 'none'
+        };
+      });
       this.allCourses = [...this.coreCourses, ...this.electiveCourses];
       this.updateTotalHours();
     });
 
     this.coursesService.fetchGeneralElectiveCourses().subscribe((electiveCourses) => {
-      this.electiveCourses = electiveCourses.map((course) => ({
-        ...course,
-        grade: course.grade || 'none'
-      }));
+      this.electiveCourses = electiveCourses.map((course) => {
+        // Initialize the showAddButton state for each course
+        this.showAddButtonMap[course.code] = !course.grade || course.grade === 'none';
+        return {
+          ...course,
+          grade: course.grade || 'none'
+        };
+      });
       this.allCourses = [...this.coreCourses, ...this.electiveCourses];
       this.updateTotalHours();
     });
@@ -105,8 +114,8 @@ export class MyGeneralComponent implements OnInit {
       return;
     }
 
-    // Add to disabled courses immediately to prevent multiple clicks
-    this.disabledCourses.push(course.code);
+    // Hide the add button immediately
+    this.showAddButtonMap[course.code] = false;
 
     const updateCourse: UpdateCourse = {
       code: course.code,
@@ -119,21 +128,20 @@ export class MyGeneralComponent implements OnInit {
         if (response && response.message === "Updated Successfully.") {
           this.toastr.success(`Course ${course.course_Name} added successfully`);
           this.updateTotalHours();
-          
-          // The course remains disabled since it's already in disabledCourses
         } else {
-          // Remove from disabled courses if not successful
-          this.disabledCourses = this.disabledCourses.filter(c => c !== course.code);
+          // Show the add button again if not successful
+          this.showAddButtonMap[course.code] = true;
           this.toastr.warning(`Course update completed but verify data for ${course.course_Name}`);
         }
       },
       error: (error) => {
-        // Remove from disabled courses on error
-        this.disabledCourses = this.disabledCourses.filter(c => c !== course.code);
+        // Show the add button again on error
+        this.showAddButtonMap[course.code] = true;
         this.toastr.error(`Failed to add course ${course.course_Name}`);
       }
     });
   }
+
 
   isCourseDisabled(course: Course): boolean {
     return this.disabledCourses.includes(course.code);

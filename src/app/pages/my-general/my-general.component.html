@@ -45,12 +45,14 @@
               </td>
               <td>
                 <button 
-                class="add-button"
-                (click)="addCourse(course)"
-                [disabled]="!canTakeCourse(course) || course.grade === 'none' || isCourseDisabled(course)"
-              >
-                Add
-              </button>
+                  *ngIf="showAddButtonMap[course.code]"
+                  class="add-button"
+                  (click)="addCourse(course)"
+                  [disabled]="!canTakeCourse(course) || course.grade === 'none'"
+                >
+                  Add
+                </button>
+                <span *ngIf="!showAddButtonMap[course.code]">Added</span>
               </td>
             </tr>
           </tbody>
@@ -97,12 +99,14 @@
               </td>
               <td>
                 <button 
-                class="add-button"
-                (click)="addCourse(course)"
-                [disabled]="!canTakeCourse(course) || course.grade === 'none' || isCourseDisabled(course)"
-              >
-                Add
-              </button>
+                  *ngIf="showAddButtonMap[course.code]"
+                  class="add-button"
+                  (click)="addCourse(course)"
+                  [disabled]="!canTakeCourse(course) || course.grade === 'none'"
+                >
+                  Add
+                </button>
+                <span *ngIf="!showAddButtonMap[course.code]">Added</span>
               </td>
             </tr>
           </tbody>
