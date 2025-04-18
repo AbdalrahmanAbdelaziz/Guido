@@ -44,4 +44,6 @@ export const UPDATE_PROFILE_URL = BASE_URL + '/api/student/update';
 
 export const ADD_COURSE_TO_STUDENT_URL = BASE_URL + '/api/student/add-course';
 
-export const GET_TOTAL_HOURS_URL = BASE_URL + '/api/Calculate-Total-Hours';
+export const GET_TOTAL_HOURS_URL =  BASE_URL + '/api/Calculate-Total-Hours';
+
+export const UPDATE_DEPARTMENT_URL = BASE_URL + '/api/Update-Department';

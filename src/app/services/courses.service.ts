@@ -20,7 +20,8 @@ import {
     GET_IT_ELECTIVE_COURSE_URL,
     GET_TOTAL_HOURS_URL,
     MAKE_COURSES_URL,
-    UPDATE_COURSES_URL} from "../shared/constants/urls";
+    UPDATE_COURSES_URL,
+    UPDATE_DEPARTMENT_URL} from "../shared/constants/urls";
 import { TotalHoursResponse } from "../shared/interfaces/hours";
 
 
@@ -182,6 +183,32 @@ export class CoursesService {
         }),
         catchError(error => {
           console.log('Parsing error:', error);
+          return throwError(() => error);
+        })
+      );
+    }
+
+
+    updateDepartment(departmentName: string): Observable<any> {
+      if (!['CS', 'IS', 'AI', 'IT'].includes(departmentName)) {
+        this.toastrService.error('Invalid department selected');
+        return throwError(() => new Error('Invalid department selected'));
+      }
+    
+      return this.http.post<any>(UPDATE_DEPARTMENT_URL, { departmentName }).pipe(
+        tap({
+          next: () => {
+            this.toastrService.success('Department updated successfully');
+            // Store the department in localStorage
+            localStorage.setItem('selectedDepartment', departmentName);
+          },
+          error: (error) => {
+            this.toastrService.error('Failed to update department');
+            console.error('Error updating department:', error);
+          }
+        }),
+        catchError(error => {
+          console.error('API Error:', error);
           return throwError(() => error);
         })
       );

@@ -23,15 +23,28 @@ export class MyDepartmentComponent implements OnInit {
   disabledCourses: string[] = [];
   showAddButtonMap: { [courseCode: string]: boolean } = {};
 
-
   @Output() calculatedHoursEvent = new EventEmitter<number>();
 
-  isModalVisible = true;  
-  constructor(private authService: AuthService, private darkModeService: DarkModeService, private coursesService: CoursesService, private toastr: ToastrService) {}
+  isModalVisible = false; // Changed to false initially
+
+  constructor(
+    private authService: AuthService, 
+    private darkModeService: DarkModeService, 
+    private coursesService: CoursesService, 
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
+    this.isDarkMode = this.darkModeService.isDarkMode();
 
-    this.isDarkMode = this.darkModeService.isDarkMode(); // Check dark mode state
+    // Check if department is already selected
+    const savedDepartment = localStorage.getItem('selectedDepartment');
+    if (savedDepartment) {
+      this.selectedDepartment = savedDepartment;
+      this.fetchDepartmentCourses();
+    } else {
+      this.isModalVisible = true; // Show modal only if no department is selected
+    }
 
     this.authService.studentObservable.subscribe((newStudent) => {
       if (newStudent) {
@@ -42,7 +55,6 @@ export class MyDepartmentComponent implements OnInit {
 
   onDepartmentChange(event: any): void {
     this.selectedDepartment = event.target.value;
-    this.fetchDepartmentCourses();
   }
 
   fetchDepartmentCourses(): void {
@@ -65,6 +77,23 @@ export class MyDepartmentComponent implements OnInit {
         console.error('Invalid department selected');
         return;
     }
+  }
+
+  confirmDepartment(): void {
+    if (!this.selectedDepartment) {
+      this.toastr.warning('Please select a department');
+      return;
+    }
+
+    this.coursesService.updateDepartment(this.selectedDepartment).subscribe({
+      next: () => {
+        this.isModalVisible = false;
+        this.fetchDepartmentCourses();
+      },
+      error: (error) => {
+        console.error('Error updating department:', error);
+      }
+    });
   }
 
   private fetchCoursesByType(coreType: string, electiveType: string): void {
@@ -107,7 +136,6 @@ export class MyDepartmentComponent implements OnInit {
       },
     });
   }
-  
 
   canTakeCourse(course: Course): boolean {
     if (!course.prerequest) return true;
@@ -121,9 +149,12 @@ export class MyDepartmentComponent implements OnInit {
       .reduce((total, course) => total + (parseFloat(course.hours) || 0), 0); 
   }
 
-
   closeModal(): void {
-    this.isModalVisible = false;
+    if (!this.selectedDepartment) {
+      this.toastr.warning('Please select a department');
+      return;
+    }
+    this.confirmDepartment();
   }
 
   addCourse(course: Course): void {
@@ -142,7 +173,6 @@ export class MyDepartmentComponent implements OnInit {
       return;
     }
 
-    // Hide the add button immediately
     this.showAddButtonMap[course.code] = false;
 
     const updateCourse: UpdateCourse = {
@@ -156,20 +186,16 @@ export class MyDepartmentComponent implements OnInit {
         if (response && response.message === "Updated Successfully.") {
           this.toastr.success(`Course ${course.course_Name} added successfully`);
         } else {
-          // Show the add button again if not successful
           this.showAddButtonMap[course.code] = true;
           this.toastr.warning(`Course update completed but verify data for ${course.course_Name}`);
         }
       },
       error: (error) => {
-        // Show the add button again on error
         this.showAddButtonMap[course.code] = true;
         this.toastr.error(`Failed to add course ${course.course_Name}`);
       }
     });
   }
-
-
 
   isCourseDisabled(course: Course): boolean {
     return this.disabledCourses.includes(course.code);
