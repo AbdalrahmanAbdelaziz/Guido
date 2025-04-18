@@ -41,7 +41,9 @@
   <section class="dashboard-section">
     <h2 class="section-title">Academic Dashboard</h2>
     <div class="features-grid">
-      <div class="feature-card" *ngFor="let feature of features" (click)="navigateTo(feature.link)">
+      <div class="feature-card" *ngFor="let feature of features" 
+           (click)="!feature.disabled && navigateTo(feature.link)"
+           [class.disabled-card]="feature.disabled">
         <div class="card-icon" *ngIf="feature.icon">
           <i [class]="feature.icon"></i>
         </div>
@@ -63,13 +65,15 @@
             <div class="progress-bar">
               <div class="progress-fill" [style.width]="(departmentHours/60)*100 + '%'"></div>
             </div>
-            <p>{{ departmentHours }} of 60 hours completed</p>
+            <p *ngIf="!feature.disabled">{{ departmentHours }} of 60 hours completed</p>
+            <p *ngIf="feature.disabled" class="disabled-message">Complete Faculty Requirements first</p>
           </ng-container>
         </div>
-        <div class="card-action">
+        <div class="card-action" *ngIf="!feature.disabled">
           View Details <i class="fas fa-chevron-right"></i>
+        </div>
+        <div class="card-action disabled-action" *ngIf="feature.disabled">
+          Locked <i class="fas fa-lock"></i>
         </div>
       </div>
     </div>
-  </section>
-</div>

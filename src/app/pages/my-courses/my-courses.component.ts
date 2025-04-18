@@ -20,17 +20,20 @@ export class MyCoursesComponent implements OnInit {
     {
       name: 'General Requirements',
       link: '/my-general',
-      icon: 'fas fa-graduation-cap'
+      icon: 'fas fa-graduation-cap',
+      disabled: false
     },
     {
       name: 'Faculty Requirements',
       link: '/my-faculty',
-      icon: 'fas fa-university'
+      icon: 'fas fa-university',
+      disabled: false
     },
     {
       name: 'Division Requirements',
       link: '/my-department',
-      icon: 'fas fa-building'
+      icon: 'fas fa-building',
+      disabled: true 
     }
   ];
 
@@ -53,19 +56,20 @@ export class MyCoursesComponent implements OnInit {
 
 
   loadTotalHours(): void {
-    console.log('Attempting to load total hours...'); // Add this
+    console.log('Attempting to load total hours...');
     this.coursesService.getTotalHours().subscribe({
       next: (response) => {
-        console.log('API Response:', response); // Add this
+        console.log('API Response:', response);
         this.generalHours = response.genralHours || 0;
         this.facultyHours = response.facultyHours || 0;
         
-        // Set department hours based on the department-specific hours in the response
         if (response.CSHours) this.departmentHours = response.CSHours;
         else if (response.AIHours) this.departmentHours = response.AIHours;
         else if (response.ITHours) this.departmentHours = response.ITHours;
         else if (response.ISHours) this.departmentHours = response.ISHours;
         else this.departmentHours = 0;
+  
+        this.features[2].disabled = this.facultyHours < 66;
       },
       error: (error) => {
         console.error('Error loading total hours:', error);

@@ -284,3 +284,35 @@ body {
     height: 60px;
   }
 }
+
+/* Add these styles to your CSS file */
+.disabled-card {
+  opacity: 0.7;
+  cursor: not-allowed !important;
+  pointer-events: none;
+  background-color: #f8f9fa;
+  border: 1px dashed #dee2e6;
+}
+
+.disabled-card .card-icon {
+  background-color: #e9ecef !important;
+  color: #6c757d !important;
+}
+
+.disabled-card h3 {
+  color: #6c757d !important;
+}
+
+.disabled-message {
+  color: #dc3545 !important;
+  font-weight: 500;
+}
+
+.disabled-action {
+  color: #6c757d !important;
+}
+
+.disabled-card:hover {
+  transform: none !important;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08) !important;
+}
