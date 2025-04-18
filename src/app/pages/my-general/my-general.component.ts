@@ -7,7 +7,6 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { DarkModeService } from '../../services/dark-mode.service';
 import { CoursesService } from '../../services/courses.service';
 import { ToastrService } from 'ngx-toastr';
-import { SharedHoursService } from '../../services/shared-hours.service';
 
 @Component({
   selector: 'app-my-general',
@@ -44,7 +43,6 @@ export class MyGeneralComponent implements OnInit {
     private darkModeService: DarkModeService, 
     private coursesService: CoursesService,
     private toastr: ToastrService,
-    private sharedHoursService: SharedHoursService
   ) {}
 
   ngOnInit(): void {
@@ -93,7 +91,6 @@ export class MyGeneralComponent implements OnInit {
 
   updateTotalHours(): void {
     this.totalHours = this.calculateTotalHours();
-    this.sharedHoursService.updateGeneralHours(this.totalHours);
   }
 
   addCourse(course: Course): void {

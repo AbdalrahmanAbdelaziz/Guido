@@ -1,9 +1,8 @@
-// my-courses.component.ts
 import { Component, OnInit } from '@angular/core';
 import { Student } from '../../shared/interfaces/Student';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { SharedHoursService } from '../../services/shared-hours.service';
+import { CoursesService } from '../../services/courses.service';
 
 @Component({
   selector: 'app-my-courses',
@@ -37,7 +36,7 @@ export class MyCoursesComponent implements OnInit {
   constructor(
     private authService: AuthService, 
     private router: Router,
-    private sharedHoursService: SharedHoursService
+    private coursesService: CoursesService
   ) {
     this.authService.studentObservable.subscribe((newStudent) => {
       if (newStudent) {
@@ -47,8 +46,24 @@ export class MyCoursesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.sharedHoursService.currentGeneralHours.subscribe(hours => {
-      this.generalHours = hours;
+ 
+  }
+
+  loadTotalHours(): void {
+    this.coursesService.getTotalHours().subscribe({
+      next: (response) => {
+        this.generalHours = response.genralHours || 0;
+        this.facultyHours = response.facultyHours || 0;
+        
+        if (response.CSHours) this.departmentHours = response.CSHours;
+        else if (response.AIHours) this.departmentHours = response.AIHours;
+        else if (response.ITHours) this.departmentHours = response.ITHours;
+        else if (response.ISHours) this.departmentHours = response.ISHours;
+        else this.departmentHours = 0;
+      },
+      error: (error) => {
+        console.error('Error loading total hours:', error);
+      }
     });
   }
 

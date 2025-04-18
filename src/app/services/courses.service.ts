@@ -18,8 +18,10 @@ import {
     GET_IS_ELECTIVE_COURSE_URL,
     GET_IT_CORE_COURSE_URL,
     GET_IT_ELECTIVE_COURSE_URL,
+    GET_TOTAL_HOURS_URL,
     MAKE_COURSES_URL,
     UPDATE_COURSES_URL} from "../shared/constants/urls";
+import { TotalHoursResponse } from "../shared/interfaces/hours";
 
 
 
@@ -166,6 +168,24 @@ export class CoursesService {
           })
         );
       }
+
+
+      getTotalHours(): Observable<TotalHoursResponse> {
+        return this.http.get<TotalHoursResponse>(GET_TOTAL_HOURS_URL).pipe(
+            tap({
+                next: () => {
+                    // this.toastrService.success('Hours loaded successfully.');
+                },
+                error: () => {
+                    // this.toastrService.error('Failed to load hours.');
+                }
+            }),
+            catchError(error => {
+                console.error('Error loading total hours:', error);
+                return throwError(() => error);
+            })
+        );
+    }
       
 
 }

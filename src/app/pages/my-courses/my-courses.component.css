@@ -79,21 +79,38 @@ body {
   text-align: center;
 }
 
+/* Updated Progress Circle Styles */
 .progress-circle {
+  --percentage: 0;
+  --progress-color: #32CD32;
+  --bg-color: #f0f8ff;
+  
+  position: relative;
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background-color: #32CD32;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 15px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: conic-gradient(var(--progress-color) calc(var(--percentage) * 1%), var(--bg-color) 0);
+}
+
+.progress-circle::before {
+  content: '';
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: white;
 }
 
 .progress-circle span {
+  position: relative;
   font-weight: 600;
   font-size: 1.1rem;
+  color: #212529;
 }
 
 .progress-item p {
@@ -260,5 +277,10 @@ body {
   .progress-circle {
     width: 80px;
     height: 80px;
+  }
+  
+  .progress-circle::before {
+    width: 60px;
+    height: 60px;
   }
 }
