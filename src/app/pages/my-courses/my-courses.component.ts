@@ -53,8 +53,10 @@ export class MyCoursesComponent implements OnInit {
 
 
   loadTotalHours(): void {
+    console.log('Attempting to load total hours...'); // Add this
     this.coursesService.getTotalHours().subscribe({
       next: (response) => {
+        console.log('API Response:', response); // Add this
         this.generalHours = response.genralHours || 0;
         this.facultyHours = response.facultyHours || 0;
         

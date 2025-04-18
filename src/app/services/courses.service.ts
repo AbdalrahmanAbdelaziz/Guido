@@ -170,22 +170,19 @@ export class CoursesService {
       }
 
 
-      getTotalHours(): Observable<TotalHoursResponse> {
-        return this.http.get<TotalHoursResponse>(GET_TOTAL_HOURS_URL).pipe(
-            tap({
-                next: () => {
-                    // this.toastrService.success('Hours loaded successfully.');
-                },
-                error: () => {
-                    // this.toastrService.error('Failed to load hours.');
-                }
+    // courses.service.ts
+  getTotalHours(): Observable<TotalHoursResponse> {
+     return this.http.get<TotalHoursResponse>(GET_TOTAL_HOURS_URL).pipe(
+        tap({
+            next: (response) => console.log('Service response:', response),
+            error: (error) => console.error('Service error:', error)
             }),
-            catchError(error => {
-                console.error('Error loading total hours:', error);
-                return throwError(() => error);
-            })
-        );
-    }
+        catchError(error => {
+            console.error('Service caught error:', error);
+            return throwError(() => error);
+    })
+  );
+}
       
 
 }
