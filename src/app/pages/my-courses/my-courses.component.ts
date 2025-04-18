@@ -42,6 +42,8 @@ export class MyCoursesComponent implements OnInit {
       if (newStudent) {
         this.student = newStudent;
       }
+
+      this.loadTotalHours();
     });
   }
 
