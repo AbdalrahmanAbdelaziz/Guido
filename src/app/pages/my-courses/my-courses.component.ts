@@ -1,9 +1,9 @@
 // my-courses.component.ts
 import { Component, OnInit } from '@angular/core';
-import { CoursesService } from '../../services/courses.service';
 import { Student } from '../../shared/interfaces/Student';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { CoursesService } from '../../services/courses.service';
 
 @Component({
   selector: 'app-my-courses',
@@ -11,38 +11,46 @@ import { Router } from '@angular/router';
   styleUrls: ['./my-courses.component.css']
 })
 export class MyCoursesComponent implements OnInit {
-  student: Student | null = null; // Allow null here
+  student!: Student;
   generalHours: number = 0;
   facultyHours: number = 0;
   departmentHours: number = 0;
 
   features = [
-    { name: 'General Requirements', link: '/general-courses', icon: 'fas fa-globe' },
-    { name: 'Faculty Requirements', link: '/faculty-courses', icon: 'fas fa-university' },
-    { name: 'Division Requirements', link: '/department-courses', icon: 'fas fa-code-branch' }
+    {
+      name: 'General Requirements',
+      link: '/my-general',
+      icon: 'fas fa-graduation-cap'
+    },
+    {
+      name: 'Faculty Requirements',
+      link: '/my-faculty',
+      icon: 'fas fa-university'
+    },
+    {
+      name: 'Division Requirements',
+      link: '/my-department',
+      icon: 'fas fa-building'
+    }
   ];
 
   constructor(
-    private coursesService: CoursesService,
-    private authService: AuthService,
-    private router: Router
-  ) {}
-
-  ngOnInit(): void {
-    this.loadStudentData();
-    this.loadTotalHours();
-  }
-
-  loadStudentData(): void {
-    this.authService.studentObservable.subscribe({
-      next: (student) => {
-        this.student = student;
-      },
-      error: (error) => {
-        console.error('Error loading student data:', error);
+    private authService: AuthService, 
+    private router: Router,
+    private coursesService: CoursesService
+  ) {
+    this.authService.studentObservable.subscribe((newStudent) => {
+      if (newStudent) {
+        this.student = newStudent;
       }
     });
   }
+
+  ngOnInit(): void {
+    this.loadTotalHours();
+  
+  }
+
 
   loadTotalHours(): void {
     this.coursesService.getTotalHours().subscribe({
