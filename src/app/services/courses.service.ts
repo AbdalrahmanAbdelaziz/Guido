@@ -135,20 +135,25 @@ export class CoursesService {
 
       updateCourses(updateCourses: UpdateCourse[]): Observable<any> {
         if (!updateCourses || updateCourses.length === 0) {
-          this.toastrService.warning('No courses provided for update');
-          return throwError(() => new Error('No courses provided for update'));
+            this.toastrService.warning('No courses provided for update');
+            return throwError(() => new Error('No courses provided for update'));
         }
     
         const invalidCourses = updateCourses.filter(c => 
-          !c.code || !c.grade || isNaN(c.hours)
+            !c.code || !c.grade || isNaN(c.hours)
         );
         
         if (invalidCourses.length > 0) {
-          this.toastrService.error('Invalid course data provided');
-          return throwError(() => new Error('Invalid course data provided'));
+            this.toastrService.error('Invalid course data provided');
+            return throwError(() => new Error('Invalid course data provided'));
         }
     
-        return this.http.post<any>(UPDATE_COURSES_URL, updateCourses).pipe(
+        // Wrap the courses array in a dTOupdate property
+        const requestBody = {
+            dTOupdate: updateCourses
+        };
+    
+        return this.http.post<any>(UPDATE_COURSES_URL, requestBody).pipe(
           tap({
             next: (response) => {
               if (response && response.message === "Updated Successfully.") {
