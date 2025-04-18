@@ -8,6 +8,7 @@ import {
     LOGIN_URL,
     RESET_PASSWORD_URL,
     STUDENT_REGISTER_URL,
+    TRANSCRIPT_URL,
     UPDATE_COURSES_URL,
     UPDATE_PASSWORD_URL,
     UPDATE_PROFILE_URL,
@@ -151,18 +152,7 @@ export class AuthService {
     updatePassword(password: string, confirm: string): Observable<Student> {
         return this.http.post<Student>(UPDATE_PASSWORD_URL, { password, confirm }).pipe(
           tap({
-            next: (response) => {
-              // Get current student data
-              const currentStudent = this.getStudentFromLocalStorage();
-              
-              // Create updated student object by merging current data with response
-              const updatedStudent = {
-                ...currentStudent,
-                ...response, // This will overwrite any matching fields from response
-                password: response.password, // Ensure password is updated
-                token: response.token || currentStudent?.token // Preserve token if not in response
-              } as Student;
-              
+            next: (updatedStudent) => {
               this.setStudentToLocalStorage(updatedStudent);
               this.studentSubject.next(updatedStudent);
               this.toastrService.success('Password updated successfully!');
@@ -180,6 +170,23 @@ export class AuthService {
           })
         );
       }
+
+getTranscript(): Observable<any> {
+  return this.http.get<any>(TRANSCRIPT_URL).pipe(
+    tap({
+      error: (error) => {
+        this.toastrService.error(
+          error.error?.message || 'Failed to load transcript',
+          'Error',
+          {
+            timeOut: 5000,
+            positionClass: 'toast-top-center'
+          }
+        );
+      }
+    })
+  );
+}
 
    
 }

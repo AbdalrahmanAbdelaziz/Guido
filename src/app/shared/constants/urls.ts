@@ -49,3 +49,6 @@ export const GET_TOTAL_HOURS_URL =  BASE_URL + '/api/Calculate-Total-Hours';
 export const UPDATE_DEPARTMENT_URL = BASE_URL + '/api/Update-Department';
 
 export const UPDATE_PASSWORD_URL = BASE_URL +  '/api/student/update';
+
+
+export const TRANSCRIPT_URL = BASE_URL + '/api/Transcript';
