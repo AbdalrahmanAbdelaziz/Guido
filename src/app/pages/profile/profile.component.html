@@ -1,10 +1,6 @@
 <app-student-header></app-student-header>
 
-
-
 <div class="navbar-spacer"></div>
-
-
 
 <div class="profile-container">
   <div class="profile-header">
@@ -63,5 +59,15 @@
     </div>
   </div>
 
-
+  <div class="profile-actions">
+    <button 
+      (click)="updatePassword()" 
+      [disabled]="isUpdating || !newPassword || !confirmPassword"
+    >
+      <span *ngIf="!isUpdating">Update Password</span>
+      <span *ngIf="isUpdating">
+        <i class="fas fa-spinner fa-spin"></i> Updating...
+      </span>
+    </button>
+  </div>
 </div>

@@ -9,6 +9,7 @@ import {
     RESET_PASSWORD_URL,
     STUDENT_REGISTER_URL,
     UPDATE_COURSES_URL,
+    UPDATE_PASSWORD_URL,
     UPDATE_PROFILE_URL,
 } from "../shared/constants/urls";
 
@@ -146,19 +147,28 @@ export class AuthService {
     }
 
 
-    updateProfile(student: Student, profilePic?: File): Observable<any>{
-        const formData = new FormData();
-        formData.append('firstName', student.firstName);
-        formData.append('lastName', student.lastName);
-        formData.append('email', student.email);
-        formData.append('password', student.password);
-        if(profilePic){
-            formData.append('profilePic', profilePic, profilePic.name);
-        }
-
-        return this.http.put(UPDATE_PROFILE_URL, formData);
-    }
-
+    
+    updatePassword(password: string, confirm: string): Observable<Student> {
+        return this.http.post<Student>(UPDATE_PASSWORD_URL, { password, confirm }).pipe(
+          tap({
+            next: (updatedStudent) => {
+              this.setStudentToLocalStorage(updatedStudent);
+              this.studentSubject.next(updatedStudent);
+              this.toastrService.success('Password updated successfully!');
+            },
+            error: (error) => {
+              this.toastrService.error(
+                error.error?.message || 'Failed to update password',
+                'Error',
+                {
+                  timeOut: 5000,
+                  positionClass: 'toast-top-center'
+                }
+              );
+            }
+          })
+        );
+      }
 
    
 }

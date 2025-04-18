@@ -170,3 +170,18 @@ body {
     font-size: 1em;
   }
 }
+
+/* Add these styles to your profile.component.css */
+.profile-actions button[disabled] {
+  background-color: #6c757d;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.profile-actions button i.fa-spinner {
+  margin-right: 8px;
+}
+
+/* Add this if you're using Font Awesome for the spinner */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
