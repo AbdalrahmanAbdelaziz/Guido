@@ -139,41 +139,55 @@ export class CoursesService {
             return throwError(() => new Error('No courses provided for update'));
         }
     
+        // More comprehensive validation
         const invalidCourses = updateCourses.filter(c => 
-            !c.code || !c.grade || isNaN(c.hours)
+            !c?.code || 
+            !c?.grade || 
+            isNaN(c.hours) ||
+            !['A+', 'A', 'B+', 'B', 'C+', 'C', 'D+', 'D', 'F'].includes(c.grade)
         );
         
         if (invalidCourses.length > 0) {
+            console.error('Invalid courses:', invalidCourses);
             this.toastrService.error('Invalid course data provided');
             return throwError(() => new Error('Invalid course data provided'));
         }
     
-        // Wrap the courses array in a dTOupdate property
-        const requestBody = {
-            dTOupdate: updateCourses
+        // Create payload with proper typing
+        const requestBody: { dTOupdate: UpdateCourse[] } = {
+            dTOupdate: updateCourses.map(c => ({
+                code: c.code.trim(),
+                grade: c.grade,
+                hours: Number(c.hours) // Ensure numeric
+            }))
         };
     
+        console.log('Sending payload:', JSON.stringify(requestBody, null, 2));
+    
         return this.http.post<any>(UPDATE_COURSES_URL, requestBody).pipe(
-          tap({
-            next: (response) => {
-              if (response && response.message === "Updated Successfully.") {
-                // this.toastrService.success('Courses updated successfully');
-              } else {
-                this.toastrService.warning('Courses updated with warnings');
-                console.warn('Unexpected response:', response);
-              }
-            },
-            error: (error) => {
-              this.toastrService.error('Failed to update courses');
-              console.error('Error:', error);
-            }
-          }),
-          catchError(error => {
-            console.error('API Error:', error);
-            return throwError(() => error);
-          })
+            tap({
+                next: (response) => {
+                    if (response?.message === "Updated Successfully.") {
+                        this.toastrService.success('Courses updated successfully');
+                    } else {
+                        console.warn('Unexpected response:', response);
+                        this.toastrService.warning(response?.message || 'Update completed with warnings');
+                    }
+                },
+                error: (error) => {
+                    console.error('API Error:', error);
+                    const errorMsg = error.error?.message || 'Failed to update courses';
+                    this.toastrService.error(errorMsg);
+                }
+            }),
+            catchError(error => {
+                console.error('API Error Details:', error);
+                return throwError(() => error);
+            })
         );
-      }
+    }
+
+    
 
 
     getTotalHours(): Observable<TotalHoursResponse> {
