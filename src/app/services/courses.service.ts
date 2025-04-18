@@ -170,19 +170,22 @@ export class CoursesService {
       }
 
 
-    // courses.service.ts
-  getTotalHours(): Observable<TotalHoursResponse> {
-     return this.http.get<TotalHoursResponse>(GET_TOTAL_HOURS_URL).pipe(
-        tap({
-            next: (response) => console.log('Service response:', response),
-            error: (error) => console.error('Service error:', error)
-            }),
+    getTotalHours(): Observable<TotalHoursResponse> {
+      return this.http.get(GET_TOTAL_HOURS_URL, { responseType: 'text' }).pipe(
+        tap(rawResponse => console.log('Raw response:', rawResponse)),
+        map(rawResponse => {
+          try {
+            return JSON.parse(rawResponse) as TotalHoursResponse;
+          } catch (e) {
+            throw new Error('Invalid JSON response');
+          }
+        }),
         catchError(error => {
-            console.error('Service caught error:', error);
-            return throwError(() => error);
-    })
-  );
-}
+          console.log('Parsing error:', error);
+          return throwError(() => error);
+        })
+      );
+    }
       
 
 }
