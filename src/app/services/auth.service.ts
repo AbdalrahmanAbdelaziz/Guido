@@ -151,7 +151,18 @@ export class AuthService {
     updatePassword(password: string, confirm: string): Observable<Student> {
         return this.http.post<Student>(UPDATE_PASSWORD_URL, { password, confirm }).pipe(
           tap({
-            next: (updatedStudent) => {
+            next: (response) => {
+              // Get current student data
+              const currentStudent = this.getStudentFromLocalStorage();
+              
+              // Create updated student object by merging current data with response
+              const updatedStudent = {
+                ...currentStudent,
+                ...response, // This will overwrite any matching fields from response
+                password: response.password, // Ensure password is updated
+                token: response.token || currentStudent?.token // Preserve token if not in response
+              } as Student;
+              
               this.setStudentToLocalStorage(updatedStudent);
               this.studentSubject.next(updatedStudent);
               this.toastrService.success('Password updated successfully!');
