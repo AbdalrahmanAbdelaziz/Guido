@@ -43,8 +43,10 @@ export class MyCoursesComponent implements OnInit {
         this.student = newStudent;
       }
 
-      this.loadTotalHours();
+     
     });
+
+    this.loadTotalHours();
   }
 
   ngOnInit(): void {
