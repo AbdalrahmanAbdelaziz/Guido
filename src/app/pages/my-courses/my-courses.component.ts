@@ -46,11 +46,11 @@ export class MyCoursesComponent implements OnInit {
      
     });
 
-    this.loadTotalHours();
+    
   }
 
   ngOnInit(): void {
- 
+    this.loadTotalHours();
   }
 
   loadTotalHours(): void {
