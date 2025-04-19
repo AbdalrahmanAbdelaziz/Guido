@@ -11,7 +11,6 @@ import {
     TRANSCRIPT_URL,
     UPDATE_COURSES_URL,
     UPDATE_PASSWORD_URL,
-    UPDATE_PROFILE_URL,
 } from "../shared/constants/urls";
 
 import { UserLogin } from "../shared/interfaces/UserLogin";
@@ -118,16 +117,19 @@ export class AuthService {
         );
     }
 
-    updateProfile(student: Student): Observable<Student> {
-        return this.http.post<Student>(UPDATE_PROFILE_URL, student).pipe(
+    updatePassword(password: string, confirm: string): Observable<any> {
+        return this.http.post<any>(UPDATE_PASSWORD_URL, { password, confirm }).pipe(
             tap({
-                next: (updatedStudent) => {
-                    this.setStudentToLocalStorage(updatedStudent);
-                    this.studentSubject.next(updatedStudent);
+                next: (response) => {
+                    if (response.data) {
+                        const updatedStudent = response.data as Student;
+                        this.setStudentToLocalStorage(updatedStudent);
+                        this.studentSubject.next(updatedStudent);
+                    }
                 },
                 error: (error) => {
                     this.toastrService.error(
-                        error.error?.message || 'Failed to update profile',
+                        error.error?.message || 'Failed to update password',
                         'Error',
                         {
                             timeOut: 5000,
@@ -139,38 +141,17 @@ export class AuthService {
         );
     }
 
-    updatePassword(password: string, confirm: string): Observable<Student> {
-        return this.http.post<Student>(UPDATE_PASSWORD_URL, { password, confirm }).pipe(
-          tap({
-            next: (updatedStudent) => {
-              this.setStudentToLocalStorage(updatedStudent);
-              this.studentSubject.next(updatedStudent);
-            },
-            error: (error) => {
-              this.toastrService.error(
-                error.error?.message || 'Failed to update password',
-                'Error',
-                {
-                  timeOut: 5000,
-                  positionClass: 'toast-top-center'
-                }
-              );
-            }
-          })
-        );
-    }
-
     getTranscript(): Observable<any> {
         return this.http.get<any>(TRANSCRIPT_URL).pipe(
             tap({
                 error: (error) => {
                     this.toastrService.error(
-                    error.error?.message || 'Failed to load transcript',
-                    'Error',
-                    {
-                        timeOut: 5000,
-                        positionClass: 'toast-top-center'
-                    }
+                        error.error?.message || 'Failed to load transcript',
+                        'Error',
+                        {
+                            timeOut: 5000,
+                            positionClass: 'toast-top-center'
+                        }
                     );
                 }
             })

@@ -34,26 +34,6 @@ export class ProfileComponent implements OnInit {
     this.isDarkMode = localStorage.getItem('theme') === 'dark';
   }
 
-  updateProfile(): void {
-    if (this.isUpdating) return;
-    
-    this.isUpdating = true;
-    
-    this.authService.updateProfile(this.student).subscribe({
-      next: (updatedStudent) => {
-        this.toastrService.success('Profile updated successfully');
-        this.student = updatedStudent;
-      },
-      error: (error) => {
-        this.toastrService.error(error.error?.message || 'Failed to update profile');
-        this.isUpdating = false;
-      },
-      complete: () => {
-        this.isUpdating = false;
-      }
-    });
-  }
-
   updatePassword(): void {
     if (this.isUpdating) return;
     
@@ -76,10 +56,10 @@ export class ProfileComponent implements OnInit {
     this.isUpdating = true;
     
     this.authService.updatePassword(this.newPassword, this.confirmPassword).subscribe({
-      next: () => {
+      next: (response) => {
         this.newPassword = '';
         this.confirmPassword = '';
-        this.toastrService.success('Password updated successfully!');
+        this.toastrService.success(response.message || 'Password updated successfully');
       },
       error: (error) => {
         this.toastrService.error(error.error?.message || 'Failed to update password');
