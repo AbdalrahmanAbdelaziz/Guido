@@ -120,8 +120,8 @@ export class MyGeneralComponent implements OnInit {
 
     this.coursesService.updateCourse(updateCourse).subscribe({
       next: (response) => {
-        if (response) {
-          this.toastr.success(`Course ${course.course_Name} added successfully`);
+        if (response && response.message === "Updated Successfully.") {
+          // this.toastr.success(`Course ${course.course_Name} added successfully`);
           this.updateTotalHours();
         } else {
           // Show the add button again if not successful

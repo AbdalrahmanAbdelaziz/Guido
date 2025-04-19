@@ -100,7 +100,7 @@ export class MyFacultyComponent implements OnInit {
     this.coursesService.updateCourse(updateCourse).subscribe({
       next: (response) => {
         if (response && response.message === "Updated Successfully.") {
-          this.toastr.success(`Course ${course.course_Name} added successfully`);
+          // this.toastr.success(`Course ${course.course_Name} added successfully`);
         } else {
           // Show the add button again if not successful
           this.showAddButtonMap[course.code] = true;
