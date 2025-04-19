@@ -102,45 +102,23 @@ export class MyFacultyComponent implements OnInit {
             if (response && response.message === "Updated Successfully.") {
                 this.toastr.success(`Course ${course.course_Name} added successfully`);
                 
-                // Refresh the course data instead of full page reload
-                this.refreshCourseData();
+                // Refresh the page after a short delay
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000); // 1 second delay to show the success message
             } else {
+                // Show the add button again if not successful
                 this.showAddButtonMap[course.code] = true;
                 this.toastr.warning(`Course update completed but verify data for ${course.course_Name}`);
             }
         },
         error: (error) => {
+            // Show the add button again on error
             this.showAddButtonMap[course.code] = true;
             this.toastr.error(`Failed to add course ${course.course_Name}`);
         }
     });
 }
-
-// Add this new method to your component
-refreshCourseData(): void {
-    this.coursesService.fetchGeneralCoreCourses().subscribe((coreCourses) => {
-        this.coreCourses = coreCourses.map((course) => {
-            this.showAddButtonMap[course.code] = !course.grade || course.grade === 'none';
-            return {
-                ...course,
-                grade: course.grade || 'none'
-            };
-        });
-        this.allCourses = [...this.coreCourses, ...this.electiveCourses];
-    });
-
-    this.coursesService.fetchGeneralElectiveCourses().subscribe((electiveCourses) => {
-        this.electiveCourses = electiveCourses.map((course) => {
-            this.showAddButtonMap[course.code] = !course.grade || course.grade === 'none';
-            return {
-                ...course,
-                grade: course.grade || 'none'
-            };
-        });
-        this.allCourses = [...this.coreCourses, ...this.electiveCourses];
-    });
-}
-
   isCourseDisabled(course: Course): boolean {
     return this.disabledCourses.includes(course.code);
   }
