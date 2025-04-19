@@ -133,55 +133,52 @@ export class CoursesService {
 
 
 
-     updateCourse(updateCourse: UpdateCourse): Observable<any> {
-    if (!updateCourse) {
-        this.toastrService.warning('No course provided for update');
-        return throwError(() => new Error('No course provided for update'));
-    }
-
-    // Validation
-    const { code, grade, hours } = updateCourse;
-    const validGrades = ['A+', 'A', 'B+', 'B', 'C+', 'C', 'D+', 'D', 'F'];
-
-    if (!code || !grade || isNaN(hours) || !validGrades.includes(grade)) {
-        console.error('Invalid course:', updateCourse);
-        this.toastrService.error('Invalid course data provided');
-        return throwError(() => new Error('Invalid course data provided'));
-    }
-
-    // Create payload with proper typing
-    const requestBody: { dTOupdate: UpdateCourse } = {
-        dTOupdate: {
+      updateCourse(updateCourse: UpdateCourse): Observable<any> {
+        if (!updateCourse) {
+            this.toastrService.warning('No course provided for update');
+            return throwError(() => new Error('No course provided for update'));
+        }
+    
+        // Validation
+        const { code, grade, hours } = updateCourse;
+        const validGrades = ['A+', 'A', 'B+', 'B', 'C+', 'C', 'D+', 'D', 'F'];
+    
+        if (!code || !grade || isNaN(hours) || !validGrades.includes(grade)) {
+            console.error('Invalid course:', updateCourse);
+            this.toastrService.error('Invalid course data provided');
+            return throwError(() => new Error('Invalid course data provided'));
+        }
+    
+        const requestBody = {
             code: code.trim(),
             grade: grade,
             hours: Number(hours)
-        }
-    };
-
-    console.log('Sending payload:', JSON.stringify(requestBody, null, 2));
-
-    return this.http.post<any>(UPDATE_COURSES_URL, requestBody).pipe(
-        tap({
-            next: (response) => {
-                if (response?.message === "Updated Successfully.") {
-                    this.toastrService.success('Course updated successfully');
-                } else {
-                    console.warn('Unexpected response:', response);
-                    this.toastrService.warning(response?.message || 'Update completed with warnings');
+        };
+    
+        console.log('Sending payload:', JSON.stringify(requestBody, null, 2));
+    
+        return this.http.post<any>(UPDATE_COURSES_URL, requestBody).pipe(
+            tap({
+                next: (response) => {
+                    if (response?.message === "Updated Successfully.") {
+                        this.toastrService.success('Course updated successfully');
+                    } else {
+                        console.warn('Unexpected response:', response);
+                        this.toastrService.warning(response?.message || 'Update completed with warnings');
+                    }
+                },
+                error: (error) => {
+                    console.error('API Error:', error);
+                    const errorMsg = error.error?.message || 'Failed to update course';
+                    this.toastrService.error(errorMsg);
                 }
-            },
-            error: (error) => {
-                console.error('API Error:', error);
-                const errorMsg = error.error?.message || 'Failed to update course';
-                this.toastrService.error(errorMsg);
-            }
-        }),
-        catchError(error => {
-            console.error('API Error Details:', error);
-            return throwError(() => error);
-        })
-    );
-}
+            }),
+            catchError(error => {
+                console.error('API Error Details:', error);
+                return throwError(() => error);
+            })
+        );
+    }
 
     
 
