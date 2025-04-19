@@ -95,47 +95,49 @@ export class MyGeneralComponent implements OnInit {
 
   addCourse(course: Course): void {
     if (!course.grade || course.grade === 'none') {
-      this.toastr.warning('Please select a grade before adding the course');
-      return;
+        this.toastr.warning('Please select a grade before adding the course');
+        return;
     }
 
     if (!this.canTakeCourse(course)) {
-      this.toastr.error('You cannot add this course due to unmet prerequisites');
-      return;
+        this.toastr.error('You cannot add this course due to unmet prerequisites');
+        return;
     }
 
     if (!course.code) {
-      this.toastr.error('Course code is missing');
-      return;
+        this.toastr.error('Course code is missing');
+        return;
     }
 
     // Hide the add button immediately
     this.showAddButtonMap[course.code] = false;
 
     const updateCourse: UpdateCourse = {
-      code: course.code,
-      grade: course.grade,
-      hours: parseInt(course.hours)
+        code: course.code,
+        grade: course.grade,
+        hours: parseInt(course.hours)
     };
 
     this.coursesService.updateCourse(updateCourse).subscribe({
-      next: (response) => {
-        if (response && response.message === "Updated Successfully.") {
-          // this.toastr.success(`Course ${course.course_Name} added successfully`);
-          this.updateTotalHours();
-        } else {
-          // Show the add button again if not successful
-          this.showAddButtonMap[course.code] = true;
-          this.toastr.warning(`Course update completed but verify data for ${course.course_Name}`);
+        next: (response) => {
+            if (response && response.message === "Updated Successfully.") {
+                // this.toastr.success(`Course ${course.course_Name} added successfully`);
+                
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000); 
+            } else {
+                this.showAddButtonMap[course.code] = true;
+                this.toastr.warning(`Course update completed but verify data for ${course.course_Name}`);
+            }
+        },
+        error: (error) => {
+            // Show the add button again on error
+            this.showAddButtonMap[course.code] = true;
+            this.toastr.error(`Failed to add course ${course.course_Name}`);
         }
-      },
-      error: (error) => {
-        // Show the add button again on error
-        this.showAddButtonMap[course.code] = true;
-        this.toastr.error(`Failed to add course ${course.course_Name}`);
-      }
     });
-  }
+}
 
   isCourseDisabled(course: Course): boolean {
     return this.disabledCourses.includes(course.code);
