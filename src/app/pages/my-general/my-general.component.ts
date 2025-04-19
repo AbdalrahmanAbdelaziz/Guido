@@ -98,46 +98,46 @@ export class MyGeneralComponent implements OnInit {
       this.toastr.warning('Please select a grade before adding the course');
       return;
     }
-  
+
     if (!this.canTakeCourse(course)) {
       this.toastr.error('You cannot add this course due to unmet prerequisites');
       return;
     }
-  
+
     if (!course.code) {
       this.toastr.error('Course code is missing');
       return;
     }
-  
+
     // Hide the add button immediately
     this.showAddButtonMap[course.code] = false;
-  
+
     const updateCourse: UpdateCourse = {
-      code: course.code.trim(), // Ensure trimmed
+      code: course.code,
       grade: course.grade,
-      hours: course.hours // Keep as string if that's what backend expects
+      hours: parseInt(course.hours)
     };
-  
-    this.coursesService.updateCourses([updateCourse]).subscribe({
+
+    this.coursesService.updateCourse(updateCourse).subscribe({
       next: (response) => {
         if (response && response.message === "Updated Successfully.") {
           this.toastr.success(`Course ${course.course_Name} added successfully`);
           this.updateTotalHours();
         } else {
+          // Show the add button again if not successful
           this.showAddButtonMap[course.code] = true;
-          this.toastr.warning(response?.message || `Course update completed but verify data for ${course.course_Name}`);
+          this.toastr.warning(`Course update completed but verify data for ${course.course_Name}`);
         }
       },
       error: (error) => {
+        // Show the add button again on error
         this.showAddButtonMap[course.code] = true;
-        const errorMsg = error.error?.message || `Failed to add course ${course.course_Name}`;
-        this.toastr.error(errorMsg);
-        console.error('Detailed error:', error);
+        this.toastr.error(`Failed to add course ${course.course_Name}`);
       }
     });
   }
+
   isCourseDisabled(course: Course): boolean {
     return this.disabledCourses.includes(course.code);
   }
-
 }
