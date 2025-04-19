@@ -33,7 +33,9 @@ export const  GET_AI_CORE_COURSE_URL = BASE_URL + '/api/ai_core_courses';
 export const  GET_AI_ELECTIVE_COURSE_URL = BASE_URL + '/api/ai_elective_courses';
 
 
-export const UPDATE_COURSES_URL = BASE_URL + '/api/courses/update';
+// Should be a function that takes the code parameter
+export const UPDATE_COURSES_URL = (code: string) => 
+    `${BASE_URL}/api/courses/update/${encodeURIComponent(code)}`;
 export const MAKE_COURSES_URL = BASE_URL + '/api/courses/get';
 
 

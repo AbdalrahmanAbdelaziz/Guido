@@ -149,18 +149,16 @@ export class CoursesService {
             return throwError(() => new Error('Invalid course data provided'));
         }
     
-        // Create payload with proper typing
-        const requestBody: { dTOupdate: UpdateCourse } = {
-            dTOupdate: {
-                code: code.trim(),
-                grade: grade,
-                hours: Number(hours)
-            }
+        // Create payload - now only needs grade and hours since code is in URL
+        const requestBody = {
+            grade: grade,
+            hours: Number(hours)
         };
     
         console.log('Sending payload:', JSON.stringify(requestBody, null, 2));
     
-        return this.http.post<any>(UPDATE_COURSES_URL, requestBody).pipe(
+        // Use PATCH instead of POST for updates, and include code in URL
+        return this.http.patch<any>(UPDATE_COURSES_URL(code), requestBody).pipe(
             tap({
                 next: (response) => {
                     if (response?.message === "Updated Successfully.") {
@@ -182,7 +180,6 @@ export class CoursesService {
             })
         );
     }
-
     
 
 
