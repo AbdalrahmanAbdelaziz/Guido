@@ -16,7 +16,6 @@
         id="firstName" 
         [(ngModel)]="student.firstName" 
         placeholder="Enter your first name" 
-        disabled
       />
     </div>
     <div class="detail-item">
@@ -26,7 +25,6 @@
         id="lastName" 
         [(ngModel)]="student.lastName" 
         placeholder="Enter your last name" 
-        disabled
       />
     </div>
     <div class="detail-item">
@@ -36,7 +34,6 @@
         id="email" 
         [(ngModel)]="student.email" 
         placeholder="Enter your email address" 
-        disabled
       />
     </div>
     <div class="detail-item">
@@ -61,8 +58,19 @@
 
   <div class="profile-actions">
     <button 
+      (click)="updateProfile()" 
+      [disabled]="isUpdating"
+      class="update-profile-btn"
+    >
+      <span *ngIf="!isUpdating">Update Profile</span>
+      <span *ngIf="isUpdating">
+        <i class="fas fa-spinner fa-spin"></i> Updating...
+      </span>
+    </button>
+    <button 
       (click)="updatePassword()" 
       [disabled]="isUpdating || !newPassword || !confirmPassword"
+      class="update-password-btn"
     >
       <span *ngIf="!isUpdating">Update Password</span>
       <span *ngIf="isUpdating">

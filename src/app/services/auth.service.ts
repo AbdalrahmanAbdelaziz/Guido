@@ -70,7 +70,6 @@ export class AuthService {
             next: (student) => {
               this.setStudentToLocalStorage(student);
               this.studentSubject.next(student);
-              // Don't show success here - let component handle it with custom message
             },
             error: (error) => {
               this.toastrService.error(
@@ -84,7 +83,7 @@ export class AuthService {
             }
           })
         );
-      }
+    }
 
     registerAdmin(adminRegister: Admin): Observable<Admin> {
         return this.http.post<Admin>(ADMIN_REGISTER_URL, adminRegister).pipe(
@@ -119,15 +118,64 @@ export class AuthService {
         );
     }
 
-    
+    updateProfile(student: Student): Observable<Student> {
+        return this.http.post<Student>(UPDATE_PROFILE_URL, student).pipe(
+            tap({
+                next: (updatedStudent) => {
+                    this.setStudentToLocalStorage(updatedStudent);
+                    this.studentSubject.next(updatedStudent);
+                },
+                error: (error) => {
+                    this.toastrService.error(
+                        error.error?.message || 'Failed to update profile',
+                        'Error',
+                        {
+                            timeOut: 5000,
+                            positionClass: 'toast-top-center'
+                        }
+                    );
+                }
+            })
+        );
+    }
 
-  
+    updatePassword(password: string, confirm: string): Observable<Student> {
+        return this.http.post<Student>(UPDATE_PASSWORD_URL, { password, confirm }).pipe(
+          tap({
+            next: (updatedStudent) => {
+              this.setStudentToLocalStorage(updatedStudent);
+              this.studentSubject.next(updatedStudent);
+            },
+            error: (error) => {
+              this.toastrService.error(
+                error.error?.message || 'Failed to update password',
+                'Error',
+                {
+                  timeOut: 5000,
+                  positionClass: 'toast-top-center'
+                }
+              );
+            }
+          })
+        );
+    }
 
-
-
-   
-
-    
+    getTranscript(): Observable<any> {
+        return this.http.get<any>(TRANSCRIPT_URL).pipe(
+            tap({
+                error: (error) => {
+                    this.toastrService.error(
+                    error.error?.message || 'Failed to load transcript',
+                    'Error',
+                    {
+                        timeOut: 5000,
+                        positionClass: 'toast-top-center'
+                    }
+                    );
+                }
+            })
+        );
+    }
 
     private setStudentToLocalStorage(student: Student) {
         localStorage.setItem(STUDENT_KEY, JSON.stringify(student));
@@ -146,47 +194,4 @@ export class AuthService {
         const adminJson = localStorage.getItem(ADMIN_KEY);
         return adminJson ? JSON.parse(adminJson) : null;
     }
-
-
-    
-    updatePassword(password: string, confirm: string): Observable<Student> {
-        return this.http.post<Student>(UPDATE_PASSWORD_URL, { password, confirm }).pipe(
-          tap({
-            next: (updatedStudent) => {
-              this.setStudentToLocalStorage(updatedStudent);
-              this.studentSubject.next(updatedStudent);
-              this.toastrService.success('Password updated successfully!');
-            },
-            error: (error) => {
-              this.toastrService.error(
-                error.error?.message || 'Failed to update password',
-                'Error',
-                {
-                  timeOut: 5000,
-                  positionClass: 'toast-top-center'
-                }
-              );
-            }
-          })
-        );
-      }
-
-getTranscript(): Observable<any> {
-  return this.http.get<any>(TRANSCRIPT_URL).pipe(
-    tap({
-      error: (error) => {
-        this.toastrService.error(
-          error.error?.message || 'Failed to load transcript',
-          'Error',
-          {
-            timeOut: 5000,
-            positionClass: 'toast-top-center'
-          }
-        );
-      }
-    })
-  );
-}
-
-   
 }
