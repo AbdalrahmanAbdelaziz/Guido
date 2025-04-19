@@ -120,7 +120,7 @@ export class MyGeneralComponent implements OnInit {
 
     this.coursesService.updateCourse(updateCourse).subscribe({
       next: (response) => {
-        if (response && response.message === "Updated Successfully.") {
+        if (response === "Updated Successfully.") {
           this.toastr.success(`Course ${course.course_Name} added successfully`);
           this.updateTotalHours();
         } else {
