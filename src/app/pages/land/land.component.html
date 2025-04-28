@@ -1,33 +1,32 @@
 <div class="landing-page">
     <header class="navbar">
-      <div class="logo-container">
-        <img src="logo3.png" alt="HOGOZATY Logo" class="logo-image">
-      </div>
-  
-      <!-- Language Toggle Button -->
-      <div class="language-toggle">
-        <button (click)="changeLang('en')">EN</button>
-        <button (click)="changeLang('ar')">AR</button>
-      </div>
-  
-      <!-- Right Buttons -->
-      <div class="right-button">
-        <button routerLink="/login">{{ 'landing.login' | transloco }}</button>
-        <button routerLink="/registerStudent">{{ 'landing.register' | transloco }}</button>
-      </div>
-    </header>
-  
-    <div class="cover-image">
-      <img src="bg-masthead.jpg" alt="Cover Image" class="full-cover" />
-      <div class="hero-text">
-        <h1>{{ 'landing.title' | transloco }}</h1>
-        <p>{{ 'landing.subtitle' | transloco }}</p>
-        <button routerLink="/info">{{ 'landing.ctaButton' | transloco }}</button>
-      </div>
-    </div>
-  </div>
+        <div class="logo-container">
+            <img src="logo3.png" alt="HOGOZATY Logo" class="logo-image">
+        </div>
 
-<!-- <div class="landing-page" [dir]="currentLang === 'ar' ? 'rtl' : 'ltr'">
+        <!-- Right Buttons -->
+        <div class="right-button">
+            <button routerLink="/login">Login</button>
+            <button routerLink="/registerStudent">Register</button>
+        </div>
+    </header>
+
+    <!-- Cover Image and Hero Text -->
+    <div class="cover-image">
+        <img src="bg-masthead.jpg" alt="Cover Image" class="full-cover" />
+        <div class="hero-text">
+            <h1>Empowering Your Academic Journey</h1>
+            <p>We help you unlock your academic potential with personalized AI-driven guidance! Just sign up and start learning, no limits to your success!</p>
+            <button routerLink="/info">What We Do?</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="landing-page" [dir]="currentLang === 'ar' ? 'rtl' : 'ltr'">
     <header class="navbar">
         <div class="logo-container">
             <img src="logo3.png" [alt]="'landing.logoAlt' | transloco" alt="Company logo" class="logo-image">
@@ -46,11 +45,11 @@
     </header>
 
     <div class="cover-image">
-        <img src="www.jpg" alt="" class="full-cover">
+        <img src="bg-masthead.jpg" alt="" class="full-cover">
         <div class="hero-text">
             <h1>{{ 'landing.title' | transloco }}</h1>
             <p>{{ 'landing.subtitle' | transloco }}</p>
             <button routerLink="/info">{{ 'landing.howItWorks' | transloco }}</button>
         </div>
     </div>
-</div> -->
+</div>
