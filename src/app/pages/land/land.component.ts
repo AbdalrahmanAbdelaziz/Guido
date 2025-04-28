@@ -7,15 +7,12 @@ import { TranslocoService } from '@ngneat/transloco';
   templateUrl: './land.component.html',
   styleUrls: ['./land.component.css']
 })
-export class LandComponent implements OnInit {
- 
+export class LandComponent  implements OnInit{
   currentLang: string;
 
   constructor(private translocoService: TranslocoService) {
     this.currentLang = translocoService.getActiveLang();
   }
-
-  
 
 ngOnInit() {
   const browserLang = navigator.language.substring(0, 2);
@@ -34,5 +31,4 @@ ngOnInit() {
     document.documentElement.lang = lang;
     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
   }
-
 }
