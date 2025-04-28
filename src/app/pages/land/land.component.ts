@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslocoService } from '@ngneat/transloco';
+
 
 @Component({
   selector: 'app-land',
@@ -7,12 +9,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LandComponent implements OnInit {
  
+  currentLang: string;
 
+  constructor(private translocoService: TranslocoService) {
+    this.currentLang = translocoService.getActiveLang();
+  }
 
+ngOnInit() {
+  const browserLang = navigator.language.substring(0, 2);
+  const supportedLangs = ['en', 'ar'];
+  const defaultLang = supportedLangs.includes(browserLang) ? browserLang : 'en';
   
-  constructor() {}
+  this.currentLang = defaultLang;
+  this.translocoService.setActiveLang(defaultLang);
+  document.documentElement.lang = defaultLang;
+  document.documentElement.dir = defaultLang === 'ar' ? 'rtl' : 'ltr';
+}
 
-  ngOnInit(): void {}
-
+  switchLanguage(lang: string) {
+    this.currentLang = lang;
+    this.translocoService.setActiveLang(lang);
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  }
 
 }

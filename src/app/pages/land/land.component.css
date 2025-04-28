@@ -246,3 +246,12 @@ body, html {
         padding-bottom: 10px;
     }
 }
+
+/* Add to your existing CSS */
+[dir="rtl"] .navbar {
+    flex-direction: row-reverse; /* Reverse navbar items for RTL */
+  }
+  
+  [dir="rtl"] .hero-text {
+    direction: rtl; /* Right-align Arabic text */
+  }
