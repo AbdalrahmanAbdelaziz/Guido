@@ -15,6 +15,12 @@ export class LandComponent implements OnInit {
     this.currentLang = translocoService.getActiveLang();
   }
 
+  changeLang(lang: 'en' | 'ar') {
+    this.translocoService.setActiveLang(lang);
+    document.documentElement.lang = lang; // For accessibility
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr'; // RTL for Arabic
+  }
+
 ngOnInit() {
   const browserLang = navigator.language.substring(0, 2);
   const supportedLangs = ['en', 'ar'];
