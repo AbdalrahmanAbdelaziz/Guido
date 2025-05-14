@@ -1,0 +1,27 @@
+<div class="landing-page" [dir]="currentLang === 'ar' ? 'rtl' : 'ltr'">
+    <header class="navbar">
+        <div class="logo-container">
+            <img src="assets/logo3.png" [alt]="'landing.logoAlt' | transloco" alt="Company logo" class="logo-image">
+        </div>
+    
+        <div class="center-buttons">
+            <button (click)="switchLanguage('en')" [class.active]="currentLang === 'en'">EN</button>
+            <span class="separator">|</span>
+            <button (click)="switchLanguage('ar')" [class.active]="currentLang === 'ar'">عربي</button>
+        </div>
+    
+        <div class="right-button">
+            <button routerLink="/login">{{ 'landing.login' | transloco }}</button>
+            <button routerLink="/registerStudent">{{ 'landing.register' | transloco }}</button>
+        </div>
+    </header>
+
+    <div class="cover-image">
+        <img src="assets/bg-masthead.jpg" alt="" class="full-cover">
+        <div class="hero-text">
+            <h1>{{ 'landing.title' | transloco }}</h1>
+            <p>{{ 'landing.subtitle' | transloco }}</p>
+            <button routerLink="/info">{{ 'landing.cta' | transloco }}</button>
+        </div>
+    </div>
+</div>
