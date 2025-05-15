@@ -116,22 +116,19 @@ export class MyGeneralComponent implements OnInit {
         hours: parseInt(course.hours)
     };
   
-  this.coursesService.updateCourse(updateCourse).subscribe({
-    next: (response) => {
-        if (response && response.message === "Updated Successfully.") {
-            this.toastr.success(
-                this.translocoService.translate('faculty.courseAdded', { courseName: course.course_Name })
-            );
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000); // Increased to 3 seconds to allow toast to display
-        } else {
-            this.showAddButtonMap[course.code] = true;
-            this.toastr.warning(
-                this.translocoService.translate('myGeneral.updateWarning', { courseName: course.course_Name })
-            );
-        }
-    },
+    this.coursesService.updateCourse(updateCourse).subscribe({
+        next: (response) => {
+            if (response && response.message === "Updated Successfully.") {
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000); 
+            } else {
+                this.showAddButtonMap[course.code] = true;
+                this.toastr.warning(
+                    this.translocoService.translate('myGeneral.updateWarning', { courseName: course.course_Name })
+                );
+            }
+        },
         error: (error) => {
             this.showAddButtonMap[course.code] = true;
             this.toastr.error(
