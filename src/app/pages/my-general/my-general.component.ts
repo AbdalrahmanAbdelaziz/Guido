@@ -124,7 +124,7 @@ export class MyGeneralComponent implements OnInit {
     next: (response) => {
         if (response && response.message === "Updated Successfully.") {
             this.toastr.success(
-                this.translocoService.translate('myGeneral.addSuccess', { courseName: course.course_Name })
+                this.translocoService.translate('faculty.courseAdded', { courseName: course.course_Name })
             );
             setTimeout(() => {
                 window.location.reload();
