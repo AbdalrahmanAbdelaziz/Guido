@@ -27,10 +27,12 @@ import { provideTranslocoLocale } from '@ngneat/transloco-locale';
 // Auth Interceptor
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './app/shared/auth/AuthInterceptor';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(routes),
+    importProvidersFrom(ModalModule.forRoot()),
     provideHttpClient(
       withInterceptorsFromDi() 
     ),

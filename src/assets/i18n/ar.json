@@ -198,10 +198,21 @@
     "divisionRequirements": "متطلبات القسم",
     "dashboardTitle": "لوحة التحكم الأكاديمية",
     "hoursCompleted": "{{ completed }} من {{ total }} ساعة مكتملة",
-    "completeFacultyFirst": "أكمل الساعات المطلوبة أولاً",
     "viewDetails": "عرض التفاصيل",
     "locked": "مقفل",
-    "illustrationAlt": "رسم توضيحي للتقدم الأكاديمي"
+    "illustrationAlt": "رسم توضيحي للتقدم الأكاديمي",
+    "chooseDepartmentTitle": "اختر قسمك",
+    "chooseDepartmentSubtitle": "تهانينا على إكمال المتطلبات الأولية! يرجى اختيار قسم التخصص الخاص بك.",
+    "confirmSelection": "تأكيد الاختيار",
+    "processing": "جارٍ المعالجة...",
+    "selectDepartmentWarning": "يرجى اختيار قسم أولاً",
+    "departmentUpdatedSuccess": "تم تحديث القسم بنجاح!",
+    "departmentUpdateError": "فشل في تحديث القسم. يرجى المحاولة مرة أخرى.",
+     "selectDepartment": "اختر قسمك",
+    "readyToSelectDepartment": "أنت مستعد لاختيار تخصصك",
+    "selectNow": "اختر الآن",
+    "selectDepartmentFirst": "الرجاء اختيار القسم أولاً",
+    "completeFacultyFirst": "يجب إتمام 66 ساعة أولاً"
   },
 
   "myGeneral": {
@@ -272,7 +283,8 @@
       "selectGrade": "اختر درجة لـ {{courseName}}",
       "selectDepartmentWarning": "الرجاء اختيار قسم",
       "invalidDepartment": "قسم غير صالح",
-      "updateError": "فشل تحديث القسم"
+      "updateError": "فشل تحديث القسم",
+      "updateSuccess":"تم تعديل القسم بنجاح"
     },
 
     
@@ -294,5 +306,7 @@
       "veryWeak": "ضعيف جدًا"
     }
   }
+
+
   
 }

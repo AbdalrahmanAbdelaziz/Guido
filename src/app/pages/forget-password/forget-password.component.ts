@@ -64,7 +64,7 @@ export class ForgetPasswordComponent implements OnInit {
       next: () => {
         this.toastr.success(
           this.translocoService.translate('forgetPassword.success.resetLinkSent'),
-          this.translocoService.translate('common.success')
+          // this.translocoService.translate('common.success')
         );
       },
       error: () => {

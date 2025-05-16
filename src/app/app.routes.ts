@@ -14,6 +14,7 @@ import { MyDepartmentComponent } from './pages/my-department/my-department.compo
 import { TranscriptComponent } from './pages/transcript/transcript.component';
 import { AdminPageComponent } from './pages/admin/admin-page/admin-page.component';
 import { ChatbotComponent } from './pages/chatbot/chatbot.component';
+import { SelectDepartmentComponent } from './pages/select-department/select-department.component';
 
 export const routes: Routes = [
     // { path: '**', redirectTo:'', pathMatch: 'full'},
@@ -32,6 +33,7 @@ export const routes: Routes = [
     { path: 'transcript', component: TranscriptComponent},
     { path: 'chatbot', component: ChatbotComponent},
     { path: 'admin-page', component: AdminPageComponent},
+    { path: 'select-department', component: SelectDepartmentComponent},
     // { path: 'registerAdmin', component: RegisterAdminComponent},
      // { path: 'register', component:RegisterComponent},
 ];

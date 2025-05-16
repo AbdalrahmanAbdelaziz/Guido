@@ -128,8 +128,8 @@
     padding: 6px;
     border-radius: 4px;
     border: 1px solid #ddd;
-    background: var(--bg-light);
-    color: var(--text-light);
+    background: #0056b3;
+    color: white;
     font-size: clamp(0.8rem, 2vw, 1rem);
   }
   body.dark-mode select { background: var(--hover-dark); color: var(--text-dark); border-color: #555; }

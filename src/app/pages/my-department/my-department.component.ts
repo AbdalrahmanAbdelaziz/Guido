@@ -50,17 +50,18 @@ export class MyDepartmentComponent implements OnInit {
   ngOnInit(): void {
     this.isDarkMode = this.darkModeService.isDarkMode();
 
-    const savedDepartment = localStorage.getItem('selectedDepartment');
-    if (savedDepartment) {
-      this.selectedDepartment = savedDepartment;
-      this.fetchDepartmentCourses();
-    } else {
-      this.isModalVisible = true;
-    }
-
-    this.authService.studentObservable.subscribe((newStudent) => {
-      if (newStudent) {
-        this.student = newStudent;
+    this.authService.studentObservable.subscribe((student) => {
+      if (student) {
+        this.student = student;
+        
+        // Check if student has a department (not General or undefined)
+        if (student.department && student.department !== 'General') {
+          this.selectedDepartment = student.department;
+          this.fetchDepartmentCourses();
+        } else {
+          // Show modal only if department is General or not set
+          this.isModalVisible = true;
+        }
       }
     });
   }
@@ -92,21 +93,28 @@ export class MyDepartmentComponent implements OnInit {
   }
 
   confirmDepartment(): void {
-    if (!this.selectedDepartment) {
-      this.toastr.warning(this.translocoService.translate('department.selectDepartmentWarning'));
-      return;
-    }
+  if (!this.selectedDepartment) {
+    this.toastr.warning(this.translocoService.translate('department.selectDepartmentWarning'));
+    return;
+  }
 
-    this.coursesService.updateDepartment(this.selectedDepartment).subscribe({
-      next: () => {
+  this.coursesService.updateDepartment(this.selectedDepartment).subscribe({
+    next: (response) => {
+      if (response.message === "Department updated successfully." && response.data) {
+        this.authService.updateStudentDepartment(response.data);
+        
         this.isModalVisible = false;
         this.fetchDepartmentCourses();
-      },
-      error: (error) => {
-        this.toastr.error(this.translocoService.translate('department.updateError'));
+        // this.toastr.success(this.translocoService.translate('department.updateSuccess'));
+      } else {
+        // this.toastr.warning(this.translocoService.translate('department.updateWarning'));
       }
-    });
-  }
+    },
+    error: (error) => {
+      // this.toastr.error(this.translocoService.translate('department.updateError'));
+    }
+  });
+}
 
   private fetchCoursesByType(coreType: string, electiveType: string): void {
     this.coreCourses = [];
@@ -157,8 +165,8 @@ export class MyDepartmentComponent implements OnInit {
 
   calculateDepartmentHours(): number {
     return [...this.coreCourses, ...this.electiveCourses]
-    .filter((course) => course.grade !== 'none' && course.grade !== 'F') 
-    .reduce((total, course) => total + (parseFloat(course.hours) || 0), 0); 
+      .filter((course) => course.grade !== 'none' && course.grade !== 'F') 
+      .reduce((total, course) => total + (parseFloat(course.hours) || 0), 0); 
   }
 
   closeModal(): void {

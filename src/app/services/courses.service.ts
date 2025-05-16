@@ -93,7 +93,7 @@ export class CoursesService {
             map((response) => response.data),
             tap({
                 next: () => {
-                    this.toastrService.success(this.translocoService.translate('courses.coreLoaded'));
+                    // this.toastrService.success(this.translocoService.translate('courses.coreLoaded'));
                 },
                 error: () => {
                     this.toastrService.error(this.translocoService.translate('courses.failedLoadCore'));
@@ -126,7 +126,7 @@ export class CoursesService {
             map((response) => response.data),
             tap({
                 next: () => {
-                    this.toastrService.success(this.translocoService.translate('courses.electiveLoaded'));
+                    // this.toastrService.success(this.translocoService.translate('courses.electiveLoaded'));
                 },
                 error: () => {
                     this.toastrService.error(this.translocoService.translate('courses.failedLoadElective'));

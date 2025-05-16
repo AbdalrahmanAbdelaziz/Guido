@@ -71,13 +71,13 @@ export class MyCoursesComponent implements OnInit {
         this.generalHours = response.genralHours || 0;
         this.facultyHours = response.facultyHours || 0;
         
-        if (response.CSHours) this.departmentHours = response.CSHours;
-        else if (response.AIHours) this.departmentHours = response.AIHours;
-        else if (response.ITHours) this.departmentHours = response.ITHours;
-        else if (response.ISHours) this.departmentHours = response.ISHours;
+        if (response.csHours) this.departmentHours = response.csHours;
+        else if (response.aiHours) this.departmentHours = response.aiHours;
+        else if (response.itHours) this.departmentHours = response.itHours;
+        else if (response.isHours) this.departmentHours = response.isHours;
         else this.departmentHours = 0;
   
-        this.features[2].disabled = this.facultyHours < 66;
+        this.features[2].disabled = this.facultyHours + this.generalHours < 66;
       },
       error: (error) => {
         console.error('Error loading total hours:', error);

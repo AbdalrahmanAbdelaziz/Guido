@@ -24,6 +24,7 @@
     "@ng-bootstrap/ng-bootstrap": "^18.0.0",
     "@ngneat/transloco": "^6.0.4",
     "@ngneat/transloco-locale": "^5.1.2",
+    "ngx-bootstrap": "^19.0.2",
     "ngx-toastr": "^19.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

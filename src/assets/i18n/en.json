@@ -84,7 +84,7 @@
     "add": "Add",
     "added": "Added",
     "na": "N/A",
-    "confirm": "Confirm"
+    "confirm": "Confirm" 
   },
 
   "forgetPassword": {
@@ -201,7 +201,18 @@
     "completeFacultyFirst": "Complete the required hours first.",
     "viewDetails": "View Details",
     "locked": "Locked",
-    "illustrationAlt": "Academic progress illustration"
+    "illustrationAlt": "Academic progress illustration",
+     "chooseDepartmentTitle": "Choose Your Department",
+    "chooseDepartmentSubtitle": "Congratulations on completing the initial requirements! Please select your specialization department.",
+    "confirmSelection": "Confirm Selection",
+    "processing": "Processing...",
+    "selectDepartmentWarning": "Please select a department first",
+    "departmentUpdatedSuccess": "Department updated successfully!",
+    "departmentUpdateError": "Failed to update department. Please try again.",
+    "selectDepartment": "Select Your Department",
+    "readyToSelectDepartment": "You're ready to select your specialization department",
+    "selectNow": "Select Now",
+    "selectDepartmentFirst": "Please select your department first"
   
 },
 
@@ -274,6 +285,7 @@
       "selectDepartmentWarning": "Please select a department",
       "invalidDepartment": "Invalid department selected",
       "updateError": "Failed to update department"
+    
     },
 
     "transcript": {
@@ -294,6 +306,11 @@
         "veryWeak": "Very Weak"
       }
     }
+
+ 
+
+
+ 
   
 
 

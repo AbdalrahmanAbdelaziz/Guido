@@ -102,8 +102,8 @@ export class AuthService {
     forgetPassword(email: string): Observable<any> {
         return this.http.post<any>(FORGET_PASSWORD_URL, { email }).pipe(
             tap({
-                next: () => this.toastrService.success('Password reset link sent!'),
-                error: () => this.toastrService.error('Failed to send reset link.')
+                // next: () => this.toastrService.success('Password reset link sent!'),
+                // error: () => this.toastrService.error('Failed to send reset link.')
             })
         );
     }
@@ -111,8 +111,8 @@ export class AuthService {
     resetPassword(payload: ResetPassword): Observable<void> {
         return this.http.post<void>(RESET_PASSWORD_URL, payload).pipe(
             tap({
-                next: () => this.toastrService.success('Password reset successfully.'),
-                error: () => this.toastrService.error('Failed to reset password.')
+                // next: () => this.toastrService.success('Password reset successfully.'),
+                // error: () => this.toastrService.error('Failed to reset password.')
             })
         );
     }
@@ -156,6 +156,15 @@ export class AuthService {
                 }
             })
         );
+    }
+
+    updateStudentDepartment(department: string): void {
+        const currentStudent = this.getStudentFromLocalStorage();
+        if (currentStudent) {
+            currentStudent.department = department;
+            this.setStudentToLocalStorage(currentStudent);
+            this.studentSubject.next(currentStudent);
+        }
     }
 
     private setStudentToLocalStorage(student: Student) {
