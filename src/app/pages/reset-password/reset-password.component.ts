@@ -58,17 +58,17 @@ export class ResetPasswordComponent implements OnInit {
   private initializeForm(): void {
     this.resetPasswordForm = this.formBuilder.group(
       {
-        newPassword: ['', [Validators.required, Validators.minLength(8)]],
-        confirmPassword: ['', [Validators.required]]
+        password: ['', [Validators.required, Validators.minLength(8)]],
+        confirm: ['', [Validators.required]]
       },
       { validator: this.passwordMatchValidator }
     );
   }
 
   private passwordMatchValidator(formGroup: FormGroup): null | { notMatching: true } {
-    const newPassword = formGroup.get('newPassword')?.value;
-    const confirmPassword = formGroup.get('confirmPassword')?.value;
-    return newPassword === confirmPassword ? null : { notMatching: true };
+    const password = formGroup.get('password')?.value;
+    const confirmP = formGroup.get('confirm')?.value;
+    return password === confirm ? null : { notMatching: true };
   }
 
   get fc() {
