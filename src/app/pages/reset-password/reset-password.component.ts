@@ -67,7 +67,7 @@ export class ResetPasswordComponent implements OnInit {
 
   private passwordMatchValidator(formGroup: FormGroup): null | { notMatching: true } {
     const password = formGroup.get('password')?.value;
-    const confirmP = formGroup.get('confirm')?.value;
+    const confirm = formGroup.get('confirm')?.value;
     return password === confirm ? null : { notMatching: true };
   }
 
