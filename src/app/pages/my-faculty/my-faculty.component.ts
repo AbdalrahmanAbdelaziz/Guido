@@ -15,9 +15,9 @@ import { UpdateCourse } from '../../shared/DTOs/UpdateCourse';
 @Component({
   selector: 'app-my-faculty',
   standalone: true,
-  imports: [ 
-    CommonModule, 
-    RouterModule, 
+  imports: [
+    CommonModule,
+    RouterModule,
     FormsModule,
     TranslocoModule,
     StudentHeaderComponent
@@ -34,6 +34,7 @@ export class MyFacultyComponent implements OnInit {
   isDarkMode = false;
   disabledCourses: string[] = [];
   showAddButtonMap: { [courseCode: string]: boolean } = {};
+  currentLang: string = 'en'; // Initialize with a default language
 
   @Output() calculatedHoursEvent = new EventEmitter<number>();
 
@@ -47,6 +48,11 @@ export class MyFacultyComponent implements OnInit {
 
   ngOnInit(): void {
     this.isDarkMode = this.darkModeService.isDarkMode();
+
+    // Subscribe to language changes
+    this.translocoService.langChanges$.subscribe((lang) => {
+      this.currentLang = lang;
+    });
 
     this.authService.studentObservable.subscribe((newStudent) => {
       if (newStudent) {
@@ -92,15 +98,15 @@ export class MyFacultyComponent implements OnInit {
   }
 
   canTakeCourse(course: Course): boolean {
-    if (!course.prerequest) return true;
-    const preRequestCourse = this.allCourses.find((c) => c.code === course.prerequest);
+    if (!course.prerequest_en) return true;
+    const preRequestCourse = this.allCourses.find((c) => c.code === course.prerequest_en);
     return preRequestCourse?.grade !== 'none' && preRequestCourse?.grade !== 'F';
   }
 
   calculateFacultyHours(): number {
     return [...this.coreCourses, ...this.electiveCourses]
-      .filter((course) => course.grade !== 'none' && course.grade !== 'F') 
-      .reduce((total, course) => total + (parseFloat(course.hours) || 0), 0); 
+      .filter((course) => course.grade !== 'none' && course.grade !== 'F')
+      .reduce((total, course) => total + (parseFloat(course.hours) || 0), 0);
   }
 
   addCourse(course: Course): void {
@@ -131,7 +137,7 @@ export class MyFacultyComponent implements OnInit {
       next: (response) => {
         if (response?.message === "Updated Successfully.") {
           this.toastr.success(
-            this.translocoService.translate('faculty.courseAdded', { courseName: course.course_Name })
+            this.translocoService.translate('faculty.courseAdded', { courseName: course.course_Name_en })
           );
           setTimeout(() => {
             window.location.reload();
@@ -139,14 +145,14 @@ export class MyFacultyComponent implements OnInit {
         } else {
           this.showAddButtonMap[course.code] = true;
           this.toastr.warning(
-            this.translocoService.translate('faculty.updateWarning', { courseName: course.course_Name })
+            this.translocoService.translate('faculty.updateWarning', { courseName: course.course_Name_en })
           );
         }
       },
       error: (error) => {
         this.showAddButtonMap[course.code] = true;
         this.toastr.error(
-          this.translocoService.translate('faculty.addError', { courseName: course.course_Name })
+          this.translocoService.translate('faculty.addError', { courseName: course.course_Name_en })
         );
       }
     });

@@ -14,17 +14,17 @@ import { UpdateCourse } from '../../shared/DTOs/UpdateCourse';
 
 @Component({
   selector: 'app-my-general',
+  standalone: true, // Assuming this component is standalone based on imports array
   imports: [
     CommonModule,
     StudentHeaderComponent,
     TranslocoModule,
-    FormsModule
+    FormsModule,
+    RouterModule // Added RouterModule as it's often used with student-header or routing
   ],
   templateUrl: './my-general.component.html',
   styleUrls: ['./my-general.component.css'],
-
 })
-
 export class MyGeneralComponent implements OnInit {
   student!: Student | null;
   allCourses: Course[] = [];
@@ -35,17 +35,22 @@ export class MyGeneralComponent implements OnInit {
   isDarkMode = false;
   disabledCourses: string[] = [];
   showAddButtonMap: { [courseCode: string]: boolean } = {};
+  currentLang: string = 'en'; // Initialize with a default language
 
   constructor(
-    private authService: AuthService, 
-    private darkModeService: DarkModeService, 
+    private authService: AuthService,
+    private darkModeService: DarkModeService,
     private coursesService: CoursesService,
     private toastr: ToastrService,
-    public  translocoService: TranslocoService
+    public translocoService: TranslocoService
   ) {}
 
   ngOnInit(): void {
     this.isDarkMode = this.darkModeService.isDarkMode();
+
+    this.translocoService.langChanges$.subscribe((lang) => {
+      this.currentLang = lang;
+    });
 
     this.authService.studentObservable.subscribe((student) => {
       this.student = student;
@@ -77,15 +82,15 @@ export class MyGeneralComponent implements OnInit {
   }
 
   canTakeCourse(course: Course): boolean {
-    if (!course.prerequest) return true;
-    const preRequestCourse = this.allCourses.find((c) => c.code === course.prerequest);
+    if (!course.prerequest_en) return true;
+    const preRequestCourse = this.allCourses.find((c) => c.code === course.prerequest_en);
     return preRequestCourse?.grade !== 'none' && preRequestCourse?.grade !== 'F';
   }
 
   calculateTotalHours(): number {
     return [...this.coreCourses, ...this.electiveCourses]
-      .filter((course) => course.grade !== 'none' && course.grade !== 'F') 
-      .reduce((total, course) => total + (parseFloat(course.hours) || 0), 0); 
+      .filter((course) => course.grade !== 'none' && course.grade !== 'F')
+      .reduce((total, course) => total + (parseFloat(course.hours) || 0), 0);
   }
 
   updateTotalHours(): void {
@@ -97,19 +102,19 @@ export class MyGeneralComponent implements OnInit {
         this.toastr.warning(this.translocoService.translate('myGeneral.selectGradeWarning'));
         return;
     }
-  
+
     if (!this.canTakeCourse(course)) {
         this.toastr.error(this.translocoService.translate('myGeneral.prerequisiteError'));
         return;
     }
-  
+
     if (!course.code) {
         this.toastr.error(this.translocoService.translate('myGeneral.missingCodeError'));
         return;
     }
-  
+
     this.showAddButtonMap[course.code] = false;
-  
+
     const updateCourse: UpdateCourse = {
         code: course.code,
         grade: course.grade,
@@ -117,14 +122,11 @@ export class MyGeneralComponent implements OnInit {
     };
 
 
-   
-
-  
     this.coursesService.updateCourse(updateCourse).subscribe({
-    next: (response) => {
+      next: (response) => {
         if (response && response.message === "Updated Successfully.") {
             this.toastr.success(
-                this.translocoService.translate('faculty.courseAdded', { courseName: course.course_Name })
+                this.translocoService.translate('faculty.courseAdded', { courseName: course.course_Name_en })
             );
             setTimeout(() => {
                 window.location.reload();
@@ -132,16 +134,16 @@ export class MyGeneralComponent implements OnInit {
         } else {
             this.showAddButtonMap[course.code] = true;
             this.toastr.warning(
-                this.translocoService.translate('myGeneral.updateWarning', { courseName: course.course_Name })
+                this.translocoService.translate('myGeneral.updateWarning', { courseName: course.course_Name_en })
             );
         }
-    },
-        error: (error) => {
-            this.showAddButtonMap[course.code] = true;
-            this.toastr.error(
-                this.translocoService.translate('myGeneral.addError', { courseName: course.course_Name })
-            );
-        }
+      },
+      error: (error) => {
+          this.showAddButtonMap[course.code] = true;
+          this.toastr.error(
+              this.translocoService.translate('myGeneral.addError', { courseName: course.course_Name_en })
+          );
+      }
     });
   }
 
@@ -149,8 +151,3 @@ export class MyGeneralComponent implements OnInit {
     return this.disabledCourses.includes(course.code);
   }
 }
-
-function trigger(arg0: string, arg1: any[]): any {
-  throw new Error('Function not implemented.');
-}
-

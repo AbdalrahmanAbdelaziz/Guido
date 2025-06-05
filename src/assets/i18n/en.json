@@ -144,6 +144,10 @@
       "name": "Transcript",
       "caption": "A snapshot of your progress and great achievements."
     },
+    "pdfQA": {
+    "name": "PDF Assistant",
+    "caption": "Upload PDFs and get instant answers to your questions."
+  },
     "roadmap": {
       "name": "Interactive Roadmap",
       "caption": "Monitor your progress and stay on track effortlessly."
@@ -305,7 +309,28 @@
         "weak": "Weak",
         "veryWeak": "Very Weak"
       }
-    }
+    },
+
+ "chatbot": {
+    "welcome_message": "Hello! How can I help you Now?",
+    "error_message": "Sorry, something went wrong. Please try again.",
+    "default_response": "I'm not sure how to respond to that. Could you rephrase your question?",
+    "you": "You",
+    "assistant": "LEXI",
+    "copy": "Copy",
+    "placeholder": "Type your message here...",
+    "textarea": {
+      "hint": "Press Enter to send, Shift+Enter for a new line"
+    },
+    "send": "Send",
+    "disclaimer": "AI assistant may produce inaccurate information about people, places, or facts.",
+    "chat_history": "Chat History",
+    "new_chat": "New Chat",
+    "loading_history": "Loading chat history...",
+    "no_chat_history": "No chat history available",
+    "chat_number": "Chat {{number}}",
+    "chat": "Chats History"
+  }
 
  
 

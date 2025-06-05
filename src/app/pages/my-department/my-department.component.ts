@@ -15,9 +15,9 @@ import { UpdateCourse } from '../../shared/DTOs/UpdateCourse';
 @Component({
   selector: 'app-my-department',
   standalone: true,
-  imports: [ 
-    CommonModule, 
-    RouterModule, 
+  imports: [
+    CommonModule,
+    RouterModule,
     FormsModule,
     TranslocoModule,
     StudentHeaderComponent
@@ -35,14 +35,15 @@ export class MyDepartmentComponent implements OnInit {
   allCourses: Course[] = [];
   disabledCourses: string[] = [];
   showAddButtonMap: { [courseCode: string]: boolean } = {};
+  currentLang: string = 'en'; // Added to track current language
 
   @Output() calculatedHoursEvent = new EventEmitter<number>();
   isModalVisible = false;
 
   constructor(
-    private authService: AuthService, 
-    private darkModeService: DarkModeService, 
-    private coursesService: CoursesService, 
+    private authService: AuthService,
+    private darkModeService: DarkModeService,
+    private coursesService: CoursesService,
     private toastr: ToastrService,
     public translocoService: TranslocoService
   ) {}
@@ -50,10 +51,15 @@ export class MyDepartmentComponent implements OnInit {
   ngOnInit(): void {
     this.isDarkMode = this.darkModeService.isDarkMode();
 
+    // Subscribe to language changes
+    this.translocoService.langChanges$.subscribe((lang) => {
+      this.currentLang = lang;
+    });
+
     this.authService.studentObservable.subscribe((student) => {
       if (student) {
         this.student = student;
-        
+
         // Check if student has a department (not General or undefined)
         if (student.department && student.department !== 'General') {
           this.selectedDepartment = student.department;
@@ -93,35 +99,35 @@ export class MyDepartmentComponent implements OnInit {
   }
 
   confirmDepartment(): void {
-  if (!this.selectedDepartment) {
-    this.toastr.warning(this.translocoService.translate('department.selectDepartmentWarning'));
-    return;
-  }
-
-  this.coursesService.updateDepartment(this.selectedDepartment).subscribe({
-    next: (response) => {
-      if (response.message === "Department updated successfully." && response.data) {
-        this.authService.updateStudentDepartment(response.data);
-        
-        this.isModalVisible = false;
-        this.fetchDepartmentCourses();
-        // this.toastr.success(this.translocoService.translate('department.updateSuccess'));
-      } else {
-        // this.toastr.warning(this.translocoService.translate('department.updateWarning'));
-      }
-    },
-    error: (error) => {
-      // this.toastr.error(this.translocoService.translate('department.updateError'));
+    if (!this.selectedDepartment) {
+      this.toastr.warning(this.translocoService.translate('department.selectDepartmentWarning'));
+      return;
     }
-  });
-}
+
+    this.coursesService.updateDepartment(this.selectedDepartment).subscribe({
+      next: (response) => {
+        if (response.message === "Department updated successfully." && response.data) {
+          this.authService.updateStudentDepartment(response.data);
+
+          this.isModalVisible = false;
+          this.fetchDepartmentCourses();
+          // this.toastr.success(this.translocoService.translate('department.updateSuccess')); // Unmute if needed
+        } else {
+          // this.toastr.warning(this.translocoService.translate('department.updateWarning')); // Unmute if needed
+        }
+      },
+      error: (error) => {
+        // this.toastr.error(this.translocoService.translate('department.updateError')); // Unmute if needed
+      }
+    });
+  }
 
   private fetchCoursesByType(coreType: string, electiveType: string): void {
     this.coreCourses = [];
     this.electiveCourses = [];
     this.allCourses = [];
     this.showAddButtonMap = {};
-  
+
     this.coursesService.fetchCoreCourses(coreType).subscribe({
       next: (coreCourses) => {
         this.coreCourses = coreCourses.map((course) => {
@@ -138,7 +144,7 @@ export class MyDepartmentComponent implements OnInit {
         this.toastr.error(this.translocoService.translate('department.failedLoadCore'));
       },
     });
-  
+
     this.coursesService.fetchElectiveCourses(electiveType).subscribe({
       next: (electiveCourses) => {
         this.electiveCourses = electiveCourses.map((course) => {
@@ -158,15 +164,15 @@ export class MyDepartmentComponent implements OnInit {
   }
 
   canTakeCourse(course: Course): boolean {
-    if (!course.prerequest) return true;
-    const preRequestCourse = this.coreCourses.concat(this.electiveCourses).find((c) => c.code === course.prerequest);
+    if (!course.prerequest_en) return true;
+    const preRequestCourse = this.coreCourses.concat(this.electiveCourses).find((c) => c.code === course.prerequest_en);
     return preRequestCourse?.grade !== 'none' && preRequestCourse?.grade !== 'F';
   }
 
   calculateDepartmentHours(): number {
     return [...this.coreCourses, ...this.electiveCourses]
-      .filter((course) => course.grade !== 'none' && course.grade !== 'F') 
-      .reduce((total, course) => total + (parseFloat(course.hours) || 0), 0); 
+      .filter((course) => course.grade !== 'none' && course.grade !== 'F')
+      .reduce((total, course) => total + (parseFloat(course.hours) || 0), 0);
   }
 
   closeModal(): void {
@@ -205,7 +211,7 @@ export class MyDepartmentComponent implements OnInit {
       next: (response) => {
         if (response?.message === "Updated Successfully.") {
           this.toastr.success(
-            this.translocoService.translate('department.courseAdded', { courseName: course.course_Name })
+            this.translocoService.translate('department.courseAdded', { courseName: course.course_Name_en })
           );
           setTimeout(() => {
             window.location.reload();
@@ -213,14 +219,14 @@ export class MyDepartmentComponent implements OnInit {
         } else {
           this.showAddButtonMap[course.code] = true;
           this.toastr.warning(
-            this.translocoService.translate('department.updateWarning', { courseName: course.course_Name })
+            this.translocoService.translate('department.updateWarning', { courseName: course.course_Name_en })
           );
         }
       },
       error: (error) => {
         this.showAddButtonMap[course.code] = true;
         this.toastr.error(
-          this.translocoService.translate('department.addError', { courseName: course.course_Name })
+          this.translocoService.translate('department.addError', { courseName: course.course_Name_en })
         );
       }
     });

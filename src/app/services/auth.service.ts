@@ -33,6 +33,19 @@ export class AuthService {
 
     constructor(private http: HttpClient, private toastrService: ToastrService) {}
 
+    public get currentStudent(): Student | null {
+        return this.studentSubject.value;
+    }
+
+    public get currentAdmin(): Admin | null {
+        return this.adminSubject.value;
+    }
+
+    // Add this to your AuthService
+  isUserAdmin(): boolean {
+  return !!this.currentAdmin; 
+}
+
     login(userLogin: UserLogin): Observable<any> {
         return this.http.post<any>(LOGIN_URL, userLogin).pipe(
             tap({
