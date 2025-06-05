@@ -12,9 +12,9 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-transcript',
   standalone: true,
-  imports: [ 
-    CommonModule, 
-    RouterModule, 
+  imports: [
+    CommonModule,
+    RouterModule,
     FormsModule,
     TranslocoModule,
     StudentHeaderComponent
@@ -27,17 +27,21 @@ export class TranscriptComponent implements OnInit {
   isDarkMode = false;
   transcriptData: any = null;
   isLoading = true;
+  currentLang: string = 'en'; // Add currentLang property
 
   constructor(
     private authService: AuthService,
     private darkModeService: DarkModeService,
     public translocoService: TranslocoService,
     private toastr: ToastrService
-
   ) {}
 
   ngOnInit(): void {
     this.isDarkMode = this.darkModeService.isDarkMode();
+    // Subscribe to language changes
+    this.translocoService.langChanges$.subscribe((lang) => {
+      this.currentLang = lang;
+    });
     this.loadStudentData();
     this.loadTranscriptData();
   }
@@ -69,16 +73,20 @@ export class TranscriptComponent implements OnInit {
         ...this.student,
         gpa: data.gpa,
         completedHours: data.totalHours,
-        department: data.department
+        // Department is now handled directly in the template based on language
+        // department: data.department_en // Removed this, as it's not strictly necessary to update student DTO for language
       };
     }
   }
 
   getCumulativeGrade(): string {
-    if (this.transcriptData?.totalGpa) {
-      return this.transcriptData.totalGpa;
+    if (this.currentLang === 'en' && this.transcriptData?.totalGpa_en) {
+      return this.transcriptData.totalGpa_en;
+    } else if (this.currentLang === 'ar' && this.transcriptData?.totalGpa_ar) {
+      return this.transcriptData.totalGpa_ar;
     }
 
+    // Fallback to old GPA calculation if language-specific totalGpa is not available
     const gpa = this.student?.gpa || this.transcriptData?.gpa;
     if (gpa !== undefined) {
       const gradeKey = this.getGradeKey(gpa);
@@ -86,6 +94,16 @@ export class TranscriptComponent implements OnInit {
     }
     return this.translocoService.translate('common.na');
   }
+
+  getDepartmentName(): string {
+    if (this.currentLang === 'en' && this.transcriptData?.department_en) {
+      return this.transcriptData.department_en;
+    } else if (this.currentLang === 'ar' && this.transcriptData?.department_ar) {
+      return this.transcriptData.department_ar;
+    }
+    return this.translocoService.translate('common.na');
+  }
+
 
   private getGradeKey(gpa: number): string {
     if (gpa >= 3.4) return 'excellent';
