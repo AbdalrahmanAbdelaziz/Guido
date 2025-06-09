@@ -338,8 +338,21 @@
     "chooseFile": "Choose File",
     "uploadButton": "Upload PDF",
     "uploading": "Uploading...",
-    "uploadSuccess": "PDF uploaded successfully!"
-  }
+    "uploadSuccess": "PDF uploaded successfully!",
+    "newChatWelcome": "Welcome to your new PDF chat session!",
+    "askPlaceholder": "Ask a question about the PDF...",
+    "sendButton": "Send",
+    "noChatIdError": "No chat session available",
+    "noFileError": "Please select a file first",
+    "fileTypeError": "Please select a PDF file",
+    "fileSizeError": "File size should not exceed 10MB",
+    "questionError": "Please enter a question",
+    "botThinking": "The assistant is thinking...",
+    "pdfChatAssistant": "PDF Chat Assistant",
+    "hideUpload": "Hide Upload",
+    "showUpload": "Show Upload",
+    "welcomeMessage": "Upload a PDF file to start asking questions about its content."
+}
 
    
  

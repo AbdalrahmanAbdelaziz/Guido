@@ -331,14 +331,27 @@
     "chat_number": "المحادثة {{number}}",
     "chat": "محادثاتك السابقة"
   },
-   "chatpdf": {
+"chatpdf": {
     "uploadTitle": "رفع ملف PDF الخاص بك",
     "uploadSubtitle": "حدد ملف PDF لبدء الدردشة مع مستندك.",
     "chooseFile": "اختر ملف",
     "uploadButton": "رفع ملف PDF",
     "uploading": "جاري الرفع...",
-    "uploadSuccess": "تم رفع ملف PDF بنجاح!"
-  }
+    "uploadSuccess": "تم رفع ملف PDF بنجاح!",
+    "newChatWelcome": "مرحبًا بك في جلسة الدردشة الجديدة مع ملف PDF!",
+    "askPlaceholder": "اطرح سؤالاً حول ملف PDF...",
+    "sendButton": "إرسال",
+    "noChatIdError": "لا توجد جلسة دردشة متاحة",
+    "noFileError": "الرجاء اختيار ملف أولاً",
+    "fileTypeError": "الرجاء اختيار ملف PDF",
+    "fileSizeError": "يجب ألا يتجاوز حجم الملف 10 ميجابايت",
+    "questionError": "الرجاء إدخال سؤال",
+    "botThinking": "المساعد يفكر...",
+    "pdfChatAssistant": "مساعد الدردشة مع PDF",
+    "hideUpload": "إخفاء الرفع",
+    "showUpload": "عرض الرفع",
+    "welcomeMessage": "قم برفع ملف PDF لبدء طرح الأسئلة حول محتواه."
+}
 
 
 
