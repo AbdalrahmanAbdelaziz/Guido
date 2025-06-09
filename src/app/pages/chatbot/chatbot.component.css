@@ -290,9 +290,9 @@
   border-bottom-left-radius: 4px;
 }
 .message.bot .message-text {
-  background-color: white;
-  color: #333;
-  border: 1px solid #e5e5e5;
+  background-color: #4a5568;
+  color: #f1f1f1;
+  border: 1px solid #4a5568;
 }
 [dir="ltr"] .message.bot .message-text {
   border-bottom-left-radius: 4px;

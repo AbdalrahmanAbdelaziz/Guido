@@ -43,13 +43,31 @@ export class ChatpdfService {
     );
   }
 
-  // Helper method to get the current chat ID
+ askQuestion(question: string, fileName: string, chatId: number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    });
+
+    const body = {
+      question: question,
+      fileName: fileName,
+      chatId: chatId
+    };
+
+    return this.http.post(`${this.apiUrl}/Ask-Question`, body, { headers }).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error('Error asking question:', error);
+        return throwError(() => new Error('Failed to ask question'));
+      })
+    );
+  }
+
   getCurrentChatId(): number | null {
     return this.currentChatId;
   }
 
-  // Helper method to set the current chat ID
   setCurrentChatId(id: number): void {
     this.currentChatId = id;
   }
-}
+} 

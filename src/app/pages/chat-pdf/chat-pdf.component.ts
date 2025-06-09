@@ -9,6 +9,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ChatpdfService } from '../../services/chatpdf.service';
 import { finalize } from 'rxjs/operators';
 
+interface ChatMessage {
+  text: string;
+  sender: 'user' | 'bot';
+  timestamp: Date;
+}
+
 @Component({
   selector: 'app-chat-pdf',
   standalone: true,
@@ -23,6 +29,7 @@ import { finalize } from 'rxjs/operators';
 })
 export class ChatPdfComponent implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef;
+  @ViewChild('chatContainer') chatContainer!: ElementRef;
   
   student: Student | null = null;
   currentLang: string;
@@ -34,6 +41,11 @@ export class ChatPdfComponent implements OnInit {
   errorMessage: string = '';
   chatId: number | null = null;
   isNewChat: boolean = false;
+  showChat: boolean = false;
+  userQuestion: string = '';
+  isAsking: boolean = false;
+  chatMessages: ChatMessage[] = [];
+  isUploadSectionVisible: boolean = true;
 
   constructor(
     private authService: AuthService,
@@ -61,14 +73,20 @@ export class ChatPdfComponent implements OnInit {
       }
     });
 
-    // Check if this is a new chat session
     const navigation = this.router.getCurrentNavigation();
     this.isNewChat = navigation?.extras?.state?.['isNewChat'] || false;
     
     if (this.isNewChat) {
-      // You might want to show a welcome message or specific UI for new chats
-      console.log('New PDF chat session created');
+      this.addWelcomeMessage();
     }
+  }
+
+  addWelcomeMessage(): void {
+    this.chatMessages.push({
+      text: 'Welcome to your new PDF chat session! Upload a PDF file to start asking questions about its content.',
+      sender: 'bot',
+      timestamp: new Date()
+    });
   }
 
   onFileSelected(event: Event): void {
@@ -76,13 +94,11 @@ export class ChatPdfComponent implements OnInit {
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
       
-      // Validate file type
       if (file.type !== 'application/pdf') {
         this.errorMessage = 'Please select a PDF file';
         return;
       }
 
-      // Validate file size (e.g., 10MB limit)
       if (file.size > 10 * 1024 * 1024) {
         this.errorMessage = 'File size should not exceed 10MB';
         return;
@@ -117,10 +133,19 @@ export class ChatPdfComponent implements OnInit {
         next: (response: string) => {
           this.uploadSuccess = true;
           this.fileName = response;
-          setTimeout(() => this.uploadSuccess = false, 3000);
+          this.showChat = true;
+          this.isUploadSectionVisible = false;
           
-          // Optionally navigate to chat interface after successful upload
-          // this.router.navigate(['/pdf-chat'], { queryParams: { chatId: this.chatId } });
+          // Add success message to chat
+          this.chatMessages.push({
+            text: `PDF "${this.fileName}" uploaded successfully. You can now ask questions about this document.`,
+            sender: 'bot',
+            timestamp: new Date()
+          });
+          
+          setTimeout(() => {
+            this.scrollToBottom();
+          }, 100);
         },
         error: (err: Error) => {
           this.errorMessage = err.message || 'Failed to upload PDF';
@@ -129,7 +154,65 @@ export class ChatPdfComponent implements OnInit {
       });
   }
 
+  askQuestion(): void {
+    if (!this.userQuestion.trim()) return;
+    if (!this.chatId || !this.fileName) return;
+
+    const question = this.userQuestion.trim();
+    this.chatMessages.push({
+      text: question,
+      sender: 'user',
+      timestamp: new Date()
+    });
+
+    this.isAsking = true;
+    this.userQuestion = '';
+
+    this.chatpdfService.askQuestion(question, this.fileName, this.chatId)
+      .subscribe({
+        next: (response) => {
+          this.chatMessages.push({
+            text: response,
+            sender: 'bot',
+            timestamp: new Date()
+          });
+          this.isAsking = false;
+          setTimeout(() => {
+            this.scrollToBottom();
+          }, 100);
+        },
+        error: (err) => {
+          this.chatMessages.push({
+            text: 'Sorry, there was an error processing your question. Please try again.',
+            sender: 'bot',
+            timestamp: new Date()
+          });
+          this.isAsking = false;
+          console.error('Error asking question:', err);
+          setTimeout(() => {
+            this.scrollToBottom();
+          }, 100);
+        }
+      });
+  }
+
+  scrollToBottom(): void {
+    try {
+      this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight;
+    } catch(err) { 
+      console.error(err);
+    }
+  }
+
   triggerFileInput(): void {
     this.fileInput.nativeElement.click();
+  }
+
+  toggleUploadSection(): void {
+    this.isUploadSectionVisible = !this.isUploadSectionVisible;
+  }
+
+  formatTime(date: Date): string {
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   }
 }
