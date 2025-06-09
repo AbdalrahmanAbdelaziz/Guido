@@ -10,6 +10,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TruncatePipe } from '../../shared/truncate.pipe';
 import { forkJoin } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { MarkdownModule } from 'ngx-markdown';
+
 
 type ChatMessage = {
   text: string;
@@ -36,7 +38,9 @@ type ChatHistoryItem = {
     TranslocoModule,
     StudentHeaderComponent,
     TruncatePipe,
-    DatePipe
+    DatePipe,
+     MarkdownModule,
+    
   ],
   templateUrl: './chatbot.component.html',
   styleUrls: ['./chatbot.component.css']
@@ -344,5 +348,15 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
     }).catch(err => {
       console.error('Failed to copy text: ', err);
     });
+  }
+
+   startDeepThink(): void {
+    this.userInput = 'Tell me more about DeepThink (R1).';
+    this.sendMessage();
+  }
+
+  startSearch(): void {
+    this.userInput = 'Perform a search about current events.';
+    this.sendMessage();
   }
 }

@@ -313,7 +313,7 @@
 
  "chatbot": {
     "welcome_message": "Hello! How can I help you Now?",
-    "error_message": "Sorry, something went wrong. Please try again.",
+    "error_message": "Sorry, I am only here to answer questions about college. ",
     "default_response": "I'm not sure how to respond to that. Could you rephrase your question?",
     "you": "You",
     "assistant": "LEXI",
@@ -330,8 +330,18 @@
     "no_chat_history": "No chat history available",
     "chat_number": "Chat {{number}}",
     "chat": "Chats History"
+  },
+
+   "chatpdf": {
+    "uploadTitle": "Upload Your PDF",
+    "uploadSubtitle": "Select a PDF file to start chatting with your document.",
+    "chooseFile": "Choose File",
+    "uploadButton": "Upload PDF",
+    "uploading": "Uploading...",
+    "uploadSuccess": "PDF uploaded successfully!"
   }
 
+   
  
 
 

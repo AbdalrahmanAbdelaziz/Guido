@@ -16,6 +16,7 @@ import { AdminPageComponent } from './pages/admin/admin-page/admin-page.componen
 import { SelectDepartmentComponent } from './pages/select-department/select-department.component';
 import { ChatbotComponent } from './pages/chatbot/chatbot.component';
 import { AuthGuard } from './shared/auth/guards/auth.guard';
+import { ChatPdfComponent } from './pages/chat-pdf/chat-pdf.component';
 
 export const routes: Routes = [
     // { path: '**', redirectTo:'', pathMatch: 'full'},
@@ -35,6 +36,7 @@ export const routes: Routes = [
     { path: 'admin-page', component: AdminPageComponent, canActivate:[AuthGuard]},
     { path: 'select-department', component: SelectDepartmentComponent, canActivate:[AuthGuard]},
     { path: 'chatbot', component: ChatbotComponent, canActivate:[AuthGuard]},
+    { path: 'chat-pdf', component: ChatPdfComponent, canActivate:[AuthGuard]},
     // { path: 'registerAdmin', component: RegisterAdminComponent},
      // { path: 'register', component:RegisterComponent},
 ];

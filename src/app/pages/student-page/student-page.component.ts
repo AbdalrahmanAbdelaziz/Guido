@@ -7,6 +7,7 @@ import { StudentHeaderComponent } from '../student-header/student-header.compone
 import { Student } from '../../shared/DTOs/Student';
 import { AuthService } from '../../services/auth.service';
 import { ChatbotService } from '../../services/chatbot.service';
+import { ChatpdfService } from '../../services/chatpdf.service';
 
 @Component({
   selector: 'app-student-page',
@@ -48,7 +49,7 @@ export class StudentPageComponent implements OnInit {
       nameKey: 'student.features.pdfQA.name',
       captionKey: 'student.features.pdfQA.caption',
       image: 'assets/v.jpg',
-      link: '/roadmap',
+      link: '/chat-pdf',
     },
     // {
     //   nameKey: 'student.features.internships.name',
@@ -68,7 +69,8 @@ export class StudentPageComponent implements OnInit {
     private authService: AuthService, 
     private router: Router, 
     private translocoService: TranslocoService,
-    private chatbotService: ChatbotService
+    private chatbotService: ChatbotService,
+    private chatpdfService: ChatpdfService
   ) {
     this.currentLang = this.translocoService.getActiveLang();
     this.authService.studentObservable.subscribe((newStudent) => {
@@ -83,26 +85,43 @@ export class StudentPageComponent implements OnInit {
   navigateTo(link: string) {
     if (link === '/chatbot') {
       this.startNewChatSession();
-    } else {
+    } else if (link === '/chat-pdf') { // Add this condition for PDF Assistant
+      this.startNewChatPdfSession();
+    } 
+    else {
       this.router.navigate([link]);
     }
   }
 
+
   private startNewChatSession() {
     this.chatbotService.startNewChat().subscribe({
       next: (response) => {
-        console.log('New chat session started:', response);       
-        // IMPORTANT: Add state: { isNewChat: true } here!
+        console.log('New chat session started:', response); 
         this.router.navigate(['/chatbot'], { 
           queryParams: { chatId: response.data },
-          state: { isNewChat: true } // This flag tells ChatbotComponent it's a new chat
+          state: { isNewChat: true } 
         });
       },
       error: (error) => {
         console.error('Error starting new chat session:', error);
-        // Navigate to chatbot even if there's an an error (without ID),
-        // and without the isNewChat flag, so ChatbotComponent will try to load history (which will be empty).
         this.router.navigate(['/chatbot']);
+      }
+    });
+  }
+
+  private startNewChatPdfSession() {
+    this.chatpdfService.startNewPdfChat().subscribe({
+      next: (response) => {
+        console.log('New PDF chat session started:', response); // Added for clarity
+        this.router.navigate(['/chat-pdf'], { 
+          queryParams: { chatId: response.data },
+          state: { isNewChat: true }
+        });
+      },
+      error: (error) => {
+        console.error('Error starting new PDF chat session:', error); // Added for clarity
+        this.router.navigate(['/chat-pdf']);
       }
     });
   }

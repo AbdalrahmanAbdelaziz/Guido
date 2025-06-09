@@ -1,0 +1,68 @@
+<app-student-header></app-student-header>
+
+<div class="container" [class.dark-mode]="isDarkMode">
+  <div class="upload-container">
+    <h1 class="title">{{ 'chatpdf.uploadTitle' | transloco }}</h1>
+    <p class="subtitle">{{ 'chatpdf.uploadSubtitle' | transloco }}</p>
+
+    <div *ngIf="isNewChat" class="welcome-message">
+      {{ 'chatpdf.newChatWelcome' | transloco }}
+    </div>
+
+    <div class="file-upload-wrapper">
+      <input
+        #fileInput
+        type="file"
+        id="pdf-upload"
+        accept=".pdf"
+        (change)="onFileSelected($event)"
+        class="file-input"
+      >
+      <label
+        for="pdf-upload"
+        class="file-upload-label"
+        >
+        <div class="upload-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+        </div>
+        <span class="upload-text">{{ 'chatpdf.chooseFile' | transloco }}</span>
+      </label>
+
+      <div *ngIf="fileName" class="file-info">
+        <span class="file-name">{{ fileName }}</span>
+        </div>
+
+      <button
+        class="upload-button"
+        (click)="uploadFile()"
+        [disabled]="!selectedFile || isLoading"
+      >
+        <span *ngIf="!isLoading">{{ 'chatpdf.uploadButton' | transloco }}</span>
+        <span *ngIf="isLoading">{{ 'chatpdf.uploading' | transloco }}</span>
+        <svg *ngIf="isLoading" class="spinner" viewBox="0 0 50 50">
+          <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+        </svg>
+      </button>
+
+      <div *ngIf="uploadSuccess" class="success-message">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        {{ 'chatpdf.uploadSuccess' | transloco }}
+      </div>
+
+      <div *ngIf="errorMessage" class="error-message">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        {{ errorMessage }}
+      </div>
+    </div>
+  </div>
+</div>

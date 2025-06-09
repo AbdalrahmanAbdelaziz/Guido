@@ -28,9 +28,11 @@ import { provideTranslocoLocale } from '@ngneat/transloco-locale';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './app/shared/auth/AuthInterceptor';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { provideMarkdown } from 'ngx-markdown';
 
 bootstrapApplication(AppComponent, {
   providers: [
+    provideMarkdown(), 
     provideRouter(routes),
     importProvidersFrom(ModalModule.forRoot()),
     provideHttpClient(

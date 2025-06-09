@@ -313,7 +313,7 @@
   
  "chatbot": {
     "welcome_message": "مرحبًا! كيف يمكنني مساعدتك الآن",
-    "error_message": "عذرًا، حدث خطأ ما. يرجى المحاولة مرة أخرى.",
+    "error_message": "عذرا، أنا هنا فقط للإجابة على الأسئلة المتعلقة بالكلية.",
     "default_response": "لست متأكدًا كيف أرد على ذلك. هل يمكنك إعادة صياغة سؤالك؟",
     "you": "أنت",
     "assistant": "ليكسى",
@@ -330,7 +330,17 @@
     "no_chat_history": "لا يوجد سجل محادثات متاح",
     "chat_number": "المحادثة {{number}}",
     "chat": "محادثاتك السابقة"
+  },
+   "chatpdf": {
+    "uploadTitle": "رفع ملف PDF الخاص بك",
+    "uploadSubtitle": "حدد ملف PDF لبدء الدردشة مع مستندك.",
+    "chooseFile": "اختر ملف",
+    "uploadButton": "رفع ملف PDF",
+    "uploading": "جاري الرفع...",
+    "uploadSuccess": "تم رفع ملف PDF بنجاح!"
   }
+
+
 
   
 }
