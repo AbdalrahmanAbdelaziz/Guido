@@ -4,16 +4,20 @@
             <img src="assets/logo3.png" [alt]="'landing.logoAlt' | transloco" alt="Company logo" class="logo-image">
         </div>
     
-        <div class="center-buttons">
-            <button (click)="switchLanguage('en')" [class.active]="currentLang === 'en'">EN</button>
-            <span class="separator">|</span>
-            <button (click)="switchLanguage('ar')" [class.active]="currentLang === 'ar'">عربي</button>
-        </div>
+        <!-- <div class="center-buttons">
+            <button (click)="toggleLanguage()">
+                {{ currentLang === 'en' ? 'عربي' : 'EN' }}
+            </button>
+        </div> -->
     
-        <div class="right-button">
-            <button routerLink="/login">{{ 'landing.login' | transloco }}</button>
-            <button routerLink="/registerStudent">{{ 'landing.register' | transloco }}</button>
-        </div>
+       <div class="right-button">
+    <button routerLink="/login">{{ 'landing.login' | transloco }}</button>
+    <button routerLink="/registerStudent">{{ 'landing.register' | transloco }}</button>
+    <span class="separator">|</span>
+    <button (click)="toggleLanguage()">
+        {{ currentLang === 'en' ? 'عربي' : 'EN' }}
+    </button>
+</div>
     </header>
 
     <div class="cover-image">

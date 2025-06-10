@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">guido</string>
+    <string name="title_activity_main">guido</string>
+    <string name="package_name">com.rieko.app</string>
+    <string name="custom_url_scheme">com.rieko.app</string>
+</resources>

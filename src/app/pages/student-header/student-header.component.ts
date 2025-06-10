@@ -76,4 +76,13 @@ export class StudentHeaderComponent implements OnInit {
       });
     }, 100);
   }
+
+  toggleLanguage(): void {
+  const newLang = this.currentLang === 'en' ? 'ar' : 'en';
+  this.translocoService.setActiveLang(newLang);
+  this.currentLang = newLang;
+  document.documentElement.lang = newLang;
+  document.documentElement.dir = newLang === 'ar' ? 'rtl' : 'ltr';
+  localStorage.setItem('language', newLang);
+}
 }

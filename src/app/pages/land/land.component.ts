@@ -29,7 +29,12 @@ export class LandComponent implements OnInit {
     this.switchLanguage(defaultLang);
   }
 
-  switchLanguage(lang: string) {
+  toggleLanguage() {
+    const newLang = this.currentLang === 'en' ? 'ar' : 'en';
+    this.switchLanguage(newLang);
+  }
+
+  private switchLanguage(lang: string) {
     this.currentLang = lang;
     this.translocoService.setActiveLang(lang);
     document.documentElement.lang = lang;
